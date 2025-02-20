@@ -59,7 +59,7 @@ public class  AuthService {
         return new AuthenticationResponse("User logged in successfully", user.getId(), accessToken, refreshToken);
     }
 
-    public String setMpin(Long id, String mpin) {
+    public String setMpin(Long id, String mpin, String name) {
         if (id == null) {
             throw new IllegalArgumentException("User ID cannot be null");
         }
@@ -71,14 +71,15 @@ public class  AuthService {
         User user = userRepository.findById(id)
                                   .orElseThrow(() -> new RuntimeException("User not found"));
 
-        // Encode and set MPIN
-       // user.setMpin(passwordEncoder.encode(mpin));
+        // Set new MPIN and name
+        user.setMpin(mpin);  
+        user.setName(name);
 
         try {
             userRepository.save(user);
-            return "MPIN set successfully!";
+            return "MPIN and Name updated successfully!";
         } catch (Exception e) {
-            throw new RuntimeException("Error saving MPIN: " + e.getMessage());
+            throw new RuntimeException("Error updating MPIN and Name: " + e.getMessage());
         }
     }
 

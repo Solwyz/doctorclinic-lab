@@ -30,9 +30,10 @@ public class AuthController {
      
  }
 	 @PostMapping("/setmpin")
-	 public String setMpin(@RequestParam Long id, @RequestParam String mpin) {
-	     return authService.setMpin(id, mpin);
+	 public String setMpin(@RequestParam Long id,  @RequestParam String mpin, @RequestParam String name) {
+	     return authService.setMpin(id, mpin, name);
 	 }
+
 
 
 }
