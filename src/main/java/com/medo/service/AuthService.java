@@ -1,6 +1,7 @@
 package com.medo.service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,21 +35,30 @@ public class  AuthService {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid OTP");
         }
 
-        // Create a new user every time
-        User newUser = new User();
-        newUser.setMobile(mobileNumber);
-        newUser.setRole("USER"); // Assign default role
-        newUser.setCreatedAt(LocalDateTime.now());
+        // Check if the user already exists
+        Optional<User> existingUser = userRepository.findByMobile(mobileNumber);
 
-        User savedUser = userRepository.save(newUser);
+        User user;
+        if (existingUser.isPresent()) {
+            // Existing user, proceed with login
+            user = existingUser.get();
+        } else {
+            // New user, create and save
+            user = new User();
+            user.setMobile(mobileNumber);
+            user.setRole("USER"); // Assign default role
+            user.setCreatedAt(LocalDateTime.now());
+
+            user = userRepository.save(user);
+        }
 
         // Generate JWT tokens
-        String accessToken = jwtTokenProvider.generateAccessToken(savedUser);
-        String refreshToken = jwtTokenProvider.generateRefreshToken(savedUser);
+        String accessToken = jwtTokenProvider.generateAccessToken(user);
+        String refreshToken = jwtTokenProvider.generateRefreshToken(user);
 
-        return new AuthenticationResponse("User registered and logged in", savedUser.getId(), accessToken, refreshToken);
+        return new AuthenticationResponse("User logged in successfully", user.getId(), accessToken, refreshToken);
     }
-    
+
     public String setMpin(Long id, String mpin) {
         if (id == null) {
             throw new IllegalArgumentException("User ID cannot be null");
@@ -64,7 +74,6 @@ public class  AuthService {
         // Encode and set MPIN
        // user.setMpin(passwordEncoder.encode(mpin));
 
-        // Save to database
         try {
             userRepository.save(user);
             return "MPIN set successfully!";

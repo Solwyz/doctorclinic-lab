@@ -11,6 +11,6 @@ import com.medo.entity.Appointment;
 public interface AppointmentRepository extends JpaRepository<Appointment,Long>{
 
 
-	List<Appointment> findByPatientIdAndStatus(Long patientId, String string);
+	List<Appointment> findByPatientIdAndStatus(Long patientId, String status);
 
 }

@@ -1,5 +1,9 @@
 package com.medo.entity;
 
+import java.util.Arrays;
+import java.util.List;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,6 +26,8 @@ public class Doctor {
 	private String about;
 	
 	
+	@Column(name = "available_slots") 
+    private String availableSlots;
 	
 	public Doctor() {
 		super();
@@ -34,8 +40,19 @@ public class Doctor {
 	@JoinColumn(name = "patient_id")
 	@JsonIgnore // Prevents infinite recursion
 	private Patient patient;
+	
+	
+	
 
+	// Convert  comma-separated string into List
+    public List<String> getAvailableSlots() {
+        return availableSlots != null ? Arrays.asList(availableSlots.split(",")) : null;
+    }
 
+    // Convert List into a comma-separated string before saving
+    public void setAvailableSlots(List<String> slots) {
+        this.availableSlots = (slots != null) ? String.join(",", slots) : null;
+    }
 
 	public Long getId() {
 		return id;
@@ -97,13 +114,14 @@ public class Doctor {
 
 
 
-	public Doctor(Long id, String name, String department, String about, Patient patient) {
+	public Doctor(Long id, String name, String department, String about, Patient patient,List<String> availableSlots) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.department = department;
 		this.about = about;
 		this.patient = patient;
+		this.setAvailableSlots(availableSlots);
 	}
 	
 	
