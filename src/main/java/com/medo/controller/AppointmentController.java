@@ -5,12 +5,16 @@ package com.medo.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.medo.entity.Appointment;
 import com.medo.entity.Doctor;
 import com.medo.service.AppointmentService;
 
@@ -23,6 +27,28 @@ public class AppointmentController {
 	@Autowired
 	private AppointmentService appointmentService;
    	
+	
+	
+	//book now
+	@PostMapping("/book")
+    public ResponseEntity<Appointment> bookAppointment(
+            @RequestParam Long patientId,
+            @RequestParam Long doctorId,
+            @RequestParam String appointmentDateTime) {
+
+        Appointment appointment = appointmentService.bookAppointment(patientId, doctorId, appointmentDateTime);
+        return ResponseEntity.status(HttpStatus.CREATED).body(appointment);
+    }
+	
+	//avilable timeslot
+		@GetMapping("/{doctorId}/slots")
+	    public ResponseEntity<?> getAvailableSlots(@PathVariable Long doctorId) {
+	        return ResponseEntity.ok(appointmentService.getAvailableSlots(doctorId));
+	    }
+	
+	
+	
+	
   //pass patient id
 //list of doctors should come while fetching this
   

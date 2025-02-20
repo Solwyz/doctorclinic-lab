@@ -74,7 +74,6 @@ public class  AuthService {
         // Encode and set MPIN
        // user.setMpin(passwordEncoder.encode(mpin));
 
-        // Save to database
         try {
             userRepository.save(user);
             return "MPIN set successfully!";
