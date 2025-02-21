@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.medo.entity.Appointment;
 import com.medo.entity.Doctor;
@@ -49,8 +52,20 @@ public class AppointmentService {
 	
 	//reshedule appoitment
 	
+		
+		
 		//api to cancell appoitment.that list must be get from getCancelled Appoitments.
 		
+		//completed 
+		public void completedAppointment(Long appointmentId) {
+			
+			Appointment appointment=appointmentRepository.findById(appointmentId)
+					.orElseThrow(()->new RuntimeException("Appointment not found"));
+			
+			appointment.setStatus("COMPLETED");
+			appointmentRepository.save(appointment);
+			
+		}
 
 //appointment history -upcoming completed cancelled
 	public List<Doctor> getCancelledAppointment(Long patientId) {
@@ -84,5 +99,7 @@ public class AppointmentService {
 		}
 		return completedDoctors;
 	}
+
+	
 
 }
