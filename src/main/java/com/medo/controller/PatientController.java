@@ -28,6 +28,8 @@ public class PatientController {
 	@Autowired
 	PatientService patientService;
 
+	//allworking
+	
 	@PostMapping(value = "/addpatient")
 	public ResponseEntity<Patient> addPatient(@RequestBody Patient patient) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(patientService.addPatient(patient));

@@ -42,7 +42,7 @@ public class AppointmentController {
 	@PostMapping(value = "/completed/{appointmentId}")
 	public ResponseEntity<String> completedAppointment(@PathVariable Long appointmentId) {
 		appointmentService.completedAppointment(appointmentId);
-		return ResponseEntity.ok("Appointment completed for id :"+appointmentId);
+		return ResponseEntity.ok("Appointment completed for id:"+appointmentId);
 
 	}
 
