@@ -29,6 +29,7 @@ public class AppointmentService {
 	@Autowired
 	private PatientRepository patientRepository;
 
+	
 	// book now
 	public Appointment bookAppointment(Long patientId, Long doctorId, String appointmentDateTime) {
 		Patient patient = patientRepository.findById(patientId)
@@ -39,7 +40,7 @@ public class AppointmentService {
 		appointment.setPatient(patient);
 		appointment.setDoctor(doctor);
 		appointment.setAppointmentDate(appointmentDateTime);
-		appointment.setStatus(AppointmentStatus.valueOf("COMPLETED")); // ✅ Converts String to Enum
+		appointment.setStatus(AppointmentStatus.valueOf("BOOKED")); 
 
 
 		return appointmentRepository.save(appointment);
@@ -47,15 +48,17 @@ public class AppointmentService {
 	
 
 	
-	//time slot
-		public List<String> getAvailableSlots(Long doctorId) {
-	        Doctor doctor = doctorRepository.findById(doctorId)
-	        		.orElseThrow(() -> new RuntimeException("Doctor not found"));
-	        return doctor.getAvailableSlots(); 
-	    }
 	
 	//reshedule appoitment
-	
+	   public void rescheduleAppointment(Long appointmentId, String newDateTime) {
+	        Appointment appointment = appointmentRepository.findById(appointmentId)
+	                .orElseThrow(() -> new RuntimeException("Appointment not found"));
+
+	        appointment.setAppointmentDate(newDateTime);
+	        appointment.setStatus(AppointmentStatus.BOOKED); // Or UPCOMING based on your logic
+
+	        appointmentRepository.save(appointment);
+	    }
 		
 		
 	
@@ -80,8 +83,17 @@ public class AppointmentService {
 		        }
 		        return completedDoctors;
 		    }
+		 
+		 
 		
-	
+		 public void cancelAppointment(Long appointmentId) {
+			    Appointment appointment = appointmentRepository.findById(appointmentId)
+			            .orElseThrow(() -> new RuntimeException("Appointment not found"));
+
+			    appointment.setStatus(AppointmentStatus.CANCELLED); 
+			    appointmentRepository.save(appointment);
+			}
+
 			//api to cancell appoitment.that list must be get from getCancelled Appoitments.
 			 
 		 public List<Doctor> getCancelledAppointments(Long patientId) {
@@ -107,15 +119,7 @@ public class AppointmentService {
 
 
 
-		    public void rescheduleAppointment(Long appointmentId, String newDateTime) {
-		        Appointment appointment = appointmentRepository.findById(appointmentId)
-		                .orElseThrow(() -> new RuntimeException("Appointment not found"));
-
-		        appointment.setAppointmentDate(newDateTime);
-		        appointment.setStatus(AppointmentStatus.BOOKED); // Or UPCOMING based on your logic
-
-		        appointmentRepository.save(appointment);
-		    }
+		 
 	
 
 }

@@ -68,20 +68,8 @@ public class PatientService {
 	}
 
 	
-	public Doctor addDoctor(Doctor doctor) {
-		return doctorRepository.save(doctor);
-	}
 	
 
-	public List<Doctor> getAllDoctors() {
-
-		return doctorRepository.findAll();
-	}
 	
-
-	public List<Doctor> searchDoctorByName(String name) {
-
-		return doctorRepository.findByNameContainingIgnoreCase(name);
-	}
 
 }

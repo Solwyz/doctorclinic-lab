@@ -14,116 +14,138 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import javax.persistence.*;
+import java.util.List;
+
 @Entity
-@Table()
+@Table(name = "doctors")
 public class Doctor {
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long id;
-	
-	private String name;
-	private String department;
-	private String about;
-	
-	
-	@Column(name = "available_slots") 
-    private String availableSlots;
-	
-	public Doctor() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
+    private String name;
+    private String department;
+    private String qualification;
+    
+    @ElementCollection
+    private List<String> languages;  
+    
+    private double amount;
+    private String experience;
+    
+    
+    private String availableAt;
+    private String about;
 
-	@ManyToOne
-	@JoinColumn(name = "patient_id")
-	@JsonIgnore // Prevents infinite recursion
-	private Patient patient;
-	
-	
-	
+    @ElementCollection
+    @Column(name = "available_slots") 
+    private List<String> availableSlots;   
 
-	// Convert  comma-separated string into List
-    public List<String> getAvailableSlots() {
-        return availableSlots != null ? Arrays.asList(availableSlots.split(",")) : null;
-    }
+    @Column(name = "appointment_date", nullable = false)
+    private String availableDate;   
 
-    // Convert List into a comma-separated string before saving
-    public void setAvailableSlots(List<String> slots) {
-        this.availableSlots = (slots != null) ? String.join(",", slots) : null;
-    }
+    @Column(name = "rating", nullable = false)
+    private double rating;
 
 	public Long getId() {
 		return id;
 	}
 
-
-
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-
 
 	public String getName() {
 		return name;
 	}
 
-
-
 	public void setName(String name) {
 		this.name = name;
 	}
-
-
 
 	public String getDepartment() {
 		return department;
 	}
 
-
-
 	public void setDepartment(String department) {
 		this.department = department;
 	}
 
+	public String getQualification() {
+		return qualification;
+	}
 
+	public void setQualification(String qualification) {
+		this.qualification = qualification;
+	}
+
+	public List<String> getLanguages() {
+		return languages;
+	}
+
+	public void setLanguages(List<String> languages) {
+		this.languages = languages;
+	}
+
+	public double getAmount() {
+		return amount;
+	}
+
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
+
+	public String getExperience() {
+		return experience;
+	}
+
+	public void setExperience(String experience) {
+		this.experience = experience;
+	}
+
+	public String getAvailableAt() {
+		return availableAt;
+	}
+
+	public void setAvailableAt(String availableAt) {
+		this.availableAt = availableAt;
+	}
 
 	public String getAbout() {
 		return about;
 	}
 
-
-
 	public void setAbout(String about) {
 		this.about = about;
 	}
 
-
-
-	public Patient getPatient() {
-		return patient;
+	public List<String> getAvailableSlots() {
+		return availableSlots;
 	}
 
-
-
-	public void setPatient(Patient patient) {
-		this.patient = patient;
+	public void setAvailableSlots(List<String> availableSlots) {
+		this.availableSlots = availableSlots;
 	}
 
-
-
-	public Doctor(Long id, String name, String department, String about, Patient patient,List<String> availableSlots) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.department = department;
-		this.about = about;
-		this.patient = patient;
-		this.setAvailableSlots(availableSlots);
+	public String getAvailableDate() {
+		return availableDate;
 	}
-	
-	
+
+	public void setAvailableDate(String availableDate) {
+		this.availableDate = availableDate;
+	}
+
+	public double getRating() {
+		return rating;
+	}
+
+	public void setRating(double rating) {
+		this.rating = rating;
+	}  
+
 
 }
+
+
