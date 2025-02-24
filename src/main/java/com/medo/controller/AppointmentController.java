@@ -16,6 +16,8 @@ import com.medo.entity.Appointment;
 import com.medo.entity.Doctor;
 import com.medo.service.AppointmentService;
 
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
+
 @RestController
 @RequestMapping(value = "/api/appointment")
 public class AppointmentController {
@@ -32,6 +34,15 @@ public class AppointmentController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(appointment);
 	}
 
+	
+	
+	 @PostMapping("/{doctorId}/slots")
+	    public ResponseEntity<String> addAvailableSlots(
+	            @PathVariable Long doctorId, 
+	            @RequestBody List<String> slots) {
+		 appointmentService.addAvailableSlots(doctorId, slots);
+	        return ResponseEntity.ok("Slots added successfully.");
+	    }
 	// avilable timeslot
 	@GetMapping("/{doctorId}/slots")
 	public ResponseEntity<List<String>> getAvailableSlots(@PathVariable Long doctorId) {

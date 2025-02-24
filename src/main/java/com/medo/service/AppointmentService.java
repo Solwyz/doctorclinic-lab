@@ -43,6 +43,14 @@ public class AppointmentService {
 		return appointmentRepository.save(appointment);
 	}
 	
+	 public void addAvailableSlots(Long doctorId, List<String> slots) {
+	        Doctor doctor = doctorRepository.findById(doctorId)
+	                .orElseThrow(() -> new RuntimeException("Doctor not found"));
+
+	        doctor.setAvailableSlots(slots); 
+	        doctorRepository.save(doctor);
+	    }
+	
 	//time slot
 		public List<String> getAvailableSlots(Long doctorId) {
 	        Doctor doctor = doctorRepository.findById(doctorId)
