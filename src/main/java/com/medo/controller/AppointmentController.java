@@ -14,7 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.medo.entity.Appointment;
 import com.medo.entity.Doctor;
+import com.medo.pojo.response.ApiResponse;
 import com.medo.service.AppointmentService;
+
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
 @RequestMapping(value = "/api/appointment")
@@ -32,6 +35,8 @@ public class AppointmentController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(appointment);
 	}
 
+	
+
 	// avilable timeslot
 	@GetMapping("/{doctorId}/slots")
 	public ResponseEntity<List<String>> getAvailableSlots(@PathVariable Long doctorId) {
@@ -45,27 +50,38 @@ public class AppointmentController {
 		return ResponseEntity.ok("Appointment completed for id:"+appointmentId);
 
 	}
+	
 
 	// pass patient id
 //list of doctors should come while fetching this
 
-	@GetMapping("/completed/{patientId}")
-	public ResponseEntity<List<Doctor>> getCompletedAppointments(@PathVariable Long patientId) {
-		List<Doctor> completedDoctors = appointmentService.getCompletedAppointments(patientId);
-		return ResponseEntity.ok(completedDoctors);
-	}
+	 @GetMapping("/{patientId}/completed")
+	    public ResponseEntity<ApiResponse<List<Doctor>>> getCompletedAppointments(@PathVariable Long patientId) {
+	        List<Doctor> doctors = appointmentService.getCompletedAppointments(patientId);
+	        return ResponseEntity.ok(new ApiResponse<>("success", doctors));
+	    }
+	 
+	 
+	 @GetMapping("/{patientId}/cancelled")
+	    public ResponseEntity<ApiResponse<List<Doctor>>> getCancelledAppointments(@PathVariable Long patientId) {
+	        List<Doctor> doctors = appointmentService.getCancelledAppointments(patientId);
+	        return ResponseEntity.ok(new ApiResponse<>("success", doctors));
+	    }
 
-	@GetMapping("/cancelled/{patientId}")
-	public ResponseEntity<List<Doctor>> getCancelledAppointments(@PathVariable Long patientId) {
-		List<Doctor> cancelledDoctors = appointmentService.getCancelledAppointment(patientId);
-		return ResponseEntity.ok(cancelledDoctors);
+	 
+	    @GetMapping("/{patientId}/upcoming")
+	    public ResponseEntity<ApiResponse<List<Doctor>>> getUpcomingAppointments(@PathVariable Long patientId) {
+	        List<Doctor> doctors = appointmentService.getUpcomingAppointments(patientId);
+	        return ResponseEntity.ok(new ApiResponse<>("success", doctors));
+	    }
+	    
+	    @PostMapping("/reschedule/{appointmentId}")
+	    public ResponseEntity<String> rescheduleAppointment(
+	            @PathVariable Long appointmentId,
+	            @RequestParam String newDateTime) {
 
-	}
-
-	@GetMapping("/upcoming/{patientId}")
-	public ResponseEntity<List<Doctor>> getUpcomingAppointments(@PathVariable Long patientId) {
-		List<Doctor> upcomingDoctors = appointmentService.getUpcomingAppointments(patientId);
-		return ResponseEntity.ok(upcomingDoctors);
-	}
+	        appointmentService.rescheduleAppointment(appointmentId, newDateTime);
+	        return ResponseEntity.ok("Appointment rescheduled successfully.");
+	    }
 
 }

@@ -83,6 +83,27 @@ public class  AuthService {
         }
     }
 
+	
+	public String validateMpin(Long id, String mpin) {
+		
+		if(id==null) {
+			throw new IllegalArgumentException("User ID cannot be null");
+		}
+		if(mpin==null) {
+			
+			throw new IllegalArgumentException("MPIN cannot be empty");
+		}
+		
+		User user=userRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("User not found"));
+		
+		if (user.getMpin().equals(mpin)) {
+	        return "MPIN created successfully!";
+	    } else {
+	        return "Sorry! MPIN doesn't match.";
+	    }
+	}
+
     }
 
 

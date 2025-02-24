@@ -2,12 +2,16 @@ package com.medo.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.medco.Enum.AppointmentStatus;
 
 
 @Entity
@@ -28,8 +32,9 @@ public class Appointment {
     @Column(name = "appointment_date_time", nullable = false)
     private String appointmentDate; // Stores selected date & time
 
-    @Column(name = "status") 
-    private String status;  // "CANCELLED", "COMPLETED", "UPCOMING"
+    @Enumerated(EnumType.STRING)  // Use Enum for Status
+    @Column(name = "status", nullable = false)
+    private AppointmentStatus status;
 
 	public Long getId() {
 		return id;
@@ -55,15 +60,15 @@ public class Appointment {
 		this.doctor = doctor;
 	}
 
-	public String getStatus() {
+	public AppointmentStatus getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(AppointmentStatus status) {
 		this.status = status;
 	}
 
-	public Appointment(Long id, Patient patient, Doctor doctor, String status,String appointmentDate) {
+	public Appointment(Long id, Patient patient, Doctor doctor, AppointmentStatus status,String appointmentDate) {
 		super();
 		this.id = id;
 		this.patient = patient;
