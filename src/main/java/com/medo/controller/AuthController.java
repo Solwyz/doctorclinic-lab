@@ -29,9 +29,16 @@ public class AuthController {
      return ResponseEntity.ok(response);   
      
  }
+	 
 	 @PostMapping("/setmpin")
 	 public String setMpin(@RequestParam Long id,  @RequestParam String mpin, @RequestParam String name) {
 	     return authService.setMpin(id, mpin, name);
+	 }
+	 
+	 @PostMapping("/validate")
+	 public String validatempin(@RequestParam Long id,@RequestParam String mpin) {
+		 return authService.validateMpin(id,mpin);
+		 
 	 }
 
 

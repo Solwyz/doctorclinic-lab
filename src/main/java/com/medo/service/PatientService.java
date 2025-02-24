@@ -25,18 +25,24 @@ public class PatientService {
 	@Autowired
 	private DoctorRepository doctorRepository;
 
+	
 	public Patient addPatient(Patient patient) {
 		return patientRepository.save(patient);
 	}
+	
+	
 
 	public List<Patient> getAllPatients() {
 		return patientRepository.findAll();
 	}
-
+	
+	
 	public Patient getPatientById(Long id) {
 		return patientRepository.findById(id).orElseThrow(() -> new RuntimeException("Patient not found"));
 	}
 
+	
+	
 	public boolean deletePatient(Long id) {
 
 		Optional<Patient> patient = patientRepository.findById(id);
@@ -61,14 +67,17 @@ public class PatientService {
 		return patientRepository.save(existingPatient);
 	}
 
+	
 	public Doctor addDoctor(Doctor doctor) {
 		return doctorRepository.save(doctor);
 	}
+	
 
 	public List<Doctor> getAllDoctors() {
 
 		return doctorRepository.findAll();
 	}
+	
 
 	public List<Doctor> searchDoctorByName(String name) {
 

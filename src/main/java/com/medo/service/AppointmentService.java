@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.medco.Enum.AppointmentStatus;
 import com.medo.entity.Appointment;
 import com.medo.entity.Doctor;
 import com.medo.entity.Patient;
@@ -38,18 +39,13 @@ public class AppointmentService {
 		appointment.setPatient(patient);
 		appointment.setDoctor(doctor);
 		appointment.setAppointmentDate(appointmentDateTime);
-		appointment.setStatus("BOOKED");
+		appointment.setStatus(AppointmentStatus.valueOf("COMPLETED")); // ✅ Converts String to Enum
+
 
 		return appointmentRepository.save(appointment);
 	}
 	
-	 public void addAvailableSlots(Long doctorId, List<String> slots) {
-	        Doctor doctor = doctorRepository.findById(doctorId)
-	                .orElseThrow(() -> new RuntimeException("Doctor not found"));
 
-	        doctor.setAvailableSlots(slots); 
-	        doctorRepository.save(doctor);
-	    }
 	
 	//time slot
 		public List<String> getAvailableSlots(Long doctorId) {
@@ -62,52 +58,64 @@ public class AppointmentService {
 	
 		
 		
-		//api to cancell appoitment.that list must be get from getCancelled Appoitments.
-		
+	
 		//completed 
 		public void completedAppointment(Long appointmentId) {
 			
 			Appointment appointment=appointmentRepository.findById(appointmentId)
 					.orElseThrow(()->new RuntimeException("Appointment not found"));
 			
-			appointment.setStatus("COMPLETED");
+			appointment.setStatus(AppointmentStatus.valueOf("COMPLETED"));
 			appointmentRepository.save(appointment);
 			
 		}
 
 //appointment history -upcoming completed cancelled
-	public List<Doctor> getCancelledAppointment(Long patientId) {
-		List<Appointment> cancelledAppointments = appointmentRepository.findByPatientIdAndStatus(patientId,
-				"CANCELLED");
+		 public List<Doctor> getCompletedAppointments(Long patientId) {
+		        List<Appointment> completedAppointments = appointmentRepository.findByPatientIdAndStatus(patientId, "COMPLETED");
 
-		List<Doctor> cancelledDoctors = new ArrayList<>();
-		for (Appointment appointment : cancelledAppointments) {
-			cancelledDoctors.add(appointment.getDoctor());
-		}
-		return cancelledDoctors;
-	}
+		        List<Doctor> completedDoctors = new ArrayList<>();
+		        for (Appointment appointment : completedAppointments) {
+		            completedDoctors.add(appointment.getDoctor());
+		        }
+		        return completedDoctors;
+		    }
+		
+	
+			//api to cancell appoitment.that list must be get from getCancelled Appoitments.
+			 
+		 public List<Doctor> getCancelledAppointments(Long patientId) {
+		        List<Appointment> cancelledAppointments = appointmentRepository.findByPatientIdAndStatus(patientId, "CANCELLED");
 
-	public List<Doctor> getUpcomingAppointments(Long patientId) {
-		List<Appointment> upcomingAppointments = appointmentRepository.findByPatientIdAndStatus(patientId, "UPCOMING");
+		        List<Doctor> cancelledDoctors = new ArrayList<>();
+		        for (Appointment appointment : cancelledAppointments) {
+		            cancelledDoctors.add(appointment.getDoctor());
+		        }
+		        return cancelledDoctors;
+		    }
 
-		List<Doctor> upcomingDoctors = new ArrayList<>();
-		for (Appointment appointment : upcomingAppointments) {
-			upcomingDoctors.add(appointment.getDoctor());
-		}
-		return upcomingDoctors;
-	}
+		 
+		    public List<Doctor> getUpcomingAppointments(Long patientId) {
+		        List<Appointment> upcomingAppointments = appointmentRepository.findByPatientIdAndStatus(patientId, "UPCOMING");
 
-	public List<Doctor> getCompletedAppointments(Long patientId) {
-		List<Appointment> completedAppointments = appointmentRepository.findByPatientIdAndStatus(patientId,
-				"COMPLETED");
+		        List<Doctor> upcomingDoctors = new ArrayList<>();
+		        for (Appointment appointment : upcomingAppointments) {
+		            upcomingDoctors.add(appointment.getDoctor());
+		        }
+		        return upcomingDoctors;
+		    }
 
-		List<Doctor> completedDoctors = new ArrayList<>();
-		for (Appointment appointment : completedAppointments) {
-			completedDoctors.add(appointment.getDoctor());
-		}
-		return completedDoctors;
-	}
 
+
+		    public void rescheduleAppointment(Long appointmentId, String newDateTime) {
+		        Appointment appointment = appointmentRepository.findById(appointmentId)
+		                .orElseThrow(() -> new RuntimeException("Appointment not found"));
+
+		        appointment.setAppointmentDate(newDateTime);
+		        appointment.setStatus(AppointmentStatus.BOOKED); // Or UPCOMING based on your logic
+
+		        appointmentRepository.save(appointment);
+		    }
 	
 
 }

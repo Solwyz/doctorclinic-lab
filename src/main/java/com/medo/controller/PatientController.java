@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.medo.entity.Doctor;
 import com.medo.entity.Patient;
+import com.medo.pojo.response.ApiResponse;
 import com.medo.service.PatientService;
 
 @RestController
@@ -35,16 +36,21 @@ public class PatientController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(patientService.addPatient(patient));
 	}
 
-	@GetMapping(value = "/getall")
-	public List<Patient> getAllPatients() {
-		return patientService.getAllPatients();
+	@GetMapping("/getall")
+	public ResponseEntity<ApiResponse<List<Patient>>> getAllPatients() {
+	    List<Patient> patients = patientService.getAllPatients();
+	    ApiResponse<List<Patient>> response = new ApiResponse<>("success", patients);
+	    return ResponseEntity.ok(response);
 	}
 
-	@GetMapping("/{id}")
-	public ResponseEntity<Patient> getPatient(@PathVariable Long id) {
-		Patient patient = patientService.getPatientById(id);
-		return ResponseEntity.ok(patient);
-	}
+
+	//  patient by ID
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<Patient>> getPatient(@PathVariable Long id) {
+        Patient patient = patientService.getPatientById(id);
+        ApiResponse<Patient> response = new ApiResponse<>("success", patient);
+        return ResponseEntity.ok(response);
+    }
 
 	@DeleteMapping(value = "/delete/{id}")
 	public ResponseEntity<Patient> deletePatient(@PathVariable Long id) {
@@ -67,19 +73,20 @@ public class PatientController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(savedDoctor);
 	}
 
-	// list of all doctors
-	@GetMapping(value = "/alldoctors")
-	public ResponseEntity<List<Doctor>> getAllDoctors() {
-		List<Doctor> listOfDoctors = patientService.getAllDoctors();
-		return ResponseEntity.ok(listOfDoctors);
+	// Get all doctors
+    @GetMapping("/alldoctors")
+    public ResponseEntity<ApiResponse<List<Doctor>>> getAllDoctors() {
+        List<Doctor> listOfDoctors = patientService.getAllDoctors();
+        ApiResponse<List<Doctor>> response = new ApiResponse<>("success", listOfDoctors);
+        return ResponseEntity.ok(response);
+    }
 
-	}
-
-	// searchdoc
-	@GetMapping(value = "/search")
-	public ResponseEntity<List<Doctor>> searchDoctorByName(@RequestParam String name) {
-		List<Doctor> doctors = patientService.searchDoctorByName(name);
-		return ResponseEntity.ok(doctors);
-
-	}
+    
+    // Search doctor by name
+    @GetMapping("/search")
+    public ResponseEntity<ApiResponse<List<Doctor>>> searchDoctorByName(@RequestParam String name) {
+        List<Doctor> doctors = patientService.searchDoctorByName(name);
+        ApiResponse<List<Doctor>> response = new ApiResponse<>("success", doctors);
+        return ResponseEntity.ok(response);
+    }
 }
