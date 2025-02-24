@@ -66,27 +66,7 @@ public class PatientController {
 
 	}
 
-	// adddoctor
-	@PostMapping("/add")
-	public ResponseEntity<Doctor> addDoctor(@RequestBody Doctor doctor) {
-		Doctor savedDoctor = patientService.addDoctor(doctor);
-		return ResponseEntity.status(HttpStatus.CREATED).body(savedDoctor);
-	}
+	
 
-	// Get all doctors
-    @GetMapping("/alldoctors")
-    public ResponseEntity<ApiResponse<List<Doctor>>> getAllDoctors() {
-        List<Doctor> listOfDoctors = patientService.getAllDoctors();
-        ApiResponse<List<Doctor>> response = new ApiResponse<>("success", listOfDoctors);
-        return ResponseEntity.ok(response);
-    }
-
-    
-    // Search doctor by name
-    @GetMapping("/search")
-    public ResponseEntity<ApiResponse<List<Doctor>>> searchDoctorByName(@RequestParam String name) {
-        List<Doctor> doctors = patientService.searchDoctorByName(name);
-        ApiResponse<List<Doctor>> response = new ApiResponse<>("success", doctors);
-        return ResponseEntity.ok(response);
-    }
+	
 }

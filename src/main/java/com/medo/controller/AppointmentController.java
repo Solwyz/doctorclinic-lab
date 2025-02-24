@@ -37,11 +37,6 @@ public class AppointmentController {
 
 	
 
-	// avilable timeslot
-	@GetMapping("/{doctorId}/slots")
-	public ResponseEntity<List<String>> getAvailableSlots(@PathVariable Long doctorId) {
-		return ResponseEntity.ok(appointmentService.getAvailableSlots(doctorId));
-	}
 
 	// completedappoitnment by doctor
 	@PostMapping(value = "/completed/{appointmentId}")
@@ -55,12 +50,20 @@ public class AppointmentController {
 	// pass patient id
 //list of doctors should come while fetching this
 
+	//check
 	 @GetMapping("/{patientId}/completed")
 	    public ResponseEntity<ApiResponse<List<Doctor>>> getCompletedAppointments(@PathVariable Long patientId) {
 	        List<Doctor> doctors = appointmentService.getCompletedAppointments(patientId);
 	        return ResponseEntity.ok(new ApiResponse<>("success", doctors));
 	    }
 	 
+	 //cancelappointment
+	 @PostMapping("/{appointmentId}/cancel")
+	 public ResponseEntity<String> cancelAppointment(@PathVariable Long appointmentId) {
+	     appointmentService.cancelAppointment(appointmentId);
+	     return ResponseEntity.ok("Appointment cancelled successfully for ID: " + appointmentId);
+	 }
+
 	 
 	 @GetMapping("/{patientId}/cancelled")
 	    public ResponseEntity<ApiResponse<List<Doctor>>> getCancelledAppointments(@PathVariable Long patientId) {
@@ -68,7 +71,7 @@ public class AppointmentController {
 	        return ResponseEntity.ok(new ApiResponse<>("success", doctors));
 	    }
 
-	 
+//check	 
 	    @GetMapping("/{patientId}/upcoming")
 	    public ResponseEntity<ApiResponse<List<Doctor>>> getUpcomingAppointments(@PathVariable Long patientId) {
 	        List<Doctor> doctors = appointmentService.getUpcomingAppointments(patientId);

@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
 @OpenAPIDefinition(servers = { @Server(url = "/solwyz", description = "Default Server URL") })
 public class DoctorLabApplication {
 
+	
 	public static void main(String[] args) {
 		SpringApplication.run(DoctorLabApplication.class, args);
 	}

@@ -15,6 +15,7 @@ public class Patient {
     
     
     private String name;
+    private String bookingFor;
     private String gender;
     private int age;
     private String reason;
@@ -26,13 +27,25 @@ public class Patient {
 	}
 
 
-	public Patient(Long id, String name, String gender, int age,String reason) {
+	public Patient(Long id, String name, String gender, int age,String reason,String bookingFor) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.gender = gender;
 		this.age = age;
 		this.reason=reason;
+		this.bookingFor=bookingFor;
+		
+	}
+
+
+	public String getBookingFor() {
+		return bookingFor;
+	}
+
+
+	public void setBookingFor(String bookingFor) {
+		this.bookingFor = bookingFor;
 	}
 
 

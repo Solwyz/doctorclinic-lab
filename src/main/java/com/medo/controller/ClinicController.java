@@ -36,5 +36,7 @@ public class ClinicController {
 	    return ResponseEntity.ok(response);
 	}
 
+	//check doctors -list of doctors in that clinic
+	//list avilable doctors
 
 }
