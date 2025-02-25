@@ -8,14 +8,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import javax.persistence.Table;
+//import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "doctors")
@@ -38,6 +35,7 @@ public class Doctor {
     
     private String availableAt;
     private String about;
+    private String imageUrl;
 
     @ElementCollection
     @Column(name = "available_slots") 
@@ -129,13 +127,15 @@ public class Doctor {
 		this.availableSlots = availableSlots;
 	}
 
-	public String getAvailableDate() {
-		return availableDate;
-	}
+	// Convert stored string to List<String>
+    public List<String> getAvailableDates() {
+        return availableDate != null ? Arrays.asList(availableDate.split(",")) : null;
+    }
 
-	public void setAvailableDate(String availableDate) {
-		this.availableDate = availableDate;
-	}
+    // Convert List<String> to a single string before saving
+    public void setAvailableDates(List<String> dates) {
+        this.availableDate = (dates != null) ? String.join(",", dates) : null;
+    }
 
 	public double getRating() {
 		return rating;
@@ -143,6 +143,14 @@ public class Doctor {
 
 	public void setRating(double rating) {
 		this.rating = rating;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}  
 
 
