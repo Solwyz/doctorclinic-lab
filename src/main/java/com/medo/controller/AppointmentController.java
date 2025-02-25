@@ -28,11 +28,11 @@ public class AppointmentController {
 
 	// book now
 	@PostMapping("/book")
-	public ResponseEntity<Appointment> bookAppointment(@RequestParam Long patientId, @RequestParam Long doctorId,
+	public ResponseEntity<Appointment> bookAppointment( @RequestParam Long patientId, @RequestParam Long doctorId, 
 			@RequestParam String appointmentDateTime) {
 
-		Appointment appointment = appointmentService.bookAppointment(patientId, doctorId, appointmentDateTime);
-		return ResponseEntity.status(HttpStatus.CREATED).body(appointment);
+	    Appointment appointment = appointmentService.bookAppointment(patientId, doctorId, appointmentDateTime);
+	    return ResponseEntity.status(HttpStatus.CREATED).body(appointment);
 	}
 
 	
@@ -77,6 +77,8 @@ public class AppointmentController {
 	        List<Doctor> doctors = appointmentService.getUpcomingAppointments(patientId);
 	        return ResponseEntity.ok(new ApiResponse<>("success", doctors));
 	    }
+
+	    
 	    
 	    @PostMapping("/reschedule/{appointmentId}")
 	    public ResponseEntity<String> rescheduleAppointment(

@@ -27,15 +27,24 @@ public class DoctorService {
 	}
 	
 
+	public Doctor getDoctorById(Long doctorId) {
+        return doctorRepository.findById(doctorId)
+                .orElseThrow(() -> new RuntimeException("Doctor not found"));
+    }
+
 	public List<Doctor> searchDoctorByName(String name) {
 
 		return doctorRepository.findByNameContainingIgnoreCase(name);
 	}
 
+	
+	
 	//time slot
 		public List<String> getAvailableSlots(Long doctorId) {
 	        Doctor doctor = doctorRepository.findById(doctorId)
 	        		.orElseThrow(() -> new RuntimeException("Doctor not found"));
 	        return doctor.getAvailableSlots(); 
 	    }
+
+
 }

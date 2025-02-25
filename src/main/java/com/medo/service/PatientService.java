@@ -27,9 +27,9 @@ public class PatientService {
 
 	
 	public Patient addPatient(Patient patient) {
-		return patientRepository.save(patient);
+	    return patientRepository.save(patient);
 	}
-	
+
 	
 
 	public List<Patient> getAllPatients() {
@@ -62,7 +62,7 @@ public class PatientService {
 		existingPatient.setName(updatedPatient.getName());
 		existingPatient.setAge(updatedPatient.getAge());
 		existingPatient.setGender(updatedPatient.getGender());
-		existingPatient.setReason(updatedPatient.getReason());
+		existingPatient.setProblem(updatedPatient.getProblem());
 
 		return patientRepository.save(existingPatient);
 	}

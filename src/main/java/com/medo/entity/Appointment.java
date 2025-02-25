@@ -1,5 +1,7 @@
 package com.medo.entity;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -15,83 +17,77 @@ import com.medco.Enum.AppointmentStatus;
 
 
 @Entity
-@Table
+@Table(name = "appointments") // Added table name for clarity
 public class Appointment {
-	@Id
+    
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "patient_id")
+    @JoinColumn(name = "patient_id", nullable = false)
     private Patient patient;
 
     @ManyToOne
-    @JoinColumn(name = "doctor_id")
+    @JoinColumn(name = "doctor_id", nullable = false)
     private Doctor doctor;
 
     @Column(name = "appointment_date_time", nullable = false)
-    private String appointmentDate; // Stores selected date & time
+    private LocalDateTime appointmentDate;  // Changed from String to LocalDateTime
 
-    @Enumerated(EnumType.STRING)  // Use Enum for Status
+    @Enumerated(EnumType.STRING)  
     @Column(name = "status", nullable = false)
     private AppointmentStatus status;
 
-	public Long getId() {
-		return id;
-	}
+    // Constructors
+    public Appointment() {}
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public Appointment(Long id, Patient patient, Doctor doctor, AppointmentStatus status, LocalDateTime appointmentDate) {
+        this.id = id;
+        this.patient = patient;
+        this.doctor = doctor;
+        this.status = status;
+        this.appointmentDate = appointmentDate;
+    }
 
-	public Patient getPatient() {
-		return patient;
-	}
+    // Getters and Setters
+    public Long getId() {
+        return id;
+    }
 
-	public void setPatient(Patient patient) {
-		this.patient = patient;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public Doctor getDoctor() {
-		return doctor;
-	}
+    public Patient getPatient() {
+        return patient;
+    }
 
-	public void setDoctor(Doctor doctor) {
-		this.doctor = doctor;
-	}
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
 
-	public AppointmentStatus getStatus() {
-		return status;
-	}
+    public Doctor getDoctor() {
+        return doctor;
+    }
 
-	public void setStatus(AppointmentStatus status) {
-		this.status = status;
-	}
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
+    }
 
-	public Appointment(Long id, Patient patient, Doctor doctor, AppointmentStatus status,String appointmentDate) {
-		super();
-		this.id = id;
-		this.patient = patient;
-		this.doctor = doctor;
-		this.status = status;
-		this.appointmentDate=appointmentDate;
-		
-	}
+    public AppointmentStatus getStatus() {
+        return status;
+    }
 
-	public String getAppointmentDate() {
-		return appointmentDate;
-	}
+    public void setStatus(AppointmentStatus status) {
+        this.status = status;
+    }
 
-	public void setAppointmentDate(String appointmentDate) {
-		this.appointmentDate = appointmentDate;
-	}
+    public LocalDateTime getAppointmentDate() {
+        return appointmentDate;
+    }
 
-	public Appointment() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-    
-    
-
+    public void setAppointmentDate(LocalDateTime appointmentDate) {
+        this.appointmentDate = appointmentDate;
+    }
 }
