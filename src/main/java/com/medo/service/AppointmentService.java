@@ -34,36 +34,34 @@ public class AppointmentService {
 	@Autowired
 	private PatientRepository patientRepository;
 
-	
-	
-	//book now
+	// book now
 	public Appointment bookAppointment(Long patientId, Long doctorId, String appointmentDateTime) {
-	    Patient patient = patientRepository.findById(patientId)
-	            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Patient not found: " + patientId));
+		Patient patient = patientRepository.findById(patientId).orElseThrow(
+				() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Patient not found: " + patientId));
 
-	    Doctor doctor = doctorRepository.findById(doctorId)
-	            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Doctor not found: " + doctorId));
+		Doctor doctor = doctorRepository.findById(doctorId)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Doctor not found: " + doctorId));
 
-	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-	    LocalDateTime dateTime;
-	    try {
-	        dateTime = LocalDateTime.parse(appointmentDateTime, formatter);
-	    } catch (DateTimeParseException e) {
-	        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid date format. Use yyyy-MM-dd HH:mm");
-	    }
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		LocalDateTime dateTime;
+		try {
+			dateTime = LocalDateTime.parse(appointmentDateTime, formatter);
+		} catch (DateTimeParseException e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid date format. Use yyyy-MM-dd ");
+		}
 
-	    boolean exists = appointmentRepository.existsByDoctorAndAppointmentDate(doctor, dateTime);
-	    if (exists) {
-	        throw new ResponseStatusException(HttpStatus.CONFLICT, "Doctor is already booked at this time");
-	    }
+		boolean exists = appointmentRepository.existsByDoctorAndAppointmentDate(doctor, dateTime);
+		if (exists) {
+			throw new ResponseStatusException(HttpStatus.CONFLICT, "Doctor is already booked at this time");
+		}
 
-	    Appointment appointment = new Appointment();
-	    appointment.setPatient(patient);
-	    appointment.setDoctor(doctor);
-	    appointment.setAppointmentDate(dateTime);
-	    appointment.setStatus(AppointmentStatus.BOOKED);
+		Appointment appointment = new Appointment();
+		appointment.setPatient(patient);
+		appointment.setDoctor(doctor);
+		appointment.setAppointmentDate(dateTime);
+		appointment.setStatus(AppointmentStatus.BOOKED);
 
-	    return appointmentRepository.save(appointment);
+		return appointmentRepository.save(appointment);
 	}
 
 //	public Appointment bookAppointment(Long patientId, Long doctorId, String appointmentDateTime) {
@@ -82,104 +80,106 @@ public class AppointmentService {
 //	}
 //	
 
-	
-	
-	//reshedule appoitment
+	// reshedule appoitment
 	public void rescheduleAppointment(Long appointmentId, String newDateTime) {
-	    Appointment appointment = appointmentRepository.findById(appointmentId)
-	            .orElseThrow(() -> new RuntimeException("Appointment not found"));
+		Appointment appointment = appointmentRepository.findById(appointmentId)
+				.orElseThrow(() -> new RuntimeException("Appointment not found"));
 
-	    // Convert String to LocalDateTime
-	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-	    LocalDateTime dateTime;
-	    try {
-	        dateTime = LocalDateTime.parse(newDateTime, formatter);
-	    } catch (DateTimeParseException e) {
-	        throw new RuntimeException("Invalid date format. Use yyyy-MM-dd HH:mm");
-	    }
-
-	    appointment.setAppointmentDate(dateTime);  
-	    appointment.setStatus(AppointmentStatus.BOOKED); 
-
-	    appointmentRepository.save(appointment);
-	}
-		
-	
-		//completed 
-		public void completedAppointment(Long appointmentId) {
-			
-			Appointment appointment=appointmentRepository.findById(appointmentId)
-					.orElseThrow(()->new RuntimeException("Appointment not found"));
-			
-			appointment.setStatus(AppointmentStatus.valueOf("COMPLETED"));
-			appointmentRepository.save(appointment);
-			
+		// Convert String to LocalDateTime
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+		LocalDateTime dateTime;
+		try {
+			dateTime = LocalDateTime.parse(newDateTime, formatter);
+		} catch (DateTimeParseException e) {
+			throw new RuntimeException("Invalid date format. Use yyyy-MM-dd HH:mm");
 		}
 
+		appointment.setAppointmentDate(dateTime);
+		appointment.setStatus(AppointmentStatus.BOOKED);
+
+		appointmentRepository.save(appointment);
+	}
+
+	// completed
+	public void completedAppointment(Long appointmentId) {
+
+		Appointment appointment = appointmentRepository.findById(appointmentId)
+				.orElseThrow(() -> new RuntimeException("Appointment not found"));
+
+		appointment.setStatus(AppointmentStatus.valueOf("COMPLETED"));
+		appointmentRepository.save(appointment);
+
+	}
+
 //appointment history -upcoming completed cancelled
-		 public List<Doctor> getCompletedAppointments(Long patientId) {
-		        List<Appointment> completedAppointments = appointmentRepository.findByPatientIdAndStatus(patientId, "COMPLETED");
 
-		        List<Doctor> completedDoctors = new ArrayList<>();
-		        for (Appointment appointment : completedAppointments) {
-		            completedDoctors.add(appointment.getDoctor());
-		        }
-		        return completedDoctors;
-		    }
-		 
-		 
-		
-		 public void cancelAppointment(Long appointmentId) {
-			    Appointment appointment = appointmentRepository.findById(appointmentId)
-			            .orElseThrow(() -> new RuntimeException("Appointment not found"));
+	public List<Appointment> getCompletedAppointments(Long patientId) {
+		return appointmentRepository.findByPatientIdAndStatus(patientId, "COMPLETED");
+	}
 
-			    appointment.setStatus(AppointmentStatus.CANCELLED); 
-			    appointmentRepository.save(appointment);
-			}
+	public void cancelAppointment(Long appointmentId) {
+		Appointment appointment = appointmentRepository.findById(appointmentId)
+				.orElseThrow(() -> new RuntimeException("Appointment not found"));
 
-			//api to cancell appoitment.that list must be get from getCancelled Appoitments.
-			 
-		 public List<Doctor> getCancelledAppointments(Long patientId) {
-		        List<Appointment> cancelledAppointments = appointmentRepository.findByPatientIdAndStatus(patientId, "CANCELLED");
+		appointment.setStatus(AppointmentStatus.CANCELLED);
+		appointmentRepository.save(appointment);
+	}
 
-		        List<Doctor> cancelledDoctors = new ArrayList<>();
-		        for (Appointment appointment : cancelledAppointments) {
-		            cancelledDoctors.add(appointment.getDoctor());
-		        }
-		        return cancelledDoctors;
-		    }
+	// api to cancell appoitment.that list must be get from getCancelled
+	// Appoitments.
 
-		 
-		    public List<Doctor> getUpcomingAppointments(Long patientId) {
-		        List<Appointment> upcomingAppointments = appointmentRepository.findByPatientIdAndStatus(patientId, "UPCOMING");
+	public List<Appointment> getCancelledAppointments(Long patientId) {
+		return appointmentRepository.findByPatientIdAndStatus(patientId, "CANCELLED");
+	}
 
-		        List<Doctor> upcomingDoctors = new ArrayList<>();
-		        for (Appointment appointment : upcomingAppointments) {
-		            upcomingDoctors.add(appointment.getDoctor());
-		        }
-		        return upcomingDoctors;
-		    }
+	public List<Appointment> getUpcomingAppointments(Long patientId) {
+		return appointmentRepository.findByPatientIdAndStatus(patientId, "BOOKED");
+	}
 
+	public void submitFeedback(Long appointmentId, Integer rating, String feedback) {
+		Appointment appointment = appointmentRepository.findById(appointmentId)
+				.orElseThrow(() -> new RuntimeException("Appointment not found"));
 
+		if (appointment.getStatus() != AppointmentStatus.COMPLETED) {
+			throw new RuntimeException("Feedback can only be given for completed appointments");
+		}
 
-			public void submitFeedback(Long appointmentId, Integer rating, String feedback) {
-    Appointment appointment = appointmentRepository.findById(appointmentId)
-            .orElseThrow(() -> new RuntimeException("Appointment not found"));
+		appointment.setRating(rating);
+		appointment.setFeedback(feedback);
 
-    if (appointment.getStatus() != AppointmentStatus.COMPLETED) {
-        throw new RuntimeException("Feedback can only be given for completed appointments");
-    }
+		appointmentRepository.save(appointment);
+	}
 
-    appointment.setRating(rating);
-    appointment.setFeedback(feedback);
+//			 public List<Doctor> getCancelledAppointments(Long patientId) {
+//	        List<Appointment> cancelledAppointments = appointmentRepository.findByPatientIdAndStatus(patientId, "CANCELLED");
+//
+//	        List<Doctor> cancelledDoctors = new ArrayList<>();
+//	        for (Appointment appointment : cancelledAppointments) {
+//	            cancelledDoctors.add(appointment.getDoctor());
+//	        }
+//	        return cancelledDoctors;
+//	    }
 
-    appointmentRepository.save(appointment);
-}
+//		    public List<Doctor> getUpcomingAppointments(Long patientId) {
+//	        List<Appointment> upcomingAppointments = appointmentRepository.findByPatientIdAndStatus(patientId, "UPCOMING");
+//
+//	        List<Doctor> upcomingDoctors = new ArrayList<>();
+//	        for (Appointment appointment : upcomingAppointments) {
+//	            upcomingDoctors.add(appointment.getDoctor());
+//	        }
+//	        return upcomingDoctors;
+//	    }
 
-
-
-
-		 
-	
+	// public List<Doctor> getCompletedAppointments(Long patientId) {
+//			        List<Appointment> completedAppointments = appointmentRepository.findByPatientIdAndStatus(patientId, "COMPLETED");
+	//
+//			        List<Doctor> completedDoctors = new ArrayList<>();
+//			        for (Appointment appointment : completedAppointments) {
+//			            completedDoctors.add(appointment.getDoctor());
+//			        }
+//			        return completedDoctors;
+//			    }
+//			 
+//			 
 
 }
