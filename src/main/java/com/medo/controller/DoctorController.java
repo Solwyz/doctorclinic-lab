@@ -25,7 +25,7 @@ public class DoctorController {
 	@Autowired
 	private DoctorService doctorService;
 	
-	// adddoctor
+	// addoctor
 		@PostMapping("/add")
 		public ResponseEntity<Doctor> addDoctor(@RequestBody Doctor doctor) {
 			Doctor savedDoctor = doctorService.addDoctor(doctor);
@@ -55,8 +55,8 @@ public class DoctorController {
 	    }
 	    
 	 // avilable timeslot
-//		@GetMapping("/{doctorId}/slots")
-//		public ResponseEntity<List<String>> getAvailableSlots(@PathVariable Long doctorId) {
-//			return ResponseEntity.ok(doctorService.getAvailableSlots(doctorId));
-//		}
+		@GetMapping("/{doctorId}/slots")
+		public ResponseEntity<List<String>> getAvailableSlots(@PathVariable Long doctorId) {
+			return ResponseEntity.ok(doctorService.getAvailableSlots(doctorId));
+		}
 }
