@@ -41,7 +41,7 @@ public class DoctorService {
 	    } else if (department != null) {
 	        return doctorRepository.findByDepartmentContainingIgnoreCase(department);
 	    } else {
-	        return doctorRepository.findAll(); // Return all doctors if no filter is provided
+	        return doctorRepository.findAll(); 
 	    }
 	}
 
