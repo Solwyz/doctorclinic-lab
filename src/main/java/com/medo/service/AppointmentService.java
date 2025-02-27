@@ -110,13 +110,7 @@ public class AppointmentService {
 		appointmentRepository.save(appointment);
 
 	}
-
-//appointment history -upcoming completed cancelled
-
-	public List<Appointment> getCompletedAppointments(Long patientId) {
-		return appointmentRepository.findByPatientIdAndStatus(patientId, "COMPLETED");
-	}
-
+	
 	public void cancelAppointment(Long appointmentId) {
 		Appointment appointment = appointmentRepository.findById(appointmentId)
 				.orElseThrow(() -> new RuntimeException("Appointment not found"));
@@ -125,16 +119,26 @@ public class AppointmentService {
 		appointmentRepository.save(appointment);
 	}
 
+
+//appointment history -upcoming completed cancelled
+
+	public List<Appointment> getCompletedAppointments(Long patientId) {
+		return appointmentRepository.findByPatientIdAndStatus(patientId, "COMPLETED");
+	}
+
+	
 	// api to cancell appoitment.that list must be get from getCancelled
 	// Appoitments.
 
 	public List<Appointment> getCancelledAppointments(Long patientId) {
 		return appointmentRepository.findByPatientIdAndStatus(patientId, "CANCELLED");
 	}
+	
 
 	public List<Appointment> getUpcomingAppointments(Long patientId) {
 		return appointmentRepository.findByPatientIdAndStatus(patientId, "BOOKED");
 	}
+	
 
 	public void submitFeedback(Long appointmentId, Integer rating, String feedback) {
 		Appointment appointment = appointmentRepository.findById(appointmentId)
