@@ -41,9 +41,9 @@ public class DoctorController {
 	    }
 
 	    
-	    @GetMapping("/basicdetails/{doctorId}")
-	    public ResponseEntity<Doctor>geyDoctorById(@PathVariable Long doctorId){
-	    	return ResponseEntity.ok(doctorService.getDoctorById(doctorId));
+	    @GetMapping("/doctordetails/{doctorId}")
+	    public ResponseEntity<Doctor> getDoctorById(@PathVariable Long doctorId) {
+	        return ResponseEntity.ok(doctorService.getDoctorById(doctorId));
 	    }
 	    
 	    // Search doctor by name
@@ -53,9 +53,10 @@ public class DoctorController {
 	        ApiResponse<List<Doctor>> response = new ApiResponse<>("success", doctors);
 	        return ResponseEntity.ok(response);
 	    }
-	 // avilable timeslot-unnessary
-		@GetMapping("/{doctorId}/slots")
-		public ResponseEntity<List<String>> getAvailableSlots(@PathVariable Long doctorId) {
-			return ResponseEntity.ok(doctorService.getAvailableSlots(doctorId));
-		}
+	    
+	 // avilable timeslot
+//		@GetMapping("/{doctorId}/slots")
+//		public ResponseEntity<List<String>> getAvailableSlots(@PathVariable Long doctorId) {
+//			return ResponseEntity.ok(doctorService.getAvailableSlots(doctorId));
+//		}
 }

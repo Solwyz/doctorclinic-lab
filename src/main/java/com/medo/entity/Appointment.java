@@ -33,7 +33,7 @@ public class Appointment {
     private Doctor doctor;
 
     @Column(name = "appointment_date_time", nullable = false)
-    private LocalDateTime appointmentDate;  // Changed from String to LocalDateTime
+    private LocalDateTime appointmentDate;  
 
     @Enumerated(EnumType.STRING)  
     @Column(name = "status", nullable = false)
