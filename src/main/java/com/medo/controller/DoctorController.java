@@ -25,7 +25,7 @@ public class DoctorController {
 	@Autowired
 	private DoctorService doctorService;
 	
-	// adddoctor
+	// addoctor
 		@PostMapping("/add")
 		public ResponseEntity<Doctor> addDoctor(@RequestBody Doctor doctor) {
 			Doctor savedDoctor = doctorService.addDoctor(doctor);
@@ -41,9 +41,9 @@ public class DoctorController {
 	    }
 
 	    
-	    @GetMapping("/basicdetails/{doctorId}")
-	    public ResponseEntity<Doctor>geyDoctorById(@PathVariable Long doctorId){
-	    	return ResponseEntity.ok(doctorService.getDoctorById(doctorId));
+	    @GetMapping("/doctordetails/{doctorId}")
+	    public ResponseEntity<Doctor> getDoctorById(@PathVariable Long doctorId) {
+	        return ResponseEntity.ok(doctorService.getDoctorById(doctorId));
 	    }
 	    
 	    // Search doctor by name
@@ -53,7 +53,8 @@ public class DoctorController {
 	        ApiResponse<List<Doctor>> response = new ApiResponse<>("success", doctors);
 	        return ResponseEntity.ok(response);
 	    }
-	 // avilable timeslot-unnessary
+	    
+	 // avilable timeslot
 		@GetMapping("/{doctorId}/slots")
 		public ResponseEntity<List<String>> getAvailableSlots(@PathVariable Long doctorId) {
 			return ResponseEntity.ok(doctorService.getAvailableSlots(doctorId));

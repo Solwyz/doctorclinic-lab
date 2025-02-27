@@ -49,7 +49,8 @@ public class AppointmentService {
 	        throw new RuntimeException("Invalid date format. Use yyyy-MM-dd HH:mm");
 	    }
 
-	    // Optional: Check if a similar appointment already exists
+	    
+	    //if a similar appointment already exists
 	    boolean exists = appointmentRepository.existsByDoctorAndAppointmentDate(doctor, dateTime);
 	    if (exists) {
 	        throw new RuntimeException("Doctor is already booked at this time");

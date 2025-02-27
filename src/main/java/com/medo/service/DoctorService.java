@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.medo.entity.Doctor;
+import com.medo.exception.DoctorNotFoundException;
 import com.medo.repo.DoctorRepository;
 
 
@@ -27,11 +28,10 @@ public class DoctorService {
 	}
 	
 
-	public Doctor getDoctorById(Long doctorId) {
-        return doctorRepository.findById(doctorId)
-                .orElseThrow(() -> new RuntimeException("Doctor not found"));
-    }
-
+	 public Doctor getDoctorById(Long doctorId) {
+	        return doctorRepository.findById(doctorId)
+	                .orElseThrow(() -> new DoctorNotFoundException("Doctor not found with ID: " + doctorId));
+	    }
 	public List<Doctor> searchDoctorByName(String name) {
 
 		return doctorRepository.findByNameContainingIgnoreCase(name);
