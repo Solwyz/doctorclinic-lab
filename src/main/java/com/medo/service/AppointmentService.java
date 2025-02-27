@@ -7,10 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.medco.Enum.AppointmentStatus;
 import com.medo.entity.Appointment;
@@ -33,27 +35,26 @@ public class AppointmentService {
 	private PatientRepository patientRepository;
 
 	
-	// book now
+	
+	//book now
 	public Appointment bookAppointment(Long patientId, Long doctorId, String appointmentDateTime) {
 	    Patient patient = patientRepository.findById(patientId)
-	            .orElseThrow(() -> new RuntimeException("Patient not found"));
-	    Doctor doctor = doctorRepository.findById(doctorId)
-	            .orElseThrow(() -> new RuntimeException("Doctor not found"));
+	            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Patient not found: " + patientId));
 
-	    // Convert String to LocalDateTime safely
+	    Doctor doctor = doctorRepository.findById(doctorId)
+	            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Doctor not found: " + doctorId));
+
 	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 	    LocalDateTime dateTime;
 	    try {
 	        dateTime = LocalDateTime.parse(appointmentDateTime, formatter);
 	    } catch (DateTimeParseException e) {
-	        throw new RuntimeException("Invalid date format. Use yyyy-MM-dd HH:mm");
+	        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid date format. Use yyyy-MM-dd HH:mm");
 	    }
 
-	    
-	    //if a similar appointment already exists
 	    boolean exists = appointmentRepository.existsByDoctorAndAppointmentDate(doctor, dateTime);
 	    if (exists) {
-	        throw new RuntimeException("Doctor is already booked at this time");
+	        throw new ResponseStatusException(HttpStatus.CONFLICT, "Doctor is already booked at this time");
 	    }
 
 	    Appointment appointment = new Appointment();
@@ -64,6 +65,7 @@ public class AppointmentService {
 
 	    return appointmentRepository.save(appointment);
 	}
+
 //	public Appointment bookAppointment(Long patientId, Long doctorId, String appointmentDateTime) {
 //		Patient patient = patientRepository.findById(patientId)
 //				.orElseThrow(() -> new RuntimeException("Patient not found"));

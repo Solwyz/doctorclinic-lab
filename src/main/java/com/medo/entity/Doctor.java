@@ -33,7 +33,7 @@ public class Doctor {
     private List<String> availableSlots;   
 
     @Column(name = "appointment_date", nullable = false)
-    private LocalDate availableDate;  // Updated type
+    private LocalDate availableDate;  
 
     @Column(name = "rating", nullable = false)
     private double rating;
