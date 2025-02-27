@@ -27,7 +27,7 @@ public class AppointmentController {
 	private AppointmentService appointmentService;
 
 	// book now
-	@PostMapping("/book")
+	@PostMapping("/booknow")
 	public ResponseEntity<Appointment> bookAppointment(@RequestParam Long patientId, @RequestParam Long doctorId,
 			@RequestParam String appointmentDateTime) {
 
@@ -46,28 +46,30 @@ public class AppointmentController {
 	// pass patient id
 //list of doctors should come while fetching this
 
-	// check
-	@GetMapping("/{patientId}/completed")
-	public ResponseEntity<ApiResponse<List<Appointment>>> getCompletedAppointments(@PathVariable Long patientId) {
-		List<Appointment> appointments = appointmentService.getCompletedAppointments(patientId);
-		return ResponseEntity.ok(new ApiResponse<>("success", appointments));
-	}
+	
 
 	// cancelappointment
-	@PostMapping("/{appointmentId}/cancel")
+	@PostMapping("/cancel/{appointmentId}")
 	public ResponseEntity<String> cancelAppointment(@PathVariable Long appointmentId) {
 		appointmentService.cancelAppointment(appointmentId);
 		return ResponseEntity.ok("Appointment cancelled successfully for ID: " + appointmentId);
 	}
+	
+	// check
+		@GetMapping("/completed/{patientId}")
+		public ResponseEntity<ApiResponse<List<Appointment>>> getCompletedAppointments(@PathVariable Long patientId) {
+			List<Appointment> appointments = appointmentService.getCompletedAppointments(patientId);
+			return ResponseEntity.ok(new ApiResponse<>("success", appointments));
+		}
 
-	@GetMapping("/{patientId}/cancelled")
+	@GetMapping("/cancelled/{patientId}")
 	public ResponseEntity<ApiResponse<List<Appointment>>> getCancelledAppointments(@PathVariable Long patientId) {
 		List<Appointment> cancelledAppointments = appointmentService.getCancelledAppointments(patientId);
 		return ResponseEntity.ok(new ApiResponse<>("success", cancelledAppointments));
 	}
 
 //check	 
-	@GetMapping("/{patientId}/upcoming")
+	@GetMapping("/upcoming/{patientId}")
 	public ResponseEntity<ApiResponse<List<Appointment>>> getUpcomingAppointments(@PathVariable Long patientId) {
 		List<Appointment> appointments = appointmentService.getUpcomingAppointments(patientId);
 		return ResponseEntity.ok(new ApiResponse<>("success", appointments));
