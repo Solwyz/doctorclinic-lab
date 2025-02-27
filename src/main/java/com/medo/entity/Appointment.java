@@ -39,15 +39,27 @@ public class Appointment {
     @Column(name = "status", nullable = false)
     private AppointmentStatus status;
 
-    // Constructors
-    public Appointment() {}
+    @Column(name = "rating", nullable = true)
+    private Integer rating; // Rating (1-5 stars)
 
-    public Appointment(Long id, Patient patient, Doctor doctor, AppointmentStatus status, LocalDateTime appointmentDate) {
+    @Column(name = "feedback", columnDefinition = "TEXT", nullable = true)
+    private String feedback; // User's written feedback
+
+    
+   
+    public Appointment() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public Appointment(Long id, Patient patient, Doctor doctor, AppointmentStatus status, LocalDateTime appointmentDate, Integer rating, String feedback) {
         this.id = id;
         this.patient = patient;
         this.doctor = doctor;
         this.status = status;
         this.appointmentDate = appointmentDate;
+        this.rating = rating;
+        this.feedback = feedback;
     }
 
     // Getters and Setters
@@ -90,4 +102,21 @@ public class Appointment {
     public void setAppointmentDate(LocalDateTime appointmentDate) {
         this.appointmentDate = appointmentDate;
     }
+
+	public Integer getRating() {
+		return rating;
+	}
+
+	public void setRating(Integer rating) {
+		this.rating = rating;
+	}
+
+	public String getFeedback() {
+		return feedback;
+	}
+
+	public void setFeedback(String feedback) {
+		this.feedback = feedback;
+	}
+    
 }

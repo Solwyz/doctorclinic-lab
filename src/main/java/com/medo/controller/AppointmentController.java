@@ -88,5 +88,16 @@ public class AppointmentController {
 	        appointmentService.rescheduleAppointment(appointmentId, newDateTime);
 	        return ResponseEntity.ok("Appointment rescheduled successfully.");
 	    }
+	    
+	    
+	    @PostMapping("/feedbackSubmit")
+	    public void submitFeedback(
+	            @RequestParam Long appointmentId,
+	            @RequestParam Integer rating,
+	            @RequestParam String feedback) {
+	        
+	        appointmentService.submitFeedback(appointmentId, rating, feedback);
+	    }
+
 
 }

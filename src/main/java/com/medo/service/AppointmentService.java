@@ -160,6 +160,23 @@ public class AppointmentService {
 
 
 
+			public void submitFeedback(Long appointmentId, Integer rating, String feedback) {
+    Appointment appointment = appointmentRepository.findById(appointmentId)
+            .orElseThrow(() -> new RuntimeException("Appointment not found"));
+
+    if (appointment.getStatus() != AppointmentStatus.COMPLETED) {
+        throw new RuntimeException("Feedback can only be given for completed appointments");
+    }
+
+    appointment.setRating(rating);
+    appointment.setFeedback(feedback);
+
+    appointmentRepository.save(appointment);
+}
+
+
+
+
 		 
 	
 
