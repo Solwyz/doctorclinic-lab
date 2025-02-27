@@ -46,17 +46,21 @@ public class DoctorController {
 	        return ResponseEntity.ok(doctorService.getDoctorById(doctorId));
 	    }
 	    
-	    // Search doctor by name
+	    // Search doctor 
 	    @GetMapping("/search")
-	    public ResponseEntity<ApiResponse<List<Doctor>>> searchDoctorByName(@RequestParam String name) {
-	        List<Doctor> doctors = doctorService.searchDoctorByName(name);
+	    public ResponseEntity<ApiResponse<List<Doctor>>> searchDoctors(
+	            @RequestParam(required = false) String name,
+	            @RequestParam(required = false) String department) {
+
+	        List<Doctor> doctors = doctorService.searchDoctors(name, department);
 	        ApiResponse<List<Doctor>> response = new ApiResponse<>("success", doctors);
 	        return ResponseEntity.ok(response);
 	    }
+
 	    
 	 // avilable timeslot
-		@GetMapping("/{doctorId}/slots")
-		public ResponseEntity<List<String>> getAvailableSlots(@PathVariable Long doctorId) {
-			return ResponseEntity.ok(doctorService.getAvailableSlots(doctorId));
-		}
+//		@GetMapping("/{doctorId}/slots")
+//		public ResponseEntity<List<String>> getAvailableSlots(@PathVariable Long doctorId) {
+//			return ResponseEntity.ok(doctorService.getAvailableSlots(doctorId));
+//		}
 }

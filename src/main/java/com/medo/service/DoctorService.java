@@ -32,19 +32,26 @@ public class DoctorService {
 	        return doctorRepository.findById(doctorId)
 	                .orElseThrow(() -> new DoctorNotFoundException("Doctor not found with ID: " + doctorId));
 	    }
-	public List<Doctor> searchDoctorByName(String name) {
-
-		return doctorRepository.findByNameContainingIgnoreCase(name);
+	
+	public List<Doctor> searchDoctors(String name, String department) {
+	    if (name != null && department != null) {
+	        return doctorRepository.findByNameContainingIgnoreCaseAndDepartmentContainingIgnoreCase(name, department);
+	    } else if (name != null) {
+	        return doctorRepository.findByNameContainingIgnoreCase(name);
+	    } else if (department != null) {
+	        return doctorRepository.findByDepartmentContainingIgnoreCase(department);
+	    } else {
+	        return doctorRepository.findAll(); // Return all doctors if no filter is provided
+	    }
 	}
 
 	
-	
 	//time slot
-		public List<String> getAvailableSlots(Long doctorId) {
-	        Doctor doctor = doctorRepository.findById(doctorId)
-	        		.orElseThrow(() -> new RuntimeException("Doctor not found"));
-	        return doctor.getAvailableSlots(); 
-	    }
+//		public List<String> getAvailableSlots(Long doctorId) {
+//	        Doctor doctor = doctorRepository.findById(doctorId)
+//	        		.orElseThrow(() -> new RuntimeException("Doctor not found"));
+//	        return doctor.getAvailableSlots(); 
+//	    }
 
 
 }
