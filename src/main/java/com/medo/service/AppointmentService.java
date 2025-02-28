@@ -3,15 +3,12 @@ package com.medo.service;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.medco.Enum.AppointmentStatus;
@@ -22,6 +19,7 @@ import com.medo.repo.AppointmentRepository;
 import com.medo.repo.DoctorRepository;
 import com.medo.repo.PatientRepository;
 
+@Transactional
 @Service
 public class AppointmentService {
 
