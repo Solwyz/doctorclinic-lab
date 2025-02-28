@@ -58,6 +58,8 @@ public class DoctorController {
 	        return ResponseEntity.ok(response);
 	    }
 
+	    
+	    //all departments
 	    @GetMapping("/doctors/{departmentName}")
 	    public ResponseEntity<List<Doctor>> getDoctorsByDepartment(@PathVariable String departmentName) {
 	        List<Doctor> doctors = doctorService.getDoctorsByDepartment(departmentName);
