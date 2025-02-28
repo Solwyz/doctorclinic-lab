@@ -58,6 +58,11 @@ public class DoctorController {
 	        return ResponseEntity.ok(response);
 	    }
 
+	    @GetMapping("/doctors/{departmentName}")
+	    public ResponseEntity<List<Doctor>> getDoctorsByDepartment(@PathVariable String departmentName) {
+	        List<Doctor> doctors = doctorService.getDoctorsByDepartment(departmentName);
+	        return ResponseEntity.ok(doctors);
+	    }
 	    
 	 // avilable timeslot
 //		@GetMapping("/{doctorId}/slots")
