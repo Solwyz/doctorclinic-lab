@@ -107,23 +107,29 @@ public class AppointmentService {
 				.orElseThrow(() -> new RuntimeException("Appointment not found"));
 
 		appointment.setStatus(AppointmentStatus.valueOf("COMPLETED"));
+		//appointment.setStatus(AppointmentStatus.COMPLETED);
 		appointmentRepository.save(appointment);
 
 	}
 	
-	public void cancelAppointment(Long appointmentId) {
-		Appointment appointment = appointmentRepository.findById(appointmentId)
-				.orElseThrow(() -> new RuntimeException("Appointment not found"));
+	public void cancelAppointment(Long appointmentId, Long patientId) {
+	    Appointment appointment = appointmentRepository.findById(appointmentId)
+	            .orElseThrow(() -> new RuntimeException("Appointment not found"));
 
-		appointment.setStatus(AppointmentStatus.CANCELLED);
-		appointmentRepository.save(appointment);
+	    if (!appointment.getPatient().getId().equals(patientId)) {
+	        throw new RuntimeException("This appointment does not belong to the given patient");
+	    }
+
+	    appointment.setStatus(AppointmentStatus.CANCELLED);
+	    appointmentRepository.save(appointment);
 	}
+
 
 
 //appointment history -upcoming completed cancelled
 
 	public List<Appointment> getCompletedAppointments(Long patientId) {
-		return appointmentRepository.findByPatientIdAndStatus(patientId, "COMPLETED");
+		return appointmentRepository.findByPatientIdAndStatus(patientId, AppointmentStatus.COMPLETED);
 	}
 
 	
@@ -131,12 +137,13 @@ public class AppointmentService {
 	// Appoitments.
 
 	public List<Appointment> getCancelledAppointments(Long patientId) {
-		return appointmentRepository.findByPatientIdAndStatus(patientId, "CANCELLED");
+	    return appointmentRepository.findByPatientIdAndStatus(patientId, AppointmentStatus.CANCELLED);
 	}
+
 	
 
 	public List<Appointment> getUpcomingAppointments(Long patientId) {
-		return appointmentRepository.findByPatientIdAndStatus(patientId, "BOOKED");
+		return appointmentRepository.findByPatientIdAndStatus(patientId, AppointmentStatus.BOOKED);
 	}
 	
 
@@ -154,6 +161,7 @@ public class AppointmentService {
 		appointmentRepository.save(appointment);
 	}
 
+	
 //			 public List<Doctor> getCancelledAppointments(Long patientId) {
 //	        List<Appointment> cancelledAppointments = appointmentRepository.findByPatientIdAndStatus(patientId, "CANCELLED");
 //

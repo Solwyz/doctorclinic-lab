@@ -49,11 +49,15 @@ public class AppointmentController {
 	
 
 	// cancelappointment
-	@PostMapping("/cancel/{appointmentId}")
-	public ResponseEntity<String> cancelAppointment(@PathVariable Long appointmentId) {
-		appointmentService.cancelAppointment(appointmentId);
-		return ResponseEntity.ok("Appointment cancelled successfully for ID: " + appointmentId);
+	@PostMapping("/cancel/{appointmentId}/{patientId}")
+	public ResponseEntity<String> cancelAppointment(
+	        @PathVariable Long appointmentId,
+	        @PathVariable Long patientId) {
+
+	    appointmentService.cancelAppointment(appointmentId, patientId);
+	    return ResponseEntity.ok("Appointment cancelled successfully for ID: " + appointmentId);
 	}
+
 	
 	// check
 		@GetMapping("/completed/{patientId}")
@@ -62,11 +66,12 @@ public class AppointmentController {
 			return ResponseEntity.ok(new ApiResponse<>("success", appointments));
 		}
 
-	@GetMapping("/cancelled/{patientId}")
-	public ResponseEntity<ApiResponse<List<Appointment>>> getCancelledAppointments(@PathVariable Long patientId) {
-		List<Appointment> cancelledAppointments = appointmentService.getCancelledAppointments(patientId);
-		return ResponseEntity.ok(new ApiResponse<>("success", cancelledAppointments));
-	}
+		@GetMapping("/cancelled/{patientId}")
+		public ResponseEntity<List<Appointment>> getCancelledAppointments(@PathVariable Long patientId) {
+		    List<Appointment> cancelledAppointments = appointmentService.getCancelledAppointments(patientId);
+		    return ResponseEntity.ok(cancelledAppointments);
+		}
+
 
 //check	 
 	@GetMapping("/upcoming/{patientId}")
