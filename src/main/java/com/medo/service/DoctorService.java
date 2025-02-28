@@ -17,6 +17,7 @@ public class DoctorService {
 	@Autowired
 	private  DoctorRepository doctorRepository;
 	
+	
 	public Doctor addDoctor(Doctor doctor) {
 		return doctorRepository.save(doctor);
 	}
@@ -44,6 +45,12 @@ public class DoctorService {
 	        return doctorRepository.findAll(); 
 	    }
 	}
+
+
+	public List<Doctor> getDoctorsByDepartment(String departmentName) {
+        return doctorRepository.findByDepartment(departmentName);
+    }
+
 
 	
 	//time slot
