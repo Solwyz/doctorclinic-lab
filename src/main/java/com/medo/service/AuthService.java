@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.medo.entity.User;
@@ -59,6 +60,7 @@ public class  AuthService {
         return new AuthenticationResponse("User logged in successfully", user.getId(), accessToken, refreshToken);
     }
 
+    @Transactional
     public String setMpin(Long id, String mpin, String name) {
         if (id == null) {
             throw new IllegalArgumentException("User ID cannot be null");
