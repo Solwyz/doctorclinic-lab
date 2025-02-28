@@ -7,7 +7,7 @@ import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.servers.Server;
 
 @SpringBootApplication
-@OpenAPIDefinition(servers = { @Server(url = "/solwyz", description = "Default Server URL") })
+@OpenAPIDefinition(servers = { @Server(url = "/doclab", description = "Default Server URL") })
 public class DoctorLabApplication {
 
 	
