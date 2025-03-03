@@ -34,17 +34,18 @@ public class DoctorService {
 	                .orElseThrow(() -> new DoctorNotFoundException("Doctor not found with ID: " + doctorId));
 	    }
 	
-	public List<Doctor> searchDoctors(String name, String department) {
-	    if (name != null && department != null) {
-	        return doctorRepository.findByNameContainingIgnoreCaseAndDepartmentContainingIgnoreCase(name, department);
-	    } else if (name != null) {
-	        return doctorRepository.findByNameContainingIgnoreCase(name);
-	    } else if (department != null) {
-	        return doctorRepository.findByDepartmentContainingIgnoreCase(department);
-	    } else {
-	        return doctorRepository.findAll(); 
-	    }
-	}
+	 public List<Doctor> searchDoctors(String name, String department) {
+		    if (name != null && department != null) {
+		        return doctorRepository.findByNameStartingWithIgnoreCaseAndDepartmentStartingWithIgnoreCase(name, department);
+		    } else if (name != null) {
+		        return doctorRepository.findByNameStartingWithIgnoreCase(name);
+		    } else if (department != null) {
+		        return doctorRepository.findByDepartmentStartingWithIgnoreCase(department);
+		    } else {
+		        return doctorRepository.findAll();
+		    }
+		}
+
 
 
 	public List<Doctor> getDoctorsByDepartment(String departmentName) {
