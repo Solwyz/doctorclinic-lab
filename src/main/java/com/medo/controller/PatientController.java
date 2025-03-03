@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.medo.entity.Doctor;
+import com.medo.entity.Notification;
 import com.medo.entity.Patient;
 import com.medo.pojo.response.ApiResponse;
 import com.medo.service.PatientService;
@@ -67,8 +68,22 @@ public class PatientController {
 		return ResponseEntity.ok(editpatient);
 
 	}
-
+	
+//getActivity
+//	 @GetMapping("/{userId}")
+//	    public ResponseEntity<List<String>> getUserActivity(@PathVariable Long Id) {
+//	        return ResponseEntity.ok(patientService.getUserActivity(userId));
+//	    }
 	
 
+	//notification
+	@GetMapping("/notification/{id}")
+	public ResponseEntity<List<Notification>> getNotification(@PathVariable Long id){
+		List<Notification>notifications=patientService.getNotification(id);
+		return ResponseEntity.ok(notifications);
+	}
 	
 }
+
+	
+
