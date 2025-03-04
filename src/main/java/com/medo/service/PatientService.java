@@ -79,6 +79,13 @@ public class PatientService {
 
 
 
+	public Object getUserActivity(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
 
 
 }

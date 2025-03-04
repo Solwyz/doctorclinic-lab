@@ -70,10 +70,10 @@ public class PatientController {
 	}
 	
 //getActivity
-//	 @GetMapping("/{userId}")
-//	    public ResponseEntity<List<String>> getUserActivity(@PathVariable Long Id) {
-//	        return ResponseEntity.ok(patientService.getUserActivity(userId));
-//	    }
+	 @GetMapping("/{userId}")
+	    public ResponseEntity<Object> getUserActivity(@PathVariable Long id) {
+	        return ResponseEntity.ok(patientService.getUserActivity(id));
+	    }
 	
 
 	//notification
