@@ -130,7 +130,10 @@ public class AppointmentService {
 		return appointmentRepository.findByPatientIdAndStatus(patientId, AppointmentStatus.COMPLETED);
 	}
 
-	
+//	public List<Appointment> getCompletedAppointments(Long patientId) {
+//		return appointmentRepository.findByPatientIdAndStatus(patientId, "COMPLETED");
+//	} 
+//	
 	// api to cancell appoitment.that list must be get from getCancelled
 	// Appoitments.
 
