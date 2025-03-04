@@ -2,6 +2,9 @@ package com.medo.entity;
 
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.util.List;
 
 @Entity
@@ -16,9 +19,28 @@ public class Clinic {
     private String address;
     private double distanceInKm;
     private String estimatedTime; // Estimated travel time
-
+    private String imageUrl;
+    
+    
     @OneToMany(mappedBy = "clinic", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Doctor> doctors;
+
+    public Clinic() {
+        
+    }
+
+	public Clinic(Long id, String name, String address, double distanceInKm, String estimatedTime, String imageUrl,
+			List<Doctor> doctors) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.address = address;
+		this.distanceInKm = distanceInKm;
+		this.estimatedTime = estimatedTime;
+		this.imageUrl = imageUrl;
+		this.doctors = doctors;
+	}
 
 	public Long getId() {
 		return id;
@@ -66,6 +88,14 @@ public class Clinic {
 
 	public void setDoctors(List<Doctor> doctors) {
 		this.doctors = doctors;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 
    

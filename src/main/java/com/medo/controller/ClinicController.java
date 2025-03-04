@@ -28,7 +28,7 @@ public class ClinicController {
 	@PostMapping("/addClinic")
 	public ResponseEntity<Clinic>addClinic(@RequestBody Clinic clinic){
 		Clinic clinicadded=clinicService.addClinic(clinic);
-		return ResponseEntity.ok(clinic);
+		return ResponseEntity.ok(clinicadded);
 	}
 	
 	@GetMapping("/getallClinic")
