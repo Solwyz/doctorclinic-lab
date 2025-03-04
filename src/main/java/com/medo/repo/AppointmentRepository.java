@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.medco.Enum.AppointmentStatus;
 import com.medo.entity.Appointment;
 import com.medo.entity.Doctor;
+import com.medo.entity.Patient;
 
 
 
@@ -23,5 +24,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment,Long>{
 	boolean existsByDoctorAndAppointmentDate(Doctor doctor, LocalDateTime dateTime);
 
 	List<Appointment> findByPatientIdAndStatus(Long patientId, AppointmentStatus cancelled);
+
+	
 
 }
