@@ -5,8 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.medo.entity.Clinic;
 import com.medo.entity.Doctor;
 import com.medo.exception.DoctorNotFoundException;
+import com.medo.repo.ClinicRepository;
 import com.medo.repo.DoctorRepository;
 
 
@@ -17,11 +19,16 @@ public class DoctorService {
 	@Autowired
 	private  DoctorRepository doctorRepository;
 	
+	@Autowired
+	private ClinicRepository clinicRepository;
 	
-	public Doctor addDoctor(Doctor doctor) {
-		return doctorRepository.save(doctor);
+	public Doctor addDoctor(Doctor doctor, Long clinicId) {
+	    Clinic clinic = clinicRepository.findById(clinicId)
+	        .orElseThrow(() -> new RuntimeException("Clinic not found"));
+
+	    doctor.setClinic(clinic);
+	    return doctorRepository.save(doctor);
 	}
-	
 
 	public List<Doctor> getAllDoctors() {
 
