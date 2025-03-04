@@ -6,10 +6,11 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.medo.entity.Doctor;
+import com.medo.entity.Notification;
 import com.medo.entity.Patient;
 import com.medo.exception.ResourceNotFoundException;
 import com.medo.repo.DoctorRepository;
+import com.medo.repo.NotificationRepository;
 import com.medo.repo.PatientRepository;
 
 @Service
@@ -25,6 +26,8 @@ public class PatientService {
 	@Autowired
 	private DoctorRepository doctorRepository;
 
+	@Autowired
+	NotificationRepository notificationRepository;
 	
 	public Patient addPatient(Patient patient) {
 	    return patientRepository.save(patient);
@@ -67,9 +70,22 @@ public class PatientService {
 		return patientRepository.save(existingPatient);
 	}
 
-	
-	
 
+
+	public List<Notification> getNotification(Long id) {
+		return notificationRepository.findByUserIdOrderByCreatedDateDesc(id);
 	
+	}
+
+
+
+	public Object getUserActivity(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+
 
 }

@@ -5,11 +5,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.medo.entity.Clinic;
+import com.medo.entity.Report;
 import com.medo.pojo.response.ApiResponse;
 import com.medo.service.ClinicService;
 
@@ -39,4 +41,11 @@ public class ClinicController {
 	//check doctors -list of doctors in that clinic
 	//list avilable doctors
 
+	//reports
+	@GetMapping("/reports/{id}")
+	public ResponseEntity<List<Report>>getReports(@PathVariable Long id){
+		List<Report>reports=clinicService.getPatientReports(id);
+		return ResponseEntity.ok(reports);
+	}
+	
 }
