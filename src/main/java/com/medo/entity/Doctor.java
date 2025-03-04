@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.List;
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "doctors")
 public class Doctor {
@@ -24,6 +26,7 @@ public class Doctor {
     
     @ManyToOne
     @JoinColumn(name = "clinic_id", nullable = false)
+    @JsonBackReference
     private Clinic clinic; 
     
     private String about;
@@ -38,9 +41,13 @@ public class Doctor {
     private LocalDate availableDate;  
 
     private int reviewCount; // Added reviewCount field
+    
+    @Column(nullable = false)
+    private Double rating = 0.0;
 
-//    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<Review> reviews = new ArrayList<>();
+
+ //  @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
+  // private List<Review> reviews = new ArrayList<>();
 
 //    public Integer getReviewCount() {
 //        return reviews.size();
@@ -165,4 +172,13 @@ public class Doctor {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+
+	public Double getRating() {
+		return rating;
+	}
+
+	public void setRating(Double rating) {
+		this.rating = rating;
+	}
+    
 }

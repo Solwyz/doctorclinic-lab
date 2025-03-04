@@ -1,6 +1,8 @@
 package com.medo.controller;
 
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -38,10 +40,10 @@ public class AuthController {
 	 }
 	 
 	 @PostMapping("/validate")
-	 public String validatempin(@RequestParam Long id,@RequestParam String mpin) {
-		 return authService.validateMpin(id,mpin);
-		 
+	 public ResponseEntity<Map<String, String>> validateMpin(@RequestParam Long id, @RequestParam String mpin) {
+	     return ResponseEntity.ok(authService.validateMpin(id, mpin));
 	 }
+
 
 //logout
 
