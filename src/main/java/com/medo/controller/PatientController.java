@@ -77,6 +77,7 @@ public class PatientController {
 	
 
 	//notification
+	 ///sample
 	@GetMapping("/notification/{id}")
 	public ResponseEntity<List<Notification>> getNotification(@PathVariable Long id){
 		List<Notification>notifications=patientService.getNotification(id);
