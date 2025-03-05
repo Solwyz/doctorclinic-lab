@@ -1,6 +1,7 @@
 package com.medo.entity;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 
@@ -46,17 +47,17 @@ public class Doctor {
     private Double rating = 0.0;
 
 
- //  @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
-  // private List<Review> reviews = new ArrayList<>();
+   @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
+   private List<Review> reviews = new ArrayList<>();
 
-//    public Integer getReviewCount() {
-//        return reviews.size();
-//    }
+   public Integer getReviewCount1() {
+        return reviews.size();
+    }
 
-//    public Double getAverageRating() {
-//        return reviews.isEmpty() ? 0.0 :
-//            reviews.stream().mapToInt(Review::getRating).average().orElse(0.0);
-//    }
+    public Double getAverageRating() {
+       return reviews.isEmpty() ? 0.0 :
+            reviews.stream().mapToInt(Review::getRating).average().orElse(0.0);
+    }
 
     // Getters and Setters
     public Long getId() {
@@ -157,13 +158,13 @@ public class Doctor {
         this.reviewCount = reviewCount;
     }
 
-//    public List<Review> getReviews() {
-//        return reviews;
-//    }
-//
-//    public void setReviews(List<Review> reviews) {
-//        this.reviews = reviews;
-//    }
+   public List<Review> getReviews() {
+       return reviews;
+    }
+
+   public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+   }
 
     public String getImageUrl() {
         return imageUrl;
