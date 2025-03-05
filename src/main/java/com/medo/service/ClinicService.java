@@ -25,8 +25,10 @@ public class ClinicService {
 	@Autowired
 	PatientRepository patientRepository;
 	
+	
 	@Transactional
 	public Clinic addClinic(Clinic clinic) {
+		 // System.out.println("Saving Clinic: " + clinic.getName() + ", " + clinic.getAddress());
 	    return clinicRepository.save(clinic);
 	}
 
