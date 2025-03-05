@@ -2,6 +2,7 @@ package com.medo.controller;
 
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.medo.entity.Doctor;
+import com.medo.entity.Search;
 import com.medo.pojo.response.ApiResponse;
 import com.medo.service.DoctorService;
 
@@ -49,14 +51,21 @@ public class DoctorController {
 	    
 	    // Search doctor 
 	    @GetMapping("/search")
-	    public ResponseEntity<ApiResponse<List<Doctor>>> searchDoctors(
-	            @RequestParam(required = false) String name,
-	            @RequestParam(required = false) String department) {
-
-	        List<Doctor> doctors = doctorService.searchDoctors(name, department);
-	        ApiResponse<List<Doctor>> response = new ApiResponse<>("success", doctors);
-	        return ResponseEntity.ok(response);
+	    public ResponseEntity<ApiResponse<List<Search>>> searchEntities(@RequestParam String query) {
+	        List<Search> results = doctorService.searchEntities(query);
+	        return ResponseEntity.ok(new ApiResponse<>("success", results));
 	    }
+	    
+
+//	    @GetMapping("/search")
+//	    public ResponseEntity<ApiResponse<List<Doctor>>> searchDoctors(
+//	            @RequestParam(required = false) String name,
+//	            @RequestParam(required = false) String department) {
+//
+//	        List<Doctor> doctors = doctorService.searchDoctors(name, department);
+//	        ApiResponse<List<Doctor>> response = new ApiResponse<>("success", doctors);
+//	        return ResponseEntity.ok(response);
+//	    }
 
 	    
 	    //all departments
