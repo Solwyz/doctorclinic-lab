@@ -1,5 +1,6 @@
 package com.medo.repo;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -24,6 +25,10 @@ public interface AppointmentRepository extends JpaRepository<Appointment,Long>{
 	boolean existsByDoctorAndAppointmentDate(Doctor doctor, LocalDateTime dateTime);
 
 	List<Appointment> findByPatientIdAndStatus(Long patientId, AppointmentStatus cancelled);
+
+	boolean existsByDoctorAndAppointmentDateAndSlot(Doctor doctor, LocalDate availableDate, String availableSlot);
+
+	List<Appointment> findByUserIdAndStatus(Long userId, AppointmentStatus booked);
 
 	
 

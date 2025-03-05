@@ -16,7 +16,7 @@ public class Review {
     @JoinColumn(name = "doctor_id", nullable = false)
     private Doctor doctor; // Relationship with Doctor
 
-    private String patientName; // Optional: To show who wrote the review
+    private String patientName; 
     private String comment;
     private Integer rating; // Rating from 1 to 5 stars
 
