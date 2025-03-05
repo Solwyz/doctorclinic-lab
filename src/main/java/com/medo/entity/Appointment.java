@@ -1,20 +1,9 @@
 package com.medo.entity;
 
-import java.time.LocalDateTime;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import java.time.LocalDate;
+import javax.persistence.*;
 
 import com.medco.Enum.AppointmentStatus;
-
 
 @Entity
 @Table(name = "appointments") // Added table name for clarity
@@ -32,8 +21,14 @@ public class Appointment {
     @JoinColumn(name = "doctor_id", nullable = false)
     private Doctor doctor;
 
-    @Column(name = "appointment_date_time", nullable = false)
-    private LocalDateTime appointmentDate;  
+    @Column(name = "user_id", nullable = false)
+    private Long userId; 
+
+    @Column(name = "appointment_date", nullable = false)
+    private LocalDate appointmentDate;  
+
+    @Column(name = "slot", nullable = true)
+    private String slot; // Stores the available slot  
 
     @Enumerated(EnumType.STRING)  
     @Column(name = "status", nullable = false)
@@ -45,19 +40,18 @@ public class Appointment {
     @Column(name = "feedback", columnDefinition = "TEXT", nullable = true)
     private String feedback; // User's written feedback
 
-    
-   
     public Appointment() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+        super();
+    }
 
-	public Appointment(Long id, Patient patient, Doctor doctor, AppointmentStatus status, LocalDateTime appointmentDate, Integer rating, String feedback) {
+    public Appointment(Long id, Patient patient, Doctor doctor, Long userId, LocalDate appointmentDate, String slot, AppointmentStatus status, Integer rating, String feedback) {
         this.id = id;
         this.patient = patient;
         this.doctor = doctor;
-        this.status = status;
+        this.userId = userId;
         this.appointmentDate = appointmentDate;
+        this.slot = slot;
+        this.status = status;
         this.rating = rating;
         this.feedback = feedback;
     }
@@ -87,6 +81,30 @@ public class Appointment {
         this.doctor = doctor;
     }
 
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public LocalDate getAppointmentDate() {
+        return appointmentDate;
+    }
+
+    public void setAppointmentDate(LocalDate appointmentDate) {
+        this.appointmentDate = appointmentDate;
+    }
+
+    public String getSlot() {
+        return slot;
+    }
+
+    public void setSlot(String slot) {
+        this.slot = slot;
+    }
+
     public AppointmentStatus getStatus() {
         return status;
     }
@@ -95,28 +113,19 @@ public class Appointment {
         this.status = status;
     }
 
-    public LocalDateTime getAppointmentDate() {
-        return appointmentDate;
+    public Integer getRating() {
+        return rating;
     }
 
-    public void setAppointmentDate(LocalDateTime appointmentDate) {
-        this.appointmentDate = appointmentDate;
+    public void setRating(Integer rating) {
+        this.rating = rating;
     }
 
-	public Integer getRating() {
-		return rating;
-	}
+    public String getFeedback() {
+        return feedback;
+    }
 
-	public void setRating(Integer rating) {
-		this.rating = rating;
-	}
-
-	public String getFeedback() {
-		return feedback;
-	}
-
-	public void setFeedback(String feedback) {
-		this.feedback = feedback;
-	}
-    
+    public void setFeedback(String feedback) {
+        this.feedback = feedback;
+    }
 }

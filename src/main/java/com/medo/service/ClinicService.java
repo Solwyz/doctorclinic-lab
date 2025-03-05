@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.medo.entity.Clinic;
 import com.medo.entity.Patient;
@@ -24,7 +25,7 @@ public class ClinicService {
 	@Autowired
 	PatientRepository patientRepository;
 	
-	
+	@Transactional
 	public Clinic addClinic(Clinic clinic) {
 	    return clinicRepository.save(clinic);
 	}

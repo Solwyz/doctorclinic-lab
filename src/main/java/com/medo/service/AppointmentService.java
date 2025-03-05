@@ -1,6 +1,6 @@
 package com.medo.service;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
@@ -32,36 +32,46 @@ public class AppointmentService {
 	@Autowired
 	private PatientRepository patientRepository;
 
+	
+	
 	// book now
-	public Appointment bookAppointment(Long patientId, Long doctorId, String appointmentDateTime) {
+	public Appointment bookAppointment(Long patientId, Long doctorId, Long userId, String availableSlot,
+			LocalDate availableDate) {
+
 		Patient patient = patientRepository.findById(patientId).orElseThrow(
 				() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Patient not found: " + patientId));
 
 		Doctor doctor = doctorRepository.findById(doctorId)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Doctor not found: " + doctorId));
 
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		LocalDateTime dateTime;
-		try {
-			dateTime = LocalDateTime.parse(appointmentDateTime, formatter);
-		} catch (DateTimeParseException e) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid date format. Use yyyy-MM-dd ");
+		// Validate slot and date
+		if (!doctor.getAvailableSlots().contains(availableSlot)) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid slot for doctor: " + availableSlot);
+		}
+		if (!doctor.getAvailableDate().equals(availableDate)) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Doctor not available on: " + availableDate);
 		}
 
-		boolean exists = appointmentRepository.existsByDoctorAndAppointmentDate(doctor, dateTime);
+		// Check if the doctor is already booked
+		boolean exists = appointmentRepository.existsByDoctorAndAppointmentDateAndSlot(doctor, availableDate,
+				availableSlot);
+
 		if (exists) {
 			throw new ResponseStatusException(HttpStatus.CONFLICT, "Doctor is already booked at this time");
 		}
 
+		// create
 		Appointment appointment = new Appointment();
 		appointment.setPatient(patient);
 		appointment.setDoctor(doctor);
-		appointment.setAppointmentDate(dateTime);
+		appointment.setAppointmentDate(availableDate);
+		appointment.setSlot(availableSlot);
 		appointment.setStatus(AppointmentStatus.BOOKED);
 
 		return appointmentRepository.save(appointment);
 	}
 
+	
 //	public Appointment bookAppointment(Long patientId, Long doctorId, String appointmentDateTime) {
 //		Patient patient = patientRepository.findById(patientId)
 //				.orElseThrow(() -> new RuntimeException("Patient not found"));
@@ -79,23 +89,39 @@ public class AppointmentService {
 //	
 
 	// reshedule appoitment
-	public void rescheduleAppointment(Long appointmentId, String newDateTime) {
+	public void rescheduleAppointment(Long appointmentId, String newDate, String newSlot) {
 		Appointment appointment = appointmentRepository.findById(appointmentId)
-				.orElseThrow(() -> new RuntimeException("Appointment not found"));
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Appointment not found"));
 
-		// Convert String to LocalDateTime
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-		LocalDateTime dateTime;
-		try {
-			dateTime = LocalDateTime.parse(newDateTime, formatter);
-		} catch (DateTimeParseException e) {
-			throw new RuntimeException("Invalid date format. Use yyyy-MM-dd HH:mm");
+		Doctor doctor = appointment.getDoctor();
+
+		// Parse the date
+		LocalDate parsedDate = parseDate(newDate);
+
+		// Validate doctor's availability
+		if (!doctor.getAvailableDate().equals(parsedDate) || !doctor.getAvailableSlots().contains(newSlot)) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Doctor not available at this date and slot");
 		}
 
-		appointment.setAppointmentDate(dateTime);
-		appointment.setStatus(AppointmentStatus.BOOKED);
+		// Prevent double booking
+		if (appointmentRepository.existsByDoctorAndAppointmentDateAndSlot(doctor, parsedDate, newSlot)) {
+			throw new ResponseStatusException(HttpStatus.CONFLICT, "Doctor is already booked for this slot.");
+		}
 
+		// Update and save appointment
+		appointment.setAppointmentDate(parsedDate);
+		appointment.setSlot(newSlot);
+		appointment.setStatus(AppointmentStatus.BOOKED);
 		appointmentRepository.save(appointment);
+	}
+
+	// Utility method to parse date
+	private LocalDate parseDate(String date) {
+		try {
+			return LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		} catch (DateTimeParseException e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid date format. Use yyyy-MM-dd");
+		}
 	}
 
 	// completed
@@ -105,29 +131,27 @@ public class AppointmentService {
 				.orElseThrow(() -> new RuntimeException("Appointment not found"));
 
 		appointment.setStatus(AppointmentStatus.valueOf("COMPLETED"));
-		//appointment.setStatus(AppointmentStatus.COMPLETED);
+		// appointment.setStatus(AppointmentStatus.COMPLETED);
 		appointmentRepository.save(appointment);
 
 	}
-	
+
 	public void cancelAppointment(Long appointmentId, Long patientId) {
-	    Appointment appointment = appointmentRepository.findById(appointmentId)
-	            .orElseThrow(() -> new RuntimeException("Appointment not found"));
+		Appointment appointment = appointmentRepository.findById(appointmentId)
+				.orElseThrow(() -> new RuntimeException("Appointment not found"));
 
-	    if (!appointment.getPatient().getId().equals(patientId)) {
-	        throw new RuntimeException("This appointment does not belong to the given patient");
-	    }
+		if (!appointment.getPatient().getId().equals(patientId)) {
+			throw new RuntimeException("This appointment does not belong to the given patient");
+		}
 
-	    appointment.setStatus(AppointmentStatus.CANCELLED);
-	    appointmentRepository.save(appointment);
+		appointment.setStatus(AppointmentStatus.CANCELLED);
+		appointmentRepository.save(appointment);
 	}
-
-
 
 //appointment history -upcoming completed cancelled
 
-	public List<Appointment> getCompletedAppointments(Long patientId) {
-		return appointmentRepository.findByPatientIdAndStatus(patientId, AppointmentStatus.COMPLETED);
+	public List<Appointment> getCompletedAppointments() {
+		return appointmentRepository.findByStatus(AppointmentStatus.COMPLETED);
 	}
 
 //	public List<Appointment> getCompletedAppointments(Long patientId) {
@@ -137,16 +161,13 @@ public class AppointmentService {
 	// api to cancell appoitment.that list must be get from getCancelled
 	// Appoitments.
 
-	public List<Appointment> getCancelledAppointments(Long patientId) {
-	    return appointmentRepository.findByPatientIdAndStatus(patientId, AppointmentStatus.CANCELLED);
+	public List<Appointment> getCancelledAppointments() {
+		return appointmentRepository.findByStatus(AppointmentStatus.CANCELLED);
 	}
 
-	
-
-	public List<Appointment> getUpcomingAppointments(Long patientId) {
-		return appointmentRepository.findByPatientIdAndStatus(patientId, AppointmentStatus.BOOKED);
+	public List<Appointment> getUpcomingAppointments(Long userId) {
+		return appointmentRepository.findByUserIdAndStatus(userId, AppointmentStatus.BOOKED);
 	}
-	
 
 	public void submitFeedback(Long appointmentId, Integer rating, String feedback) {
 		Appointment appointment = appointmentRepository.findById(appointmentId)
@@ -162,7 +183,49 @@ public class AppointmentService {
 		appointmentRepository.save(appointment);
 	}
 
-	
+
+	public Appointment confirmBooking(Long userId, Long patientId, Long doctorId, String appointmentDate, String timeSlot) {
+	    
+	    Patient patient = patientRepository.findById(patientId)
+	        .orElseThrow(() -> new RuntimeException("Patient not found"));
+
+	   
+	    Doctor doctor = doctorRepository.findById(doctorId)
+	        .orElseThrow(() -> new RuntimeException("Doctor not found"));
+
+	   
+	    LocalDate date;
+	    try {
+	        date = LocalDate.parse(appointmentDate);
+	    } catch (DateTimeParseException e) {
+	        throw new RuntimeException("Invalid date format. Use yyyy-MM-dd");
+	    }
+
+	   
+	    if (!doctor.getAvailableSlots().contains(timeSlot)) {
+	        throw new RuntimeException("Doctor not available at this time slot.");
+	    }
+	    if (!doctor.getAvailableDate().equals(date)) {
+	        throw new RuntimeException("Doctor not available on this date.");
+	    }
+
+	    // slot is already booked
+	    boolean isBooked = appointmentRepository.existsByDoctorAndAppointmentDateAndSlot(doctor, date, timeSlot);
+	    if (isBooked) {
+	        throw new RuntimeException("This time slot is already booked.");
+	    }
+
+	  
+	    Appointment appointment = new Appointment();
+	    appointment.setPatient(patient);
+	    appointment.setDoctor(doctor);
+	    appointment.setAppointmentDate(date);
+	    appointment.setSlot(timeSlot);
+	    appointment.setStatus(AppointmentStatus.BOOKED);
+
+	    return appointmentRepository.save(appointment);
+	}
+
 //			 public List<Doctor> getCancelledAppointments(Long patientId) {
 //	        List<Appointment> cancelledAppointments = appointmentRepository.findByPatientIdAndStatus(patientId, "CANCELLED");
 //

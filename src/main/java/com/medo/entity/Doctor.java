@@ -1,5 +1,6 @@
 package com.medo.entity;
 
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,22 +42,20 @@ public class Doctor {
     @Column(name = "appointment_date", nullable = false)
     private LocalDate availableDate;  
 
-    private int reviewCount; // Added reviewCount field
-    
     @Column(nullable = false)
     private Double rating = 0.0;
 
+    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Review> reviews = new ArrayList<>();
 
-   @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
-   private List<Review> reviews = new ArrayList<>();
+    // Remove reviewCount field from entity since it's computed dynamically
 
-   public Integer getReviewCount1() {
-        return reviews.size();
+    public int getReviewCount() {
+        return reviews.size(); // Always return the latest review count
     }
 
     public Double getAverageRating() {
-       return reviews.isEmpty() ? 0.0 :
-            reviews.stream().mapToInt(Review::getRating).average().orElse(0.0);
+        return reviews.isEmpty() ? 0.0 : reviews.stream().mapToInt(Review::getRating).average().orElse(0.0);
     }
 
     // Getters and Setters
@@ -116,17 +115,15 @@ public class Doctor {
         this.experience = experience;
     }
 
-   
-
     public Clinic getClinic() {
-		return clinic;
-	}
+        return clinic;
+    }
 
-	public void setClinic(Clinic clinic) {
-		this.clinic = clinic;
-	}
+    public void setClinic(Clinic clinic) {
+        this.clinic = clinic;
+    }
 
-	public String getAbout() {
+    public String getAbout() {
         return about;
     }
 
@@ -150,21 +147,13 @@ public class Doctor {
         this.availableDate = availableDate;
     }
 
-    public int getReviewCount() { // Getter for reviewCount
-        return reviewCount;
+    public List<Review> getReviews() {
+        return reviews;
     }
 
-    public void setReviewCount(int reviewCount) { // Setter for reviewCount
-        this.reviewCount = reviewCount;
-    }
-
-   public List<Review> getReviews() {
-       return reviews;
-    }
-
-   public void setReviews(List<Review> reviews) {
+    public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
-   }
+    }
 
     public String getImageUrl() {
         return imageUrl;
@@ -174,12 +163,12 @@ public class Doctor {
         this.imageUrl = imageUrl;
     }
 
-	public Double getRating() {
-		return rating;
-	}
+    public Double getRating() {
+        return rating;
+    }
 
-	public void setRating(Double rating) {
-		this.rating = rating;
-	}
-    
+    public void setRating(Double rating) {
+        this.rating = rating;
+    }
 }
+

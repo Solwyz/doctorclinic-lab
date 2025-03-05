@@ -3,6 +3,7 @@ package com.medo.entity;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.util.List;
@@ -23,7 +24,8 @@ public class Clinic {
     
     
     @OneToMany(mappedBy = "clinic", cascade = CascadeType.ALL)
-    @JsonManagedReference
+  //  @JsonManagedReference
+    @JsonIgnore
     private List<Doctor> doctors;
 
     public Clinic() {
