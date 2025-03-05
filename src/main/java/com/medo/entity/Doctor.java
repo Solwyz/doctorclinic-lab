@@ -48,11 +48,10 @@ public class Doctor {
     @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
 
-    // Remove reviewCount field from entity since it's computed dynamically
+    @Column(nullable = false)
+    private int reviewCount = 0;
 
-    public int getReviewCount() {
-        return reviews.size(); // Always return the latest review count
-    }
+    
 
     public Double getAverageRating() {
         return reviews.isEmpty() ? 0.0 : reviews.stream().mapToInt(Review::getRating).average().orElse(0.0);
@@ -169,6 +168,16 @@ public class Doctor {
 
     public void setRating(Double rating) {
         this.rating = rating;
+    }
+    public void updateReviewCount() {
+        this.reviewCount = reviews.size(); // Sync with actual reviews
+    }
+    public int getReviewCount() {
+        return reviewCount;
+    }
+
+    public void setReviewCount(int reviewCount) {
+        this.reviewCount = reviewCount;
     }
 }
 
