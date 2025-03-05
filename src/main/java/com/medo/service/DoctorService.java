@@ -27,6 +27,8 @@ public class DoctorService {
 	        .orElseThrow(() -> new RuntimeException("Clinic not found"));
 
 	    doctor.setClinic(clinic);
+	    doctor.setReviewCount(0); //when a review is added it count changes
+	    
 	    return doctorRepository.save(doctor);
 	}
 
