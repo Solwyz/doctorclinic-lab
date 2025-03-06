@@ -52,8 +52,15 @@ public class Doctor {
     private int reviewCount = 0;
 
     
+    
+    
 
-    public Double getAverageRating() {
+    public Doctor() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public Double getAverageRating() {
         return reviews.isEmpty() ? 0.0 : reviews.stream().mapToInt(Review::getRating).average().orElse(0.0);
     }
 
