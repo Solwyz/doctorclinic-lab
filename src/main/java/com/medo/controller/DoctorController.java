@@ -1,5 +1,6 @@
 package com.medo.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.medo.entity.Doctor;
+import com.medo.entity.DoctorAvailability;
 import com.medo.entity.Search;
 import com.medo.pojo.response.ApiResponse;
 import com.medo.service.DoctorService;
@@ -29,16 +31,33 @@ public class DoctorController {
 	private DoctorService doctorService;
 	
 	// addoctor
-//	@PostMapping("/doctors")
-//	public ResponseEntity<Doctor> addDoctor(@RequestBody Doctor doctor, @RequestParam Long clinicId) {
-//	    Doctor savedDoctor = doctorService.addDoctor(doctor, clinicId);
-//	    return ResponseEntity.ok(savedDoctor);
-//	}
-	@PostMapping("/doctors")
-    public ResponseEntity<Doctor> addDoctor(@RequestBody Doctor doctor) {
-        Doctor savedDoctor = doctorService.addDoctor(doctor);
-        return ResponseEntity.ok(savedDoctor);
+
+
+	 @PostMapping("/doctors")
+	    public ResponseEntity<Doctor> addDoctor(@RequestBody Doctor doctor) {
+	        Doctor savedDoctor = doctorService.addDoctor(doctor);
+	        return ResponseEntity.ok(savedDoctor);
+	    }
+	 // availability for a doctor
+    @PostMapping("/{doctorId}/availability")
+    public ResponseEntity<DoctorAvailability> addAvailability(
+            @PathVariable Long doctorId,
+            @RequestParam LocalDate date,
+            @RequestBody List<String> slots) {
+        
+        DoctorAvailability availability = doctorService.addAvailability(doctorId, date, slots);
+        return ResponseEntity.ok(availability);
     }
+    
+//    @GetMapping("/{doctorId}/availability")
+//    public ResponseEntity<List<String>> getAvailableSlots(
+//            @PathVariable Long doctorId,
+//            @RequestParam LocalDate date) {
+//        
+//        List<String> slots = doctorService.getAvailableSlots(doctorId, date);
+//        return ResponseEntity.ok(slots);
+//    }
+//    
 		// Get all doctors
 	    @GetMapping("/alldoctors")
 	    public ResponseEntity<ApiResponse<List<Doctor>>> getAllDoctors() {
@@ -83,5 +102,16 @@ public class DoctorController {
 //		@GetMapping("/{doctorId}/slots")
 //		public ResponseEntity<List<String>> getAvailableSlots(@PathVariable Long doctorId) {
 //			return ResponseEntity.ok(doctorService.getAvailableSlots(doctorId));
+//		}
+	    
+//		@PostMapping("/doctors")
+//		public ResponseEntity<Doctor> addDoctor(@RequestBody Doctor doctor, @RequestParam Long clinicId) {
+//		    Doctor savedDoctor = doctorService.addDoctor(doctor, clinicId);
+//		    return ResponseEntity.ok(savedDoctor);
+//		}
+//		@PostMapping("/doctors")
+//		public ResponseEntity<Doctor> addDoctor(@RequestBody Doctor doctor) {
+//		    Doctor savedDoctor = doctorService.addDoctor(doctor);
+//		    return ResponseEntity.status(HttpStatus.CREATED).body(savedDoctor);
 //		}
 }
