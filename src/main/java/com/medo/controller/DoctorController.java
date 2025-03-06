@@ -22,19 +22,23 @@ import com.medo.service.DoctorService;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping(value="/auth/doctor")
+@RequestMapping(value="/api/doctor")
 public class DoctorController {
 	
 	@Autowired
 	private DoctorService doctorService;
 	
 	// addoctor
+//	@PostMapping("/doctors")
+//	public ResponseEntity<Doctor> addDoctor(@RequestBody Doctor doctor, @RequestParam Long clinicId) {
+//	    Doctor savedDoctor = doctorService.addDoctor(doctor, clinicId);
+//	    return ResponseEntity.ok(savedDoctor);
+//	}
 	@PostMapping("/doctors")
-	public ResponseEntity<Doctor> addDoctor(@RequestBody Doctor doctor, @RequestParam Long clinicId) {
-	    Doctor savedDoctor = doctorService.addDoctor(doctor, clinicId);
-	    return ResponseEntity.ok(savedDoctor);
-	}
-
+    public ResponseEntity<Doctor> addDoctor(@RequestBody Doctor doctor) {
+        Doctor savedDoctor = doctorService.addDoctor(doctor);
+        return ResponseEntity.ok(savedDoctor);
+    }
 		// Get all doctors
 	    @GetMapping("/alldoctors")
 	    public ResponseEntity<ApiResponse<List<Doctor>>> getAllDoctors() {

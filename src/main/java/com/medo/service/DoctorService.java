@@ -24,17 +24,30 @@ public class DoctorService {
 	@Autowired
 	private ClinicRepository clinicRepository;
 	
-	public Doctor addDoctor(Doctor doctor, Long clinicId) {
-	    Clinic clinic = clinicRepository.findById(clinicId)
-	        .orElseThrow(() -> new RuntimeException("Clinic not found"));
+//	public Doctor addDoctor(Doctor doctor, Long clinicId) {
+//	    Clinic clinic = clinicRepository.findById(clinicId)
+//	        .orElseThrow(() -> new RuntimeException("Clinic not found"));
+//
+//	    doctor.setClinic(clinic);
+//	    doctor.setReviewCount(0); //when a review is added it count changes
+//	    
+//	    return doctorRepository.save(doctor);
+//	}
+//	
+	public Doctor addDoctor(Doctor doctor) {
+        // Get clinicId from request body
+        Long clinicId = doctor.getClinic().getId();
+        
+        // Fetch full clinic details from the database
+        Clinic clinic = clinicRepository.findById(clinicId)
+                .orElseThrow(() -> new RuntimeException("Clinic not found"));
 
-	    doctor.setClinic(clinic);
-	    doctor.setReviewCount(0); //when a review is added it count changes
-	    
-	    return doctorRepository.save(doctor);
-	}
-	
-	
+        // Set clinic and default review count
+        doctor.setClinic(clinic);
+        doctor.setReviewCount(0);
+
+        return doctorRepository.save(doctor);
+    }
 
 	public List<Doctor> getAllDoctors() {
 
