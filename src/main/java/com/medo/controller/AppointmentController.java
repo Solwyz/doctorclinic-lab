@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.medco.dto.AppointmentRequest;
 import com.medo.entity.Appointment;
 import com.medo.entity.Doctor;
 import com.medo.pojo.response.ApiResponse;
@@ -27,32 +28,27 @@ public class AppointmentController {
 	@Autowired
 	private AppointmentService appointmentService;
 
-	// book now
-	@PostMapping("/booknow")
-	public ResponseEntity<Appointment> bookAppointment(
-	        @RequestParam Long patientId, 
-	        @RequestParam Long doctorId,
-	        @RequestParam Long userId, 
-	        @RequestParam String availableSlot, 
-	        @RequestParam String availableDate) {
+	 @PostMapping("/booknow")
+	    public ResponseEntity<Appointment> bookAppointment(@RequestBody AppointmentRequest request) {
+	        Appointment appointment = appointmentService.bookAppointment(
+	                request.getDoctorId(),
+	                request.getPatientId(),
+	                request.getUserId(),
+	                request.getAvailableDate(),
+	                request.getAvailableSlot()
+	        );
+	        return ResponseEntity.ok(appointment);
+	    }
 
-	    Appointment appointment = appointmentService.bookAppointment(
-	        patientId, doctorId, userId, availableSlot, LocalDate.parse(availableDate)
-	    );
-
-	    return ResponseEntity.status(HttpStatus.CREATED).body(appointment);
-	}
-	
-	
-	@PostMapping("/reschedule/{appointmentId}")
-	public ResponseEntity<String> rescheduleAppointment(
-	        @PathVariable Long appointmentId,
-	        @RequestParam String newDate,
-	        @RequestParam String newSlot) {
-
-	    appointmentService.rescheduleAppointment(appointmentId, newDate, newSlot);
-	    return ResponseEntity.ok("Appointment rescheduled successfully.");
-	}
+//	@PostMapping("/reschedule/{appointmentId}")
+//	public ResponseEntity<String> rescheduleAppointment(
+//	        @PathVariable Long appointmentId,
+//	        @RequestParam String newDate,
+//	        @RequestParam String newSlot) {
+//
+//	    appointmentService.rescheduleAppointment(appointmentId, newDate, newSlot);
+//	    return ResponseEntity.ok("Appointment rescheduled successfully.");
+//	}
 
 
 	// completedappoitnment by doctor
@@ -80,18 +76,19 @@ public class AppointmentController {
 
 	
 	// check
-	@GetMapping("/completed")
-	public ResponseEntity<ApiResponse<List<Appointment>>> getCompletedAppointments() {
-	    List<Appointment> appointments = appointmentService.getCompletedAppointments();
+	@GetMapping("/completed/{userId}")
+	public ResponseEntity<ApiResponse<List<Appointment>>> getCompletedAppointments(@PathVariable Long userId) {
+	    List<Appointment> appointments = appointmentService.getCompletedAppointments(userId);
 	    return ResponseEntity.ok(new ApiResponse<>("success", appointments));
 	}
 
 
-	@GetMapping("/cancelled")
-	public ResponseEntity<List<Appointment>> getCancelledAppointments() {
-	    List<Appointment> cancelledAppointments = appointmentService.getCancelledAppointments();
+	@GetMapping("/cancelled/{userId}")
+	public ResponseEntity<List<Appointment>> getCancelledAppointments(@PathVariable Long userId) {
+	    List<Appointment> cancelledAppointments = appointmentService.getCancelledAppointments(userId);
 	    return ResponseEntity.ok(cancelledAppointments);
 	}
+
 
 
 
@@ -102,17 +99,17 @@ public class AppointmentController {
 	}
 
 
-	@PostMapping("/confirmBooking")
-	public ResponseEntity<ApiResponse<Appointment>> confirmBooking(
-	        @RequestParam Long userId,
-	        @RequestParam Long patientId,
-	        @RequestParam Long doctorId,
-	        @RequestParam String appointmentDate,
-	        @RequestParam String timeSlot) {
-
-	    Appointment appointment = appointmentService.confirmBooking(userId, patientId, doctorId, appointmentDate, timeSlot);
-	    return ResponseEntity.ok(new ApiResponse<>("success", appointment));
-	}
+//	@PostMapping("/confirmBooking")
+//	public ResponseEntity<ApiResponse<Appointment>> confirmBooking(
+//	        @RequestParam Long userId,
+//	        @RequestParam Long patientId,
+//	        @RequestParam Long doctorId,
+//	        @RequestParam String appointmentDate,
+//	        @RequestParam String timeSlot) {
+//
+//	    Appointment appointment = appointmentService.confirmBooking(userId, patientId, doctorId, appointmentDate, timeSlot);
+//	    return ResponseEntity.ok(new ApiResponse<>("success", appointment));
+//	}
 
 	@PostMapping("/feedbackSubmit")
 	public void submitFeedback(@RequestParam Long appointmentId, @RequestParam Integer rating,
@@ -129,4 +126,55 @@ public class AppointmentController {
 //	    }
 //	 
 
+	
+	
+	
+	
+	
+	
+	
+	//----------------------
+	// book now
+//	@PostMapping("/booknow")
+//	public ResponseEntity<Appointment> bookAppointment(
+//	        @RequestParam Long patientId, 
+//	        @RequestParam Long doctorId,
+//	        @RequestParam Long userId, 
+//	        @RequestParam String availableSlot, 
+//	        @RequestParam String availableDate) {
+//
+//	    Appointment appointment = appointmentService.bookAppointment(
+//	        patientId, doctorId, userId, availableSlot, LocalDate.parse(availableDate)
+//	    );
+//
+//	    return ResponseEntity.status(HttpStatus.CREATED).body(appointment);
+//	}
+	
+//	@PostMapping("/booknow")
+//    public ResponseEntity<Appointment> bookAppointment(@RequestBody AppointmentRequest request) {
+//        System.out.println("Booking API hit with slot: " + request.getAvailableSlot() + " and date: " + request.getAvailableDate());
+//
+//        Appointment appointment = appointmentService.bookAppointment(
+//            request.getPatientId(),
+//            request.getDoctorId(),
+//            request.getUserId(),
+//            request.getAvailableSlot(),
+//            LocalDate.parse(request.getAvailableDate()) // Convert String to LocalDate
+//        );
+//
+//        return ResponseEntity.status(HttpStatus.CREATED).body(appointment);
+//    }
+	
+//	 @PostMapping("/booknow")
+//	    public ResponseEntity<Appointment> bookAppointment(@RequestBody AppointmentRequest request) {
+//	        Appointment appointment = appointmentService.bookAppointment(
+//	                request.getDoctorId(),
+//	                request.getPatientId(),
+//	                request.getUserId(),
+//	                request.getAvailableDate(),  // Now LocalDate, no conversion needed
+//	                request.getAvailableSlot()
+//	        );
+//
+//	        return ResponseEntity.ok(appointment);
+//	    }
 }
