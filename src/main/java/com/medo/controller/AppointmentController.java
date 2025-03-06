@@ -1,7 +1,9 @@
 package com.medo.controller;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,18 +29,29 @@ public class AppointmentController {
 
 	@Autowired
 	private AppointmentService appointmentService;
+	
+	@PostMapping("/booknow")
+	public ResponseEntity<Map<String, Object>> bookAppointment(@RequestBody AppointmentRequest request) {
+	    Appointment appointment = appointmentService.bookAppointment(request);
 
-	 @PostMapping("/booknow")
-	    public ResponseEntity<Appointment> bookAppointment(@RequestBody AppointmentRequest request) {
-	        Appointment appointment = appointmentService.bookAppointment(
-	                request.getDoctorId(),
-	                request.getPatientId(),
-	                request.getUserId(),
-	                request.getAvailableDate(),
-	                request.getAvailableSlot()
-	        );
-	        return ResponseEntity.ok(appointment);
-	    }
+	    Map<String, Object> response = new HashMap<>();
+	    response.put("message", "Appointment booked successfully!");
+	    response.put("appointmentId", appointment.getId());
+
+	    return ResponseEntity.ok(response);
+	}
+
+//	 @PostMapping("/booknow")
+//	    public ResponseEntity<Appointment> bookAppointment(@RequestBody AppointmentRequest request) {
+//	        Appointment appointment = appointmentService.bookAppointment(
+//	                request.getDoctorId(),
+//	                request.getPatientId(),
+//	                request.getUserId(),
+//	                request.getAvailableDate(),
+//	                request.getAvailableSlot()
+//	        );
+//	        return ResponseEntity.ok(appointment);
+//	    }
 
 //	@PostMapping("/reschedule/{appointmentId}")
 //	public ResponseEntity<String> rescheduleAppointment(
@@ -119,6 +132,26 @@ public class AppointmentController {
 	}
 	
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 //	 @GetMapping("/{patientId}/completed")
 //	    public ResponseEntity<ApiResponse<List<Doctor>>> getCompletedAppointments(@PathVariable Long patientId) {
 //	        List<Doctor> doctors = appointmentService.getCompletedAppointments(patientId);
