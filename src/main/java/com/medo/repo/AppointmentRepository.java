@@ -20,7 +20,8 @@ public interface AppointmentRepository extends JpaRepository<Appointment,Long>{
 	
 	List<Appointment> findByStatus(AppointmentStatus status);
 	 
-	
+	List<Appointment> findByUserIdAndStatus(Long userId, AppointmentStatus status);
+
 
 	boolean existsByDoctorAndAppointmentDate(Doctor doctor, LocalDateTime dateTime);
 
@@ -28,7 +29,11 @@ public interface AppointmentRepository extends JpaRepository<Appointment,Long>{
 
 	boolean existsByDoctorAndAppointmentDateAndSlot(Doctor doctor, LocalDate availableDate, String availableSlot);
 
-	List<Appointment> findByUserIdAndStatus(Long userId, AppointmentStatus booked);
+	//List<Appointment> findByUserIdAndStatus(Long userId, AppointmentStatus booked);
+	
+
+	boolean existsByDoctorAndPatientAndAppointmentDateAndSlot(Doctor doctor, Patient patient, LocalDate date,
+			String slot);
 
 	
 
