@@ -38,8 +38,10 @@ public class AppointmentService {
 	@Autowired
 	private DoctorAvailabilityRepository doctorAvailabilityRepository;
 
+	
+	@Transactional
 	public Appointment bookAppointment(AppointmentRequest request) {
-	    // Fetch doctor, patient, and user details
+	   
 	    Doctor doctor = doctorRepository.findById(request.getDoctorId())
 	            .orElseThrow(() -> new RuntimeException("Doctor not found"));
 
@@ -50,7 +52,7 @@ public class AppointmentService {
 	        throw new RuntimeException("Doctor is not available on this date.");
 	    }
 
-	    // Check if the slot is already booked
+	    // slot is already booked
 	    boolean exists = appointmentRepository.existsByDoctorAndAppointmentDateAndSlot(
 	            doctor, request.getAvailableDate(), request.getAvailableSlot());
 
