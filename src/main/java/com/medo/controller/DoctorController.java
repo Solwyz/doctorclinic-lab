@@ -41,25 +41,6 @@ public class DoctorController {
 	        return ResponseEntity.ok(savedDoctor);
 	    }
 
-//	 @PostMapping("/doctors")
-//	    public ResponseEntity<Doctor> addDoctor(@RequestBody Doctor doctor) {
-//	        Doctor savedDoctor = doctorService.addDoctor(doctor);
-//	        return ResponseEntity.ok(savedDoctor);
-//	    }
-//	 @PostMapping("/adddoctor")
-//	    public ResponseEntity<Doctor> addDoctor(@RequestBody Doctor doctor) {
-//	        logger.info("Received request to add doctor: {}", doctor.getName());
-//
-//	        try {
-//	            Doctor savedDoctor = doctorService.addDoctor(doctor);
-//	            logger.info("Doctor added successfully with ID: {}", savedDoctor.getId());
-//	            return ResponseEntity.ok(savedDoctor);
-//	        } catch (Exception e) {
-//	            logger.error("Error while adding doctor: {}", e.getMessage(), e);
-//	            return ResponseEntity.status(500).body(null);
-//	        }
-//	    }
-//	
 
 
 		// Get all doctors
@@ -138,6 +119,26 @@ public class DoctorController {
 //	        List<String> slots = doctorService.getAvailableSlots(doctorId, date);
 //	        return ResponseEntity.ok(slots);
 //	    }
-	//    
+	// 
+//		 @PostMapping("/doctors")
+//	    public ResponseEntity<Doctor> addDoctor(@RequestBody Doctor doctor) {
+//	        Doctor savedDoctor = doctorService.addDoctor(doctor);
+//	        return ResponseEntity.ok(savedDoctor);
+//	    }
+//	 @PostMapping("/adddoctor")
+//	    public ResponseEntity<Doctor> addDoctor(@RequestBody Doctor doctor) {
+//	        logger.info("Received request to add doctor: {}", doctor.getName());
+//
+//	        try {
+//	            Doctor savedDoctor = doctorService.addDoctor(doctor);
+//	            logger.info("Doctor added successfully with ID: {}", savedDoctor.getId());
+//	            return ResponseEntity.ok(savedDoctor);
+//	        } catch (Exception e) {
+//	            logger.error("Error while adding doctor: {}", e.getMessage(), e);
+//	            return ResponseEntity.status(500).body(null);
+//	        }
+//	    }
+//	
+
 
 }

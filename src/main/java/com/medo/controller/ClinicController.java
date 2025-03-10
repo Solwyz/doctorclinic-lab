@@ -28,37 +28,17 @@ public class ClinicController {
 	@Autowired
 	private ClinicService clinicService;
 	
-	
-	
-//	@PostMapping("/addClinic")
-//	public ResponseEntity<Clinic>addClinic(@RequestBody Clinic clinic){
-//		Clinic clinicadded=clinicService.addClinic(clinic);
-//		return ResponseEntity.ok(clinicadded);
-//	}
-//	
+
 	private static final Logger logger = LoggerFactory.getLogger(ClinicController.class);
+
+
+	
 	@PostMapping("/addClinic")
-    public ResponseEntity<Clinic> addClinic(@RequestBody Clinic clinic) {
-        logger.info("Received request to add clinic: {}", clinic);
-
-        Clinic clinicAdded = clinicService.addClinic(clinic);
-
-//        if (clinicAdded == null) {
-//            logger.error("Clinic was not added properly!");
-//            return ResponseEntity.badRequest().build();
-//        }
-
-        logger.info("Successfully added clinic with ID: {}", clinicAdded.getId());
-        return ResponseEntity.ok(clinicAdded);
-    }
-	
-	
-	
-	
-	
-	
-	
-	
+	public ResponseEntity<Clinic>addClinic(@RequestBody Clinic clinic){
+		Clinic clinicadded=clinicService.addClinic(clinic);
+		return ResponseEntity.ok(clinicadded);
+	}
+			
 	
 	
 	@GetMapping("/getallClinic")
@@ -77,5 +57,21 @@ public class ClinicController {
 		List<Report>reports=clinicService.getPatientReports(id);
 		return ResponseEntity.ok(reports);
 	}
+	
+//	@PostMapping("/addClinic")
+//  public ResponseEntity<Clinic> addClinic(@RequestBody Clinic clinic) {
+//      logger.info("Received request to add clinic: {}", clinic);
+//
+//      Clinic clinicAdded = clinicService.addClinic(clinic);
+//
+////      if (clinicAdded == null) {
+////          logger.error("Clinic was not added properly!");
+////          return ResponseEntity.badRequest().build();
+////      }
+//
+//      logger.info("Successfully added clinic with ID: {}", clinicAdded.getId());
+//      return ResponseEntity.ok(clinicAdded);
+//  }
+//	
 	
 }

@@ -41,28 +41,6 @@ public class AppointmentController {
 	    return ResponseEntity.ok(response);
 	}
 
-//	 @PostMapping("/booknow")
-//	    public ResponseEntity<Appointment> bookAppointment(@RequestBody AppointmentRequest request) {
-//	        Appointment appointment = appointmentService.bookAppointment(
-//	                request.getDoctorId(),
-//	                request.getPatientId(),
-//	                request.getUserId(),
-//	                request.getAvailableDate(),
-//	                request.getAvailableSlot()
-//	        );
-//	        return ResponseEntity.ok(appointment);
-//	    }
-
-//	@PostMapping("/reschedule/{appointmentId}")
-//	public ResponseEntity<String> rescheduleAppointment(
-//	        @PathVariable Long appointmentId,
-//	        @RequestParam String newDate,
-//	        @RequestParam String newSlot) {
-//
-//	    appointmentService.rescheduleAppointment(appointmentId, newDate, newSlot);
-//	    return ResponseEntity.ok("Appointment rescheduled successfully.");
-//	}
-
 
 	// completedappoitnment by doctor
 	@PostMapping(value = "/completed/{appointmentId}")
@@ -111,6 +89,13 @@ public class AppointmentController {
 	    return ResponseEntity.ok(new ApiResponse<>("success", appointments));
 	}
 
+	
+	@PostMapping("/feedbackSubmit")
+	public void submitFeedback(@RequestParam Long appointmentId, @RequestParam Integer rating,
+			@RequestParam String feedback) {
+
+		appointmentService.submitFeedback(appointmentId, rating, feedback);
+	}
 
 //	@PostMapping("/confirmBooking")
 //	public ResponseEntity<ApiResponse<Appointment>> confirmBooking(
@@ -124,16 +109,33 @@ public class AppointmentController {
 //	    return ResponseEntity.ok(new ApiResponse<>("success", appointment));
 //	}
 
-	@PostMapping("/feedbackSubmit")
-	public void submitFeedback(@RequestParam Long appointmentId, @RequestParam Integer rating,
-			@RequestParam String feedback) {
-
-		appointmentService.submitFeedback(appointmentId, rating, feedback);
-	}
+	
 	
 
 	
-	
+//	 @PostMapping("/booknow")
+//    public ResponseEntity<Appointment> bookAppointment(@RequestBody AppointmentRequest request) {
+//        Appointment appointment = appointmentService.bookAppointment(
+//                request.getDoctorId(),
+//                request.getPatientId(),
+//                request.getUserId(),
+//                request.getAvailableDate(),
+//                request.getAvailableSlot()
+//        );
+//        return ResponseEntity.ok(appointment);
+//    }
+
+//@PostMapping("/reschedule/{appointmentId}")
+//public ResponseEntity<String> rescheduleAppointment(
+//        @PathVariable Long appointmentId,
+//        @RequestParam String newDate,
+//        @RequestParam String newSlot) {
+//
+//    appointmentService.rescheduleAppointment(appointmentId, newDate, newSlot);
+//    return ResponseEntity.ok("Appointment rescheduled successfully.");
+//}
+
+
 	
 	
 	
