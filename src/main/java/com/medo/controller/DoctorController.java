@@ -3,9 +3,10 @@ package com.medo.controller;
 import java.time.LocalDate;
 import java.util.List;
 
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.medo.entity.Doctor;
-import com.medo.entity.DoctorAvailability;
+
 import com.medo.entity.Search;
 import com.medo.pojo.response.ApiResponse;
 import com.medo.service.DoctorService;
@@ -31,23 +32,37 @@ public class DoctorController {
 	private DoctorService doctorService;
 	
 	// addoctor
+	 private static final Logger logger = LoggerFactory.getLogger(DoctorController.class);
 
-
-	 @PostMapping("/doctors")
+//	 @PostMapping("/doctors")
+//	    public ResponseEntity<Doctor> addDoctor(@RequestBody Doctor doctor) {
+//	        Doctor savedDoctor = doctorService.addDoctor(doctor);
+//	        return ResponseEntity.ok(savedDoctor);
+//	    }
+	 @PostMapping("/adddoctor")
 	    public ResponseEntity<Doctor> addDoctor(@RequestBody Doctor doctor) {
-	        Doctor savedDoctor = doctorService.addDoctor(doctor);
-	        return ResponseEntity.ok(savedDoctor);
+	        logger.info("Received request to add doctor: {}", doctor.getName());
+
+	        try {
+	            Doctor savedDoctor = doctorService.addDoctor(doctor);
+	            logger.info("Doctor added successfully with ID: {}", savedDoctor.getId());
+	            return ResponseEntity.ok(savedDoctor);
+	        } catch (Exception e) {
+	            logger.error("Error while adding doctor: {}", e.getMessage(), e);
+	            return ResponseEntity.status(500).body(null);
+	        }
 	    }
+	
 	 // availability for a doctor
-    @PostMapping("/{doctorId}/availability")
-    public ResponseEntity<DoctorAvailability> addAvailability(
-            @PathVariable Long doctorId,
-            @RequestParam LocalDate date,
-            @RequestBody List<String> slots) {
-        
-        DoctorAvailability availability = doctorService.addAvailability(doctorId, date, slots);
-        return ResponseEntity.ok(availability);
-    }
+//    @PostMapping("/{doctorId}/availability")
+//    public ResponseEntity<DoctorAvailability> addAvailability(
+//            @PathVariable Long doctorId,
+//            @RequestParam LocalDate date,
+//            @RequestBody List<String> slots) {
+//        
+//        DoctorAvailability availability = doctorService.addAvailability(doctorId, date, slots);
+//        return ResponseEntity.ok(availability);
+//    }
     
 //    @GetMapping("/{doctorId}/availability")
 //    public ResponseEntity<List<String>> getAvailableSlots(

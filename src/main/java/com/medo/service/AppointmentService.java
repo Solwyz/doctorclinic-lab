@@ -15,10 +15,10 @@ import com.medco.Enum.AppointmentStatus;
 import com.medco.dto.AppointmentRequest;
 import com.medo.entity.Appointment;
 import com.medo.entity.Doctor;
-import com.medo.entity.DoctorAvailability;
+
 import com.medo.entity.Patient;
 import com.medo.repo.AppointmentRepository;
-import com.medo.repo.DoctorAvailabilityRepository;
+
 import com.medo.repo.DoctorRepository;
 import com.medo.repo.PatientRepository;
 
@@ -35,8 +35,8 @@ public class AppointmentService {
 	@Autowired
 	private PatientRepository patientRepository;
 	
-	@Autowired
-	private DoctorAvailabilityRepository doctorAvailabilityRepository;
+//	@Autowired
+//	private DoctorAvailabilityRepository doctorAvailabilityRepository;
 
 	
 	@Transactional
