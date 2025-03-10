@@ -53,26 +53,7 @@ public class DoctorController {
 	        }
 	    }
 	
-	 // availability for a doctor
-//    @PostMapping("/{doctorId}/availability")
-//    public ResponseEntity<DoctorAvailability> addAvailability(
-//            @PathVariable Long doctorId,
-//            @RequestParam LocalDate date,
-//            @RequestBody List<String> slots) {
-//        
-//        DoctorAvailability availability = doctorService.addAvailability(doctorId, date, slots);
-//        return ResponseEntity.ok(availability);
-//    }
-    
-//    @GetMapping("/{doctorId}/availability")
-//    public ResponseEntity<List<String>> getAvailableSlots(
-//            @PathVariable Long doctorId,
-//            @RequestParam LocalDate date) {
-//        
-//        List<String> slots = doctorService.getAvailableSlots(doctorId, date);
-//        return ResponseEntity.ok(slots);
-//    }
-//    
+
 		// Get all doctors
 	    @GetMapping("/alldoctors")
 	    public ResponseEntity<ApiResponse<List<Doctor>>> getAllDoctors() {
@@ -95,15 +76,6 @@ public class DoctorController {
 	    }
 	    
 
-//	    @GetMapping("/search")
-//	    public ResponseEntity<ApiResponse<List<Doctor>>> searchDoctors(
-//	            @RequestParam(required = false) String name,
-//	            @RequestParam(required = false) String department) {
-//
-//	        List<Doctor> doctors = doctorService.searchDoctors(name, department);
-//	        ApiResponse<List<Doctor>> response = new ApiResponse<>("success", doctors);
-//	        return ResponseEntity.ok(response);
-//	    }
 
 	    
 	    //all departments
@@ -129,4 +101,35 @@ public class DoctorController {
 //		    Doctor savedDoctor = doctorService.addDoctor(doctor);
 //		    return ResponseEntity.status(HttpStatus.CREATED).body(savedDoctor);
 //		}
+//	    @GetMapping("/search")
+//	    public ResponseEntity<ApiResponse<List<Doctor>>> searchDoctors(
+//	            @RequestParam(required = false) String name,
+//	            @RequestParam(required = false) String department) {
+//
+//	        List<Doctor> doctors = doctorService.searchDoctors(name, department);
+//	        ApiResponse<List<Doctor>> response = new ApiResponse<>("success", doctors);
+//	        return ResponseEntity.ok(response);
+//	    }
+	    
+		 // availability for a doctor
+//	    @PostMapping("/{doctorId}/availability")
+//	    public ResponseEntity<DoctorAvailability> addAvailability(
+//	            @PathVariable Long doctorId,
+//	            @RequestParam LocalDate date,
+//	            @RequestBody List<String> slots) {
+//	        
+//	        DoctorAvailability availability = doctorService.addAvailability(doctorId, date, slots);
+//	        return ResponseEntity.ok(availability);
+//	    }
+	    
+//	    @GetMapping("/{doctorId}/availability")
+//	    public ResponseEntity<List<String>> getAvailableSlots(
+//	            @PathVariable Long doctorId,
+//	            @RequestParam LocalDate date) {
+//	        
+//	        List<String> slots = doctorService.getAvailableSlots(doctorId, date);
+//	        return ResponseEntity.ok(slots);
+//	    }
+	//    
+
 }
