@@ -2,11 +2,14 @@ package com.medo.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,7 +18,7 @@ import com.medo.entity.Report;
 import com.medo.pojo.response.ApiResponse;
 import com.medo.service.ClinicService;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+
 
 
 @RestController
@@ -25,11 +28,38 @@ public class ClinicController {
 	@Autowired
 	private ClinicService clinicService;
 	
+	
+	
+//	@PostMapping("/addClinic")
+//	public ResponseEntity<Clinic>addClinic(@RequestBody Clinic clinic){
+//		Clinic clinicadded=clinicService.addClinic(clinic);
+//		return ResponseEntity.ok(clinicadded);
+//	}
+//	
+	private static final Logger logger = LoggerFactory.getLogger(ClinicController.class);
 	@PostMapping("/addClinic")
-	public ResponseEntity<Clinic>addClinic(@RequestBody Clinic clinic){
-		Clinic clinicadded=clinicService.addClinic(clinic);
-		return ResponseEntity.ok(clinicadded);
-	}
+    public ResponseEntity<Clinic> addClinic(@RequestBody Clinic clinic) {
+        logger.info("Received request to add clinic: {}", clinic);
+
+        Clinic clinicAdded = clinicService.addClinic(clinic);
+
+//        if (clinicAdded == null) {
+//            logger.error("Clinic was not added properly!");
+//            return ResponseEntity.badRequest().build();
+//        }
+
+        logger.info("Successfully added clinic with ID: {}", clinicAdded.getId());
+        return ResponseEntity.ok(clinicAdded);
+    }
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	@GetMapping("/getallClinic")
 	public ResponseEntity<ApiResponse<List<Clinic>>> getAllClinic() {

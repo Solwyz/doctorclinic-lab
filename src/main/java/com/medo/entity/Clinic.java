@@ -1,9 +1,16 @@
 package com.medo.entity;
 
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
+//import com.fasterxml.jackson.annotation.JsonIgnore;
 //import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.util.List;
@@ -25,8 +32,6 @@ public class Clinic {
     
     
     @OneToMany(mappedBy = "clinic", cascade = CascadeType.ALL)
-  //  @JsonManagedReference
-    @JsonIgnore
     private List<Doctor> doctors;
 
     public Clinic() {
@@ -99,6 +104,16 @@ public class Clinic {
 
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
+	}
+
+	@Override
+	public String toString() {
+		return "Clinic [id=" + id + ", name=" + name + ", address=" + address + ", distanceInKm=" + distanceInKm
+				+ ", estimatedTime=" + estimatedTime + ", imageUrl=" + imageUrl + ", doctors=" + doctors + ", getId()="
+				+ getId() + ", getName()=" + getName() + ", getAddress()=" + getAddress() + ", getDistanceInKm()="
+				+ getDistanceInKm() + ", getEstimatedTime()=" + getEstimatedTime() + ", getDoctors()=" + getDoctors()
+				+ ", getImageUrl()=" + getImageUrl() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
+				+ ", toString()=" + super.toString() + "]";
 	}
 
    
