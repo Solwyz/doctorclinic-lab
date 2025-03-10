@@ -1,6 +1,6 @@
 package com.medo.controller;
 
-import java.time.LocalDate;
+
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -33,26 +33,34 @@ public class DoctorController {
 	
 	// addoctor
 	 private static final Logger logger = LoggerFactory.getLogger(DoctorController.class);
+	 
+
+	    @PostMapping
+	    public ResponseEntity<Doctor> addDoctor(@RequestBody Doctor doctor) {
+	        Doctor savedDoctor = doctorService.addDoctor(doctor);
+	        return ResponseEntity.ok(savedDoctor);
+	    }
 
 //	 @PostMapping("/doctors")
 //	    public ResponseEntity<Doctor> addDoctor(@RequestBody Doctor doctor) {
 //	        Doctor savedDoctor = doctorService.addDoctor(doctor);
 //	        return ResponseEntity.ok(savedDoctor);
 //	    }
-	 @PostMapping("/adddoctor")
-	    public ResponseEntity<Doctor> addDoctor(@RequestBody Doctor doctor) {
-	        logger.info("Received request to add doctor: {}", doctor.getName());
+//	 @PostMapping("/adddoctor")
+//	    public ResponseEntity<Doctor> addDoctor(@RequestBody Doctor doctor) {
+//	        logger.info("Received request to add doctor: {}", doctor.getName());
+//
+//	        try {
+//	            Doctor savedDoctor = doctorService.addDoctor(doctor);
+//	            logger.info("Doctor added successfully with ID: {}", savedDoctor.getId());
+//	            return ResponseEntity.ok(savedDoctor);
+//	        } catch (Exception e) {
+//	            logger.error("Error while adding doctor: {}", e.getMessage(), e);
+//	            return ResponseEntity.status(500).body(null);
+//	        }
+//	    }
+//	
 
-	        try {
-	            Doctor savedDoctor = doctorService.addDoctor(doctor);
-	            logger.info("Doctor added successfully with ID: {}", savedDoctor.getId());
-	            return ResponseEntity.ok(savedDoctor);
-	        } catch (Exception e) {
-	            logger.error("Error while adding doctor: {}", e.getMessage(), e);
-	            return ResponseEntity.status(500).body(null);
-	        }
-	    }
-	
 
 		// Get all doctors
 	    @GetMapping("/alldoctors")
