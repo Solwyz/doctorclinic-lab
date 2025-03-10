@@ -38,7 +38,7 @@ public class Doctor {
     @Column(name = "slot")
     private List<String> availableSlots;
     
-    @Column(name = "appointment_date", nullable = false)
+    //@Column(name = "appointment_date", nullable = false)
     private LocalDate availableDate;  
 
     @Column(nullable = false)
