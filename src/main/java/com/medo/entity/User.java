@@ -1,67 +1,74 @@
 package com.medo.entity;
 
-import java.time.LocalDateTime;
-
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
-
-
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Table(name = "users")
+@Getter
+@Setter
+@NoArgsConstructor
+@Table(name = "t_user")
 public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	private String mobile;
+	private String name;
+	private String mpin;
+	private boolean active;
 
-    @Column(unique = true, nullable = false)
-    private String mobile;
+	public User(String mobile, String name, String mpin) {
+		this.mobile = mobile;
+		this.name = name;
+		this.mpin = mpin;
+		this.active = false;
+	}
 
-    private String name;
-    private String role;
+	public Long getId() {
+		return id;
+	}
 
-    @Column(nullable = true) 
-    private String mpin;  
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+	public String getMobile() {
+		return mobile;
+	}
 
-    @PrePersist
-    protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
-    }
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
 
-    @PreUpdate
-    protected void onUpdate() {
-        this.updatedAt = LocalDateTime.now();
-    }
+	public String getName() {
+		return name;
+	}
 
-    
-    public Long getId() { return id; }
-    
-    public String getMobile() { return mobile; }
-    public void setMobile(String mobile) { this.mobile = mobile; }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+	public String getMpin() {
+		return mpin;
+	}
 
-    public String getRole() { return role; }
-    public void setRole(String role) { this.role = role; }
+	public void setMpin(String mpin) {
+		this.mpin = mpin;
+	}
 
-    public String getMpin() { return mpin; }  
-    public void setMpin(String mpin) { this.mpin = mpin; }  
+	public boolean isActive() {
+		return active;
+	}
 
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+	public void setActive(boolean active) {
+		this.active = active;
+	}
 
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
-    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
 }
-
