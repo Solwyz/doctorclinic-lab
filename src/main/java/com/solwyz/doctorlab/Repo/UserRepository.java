@@ -1,13 +1,12 @@
-package com.medo.repo;
+package com.solwyz.doctorlab.Repo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.medo.entity.User;
+import com.solwyz.doctorlab.Entity.User;
 
 @Repository
-public interface UserRepository extends JpaRepository<User,Long>{
-
+public interface UserRepository extends JpaRepository<User, Long> {
 	User findByMobile(String mobile);
-    boolean existsByMobile(String mobile);
+
 }
