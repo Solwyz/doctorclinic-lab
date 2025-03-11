@@ -22,19 +22,21 @@ public class AuthService {
 	private static final String SECRET_KEY = "mySecretKey";
 
 	public ResponseEntity<?> login(String mobile, String mpin) {
-		User user = userRepository.findByMobile(mobile);
-		if (user != null) {
-			if (mpin != null && user.getMpin().equals(mpin)) {
-				user.setActive(true);
-				userRepository.save(user);
-				String token = generateToken(user.getId());
-				return ResponseEntity.ok("Login successful. JWT: " + token);
-			} else {
-				return ResponseEntity.status(401).body("Invalid MPIN");
-			}
-		}
-		return ResponseEntity.status(404).body("User not found. Redirect to signup");
+	    User user = userRepository.findByMobile(mobile);
+	    if (user != null) {
+	        // If MPIN is provided, validate it
+	        if (mpin == null || mpin.isEmpty() || user.getMpin().equals(mpin)) {
+	            user.setActive(true);
+	            userRepository.save(user);
+	            String token = generateToken(user.getId());
+	            return ResponseEntity.ok("Login successful. JWT: " + token);
+	        } else {
+	            return ResponseEntity.status(401).body("Invalid MPIN");
+	        }
+	    }
+	    return ResponseEntity.status(404).body("User not found. Redirect to signup");
 	}
+
 
 	public ResponseEntity<?> signup(String mobile, String name) {
 		if (userRepository.existsByMobile(mobile)) {
