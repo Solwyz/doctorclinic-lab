@@ -57,7 +57,7 @@ public class JwtTokenProvider {
 		    return Jwts.builder()
 		            .setSubject(user.getMobile())
 		            .claim("id", user.getId())
-		            .claim("role", user.getRole())
+		            //.claim("role", user.getRole())
 		            .setIssuedAt(new Date())
 		            .setExpiration(new Date(System.currentTimeMillis() + accessTokenValidity))
 		            .signWith(key, SignatureAlgorithm.HS256) // Updated signing method
