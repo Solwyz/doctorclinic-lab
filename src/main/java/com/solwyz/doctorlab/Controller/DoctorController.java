@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.solwyz.doctorlab.Entity.Doctor;
 import com.solwyz.doctorlab.Service.DoctorService;
+import com.solwyz.doctorlab.pojo.response.ApiResponse;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 @CrossOrigin(origins = "*")
@@ -46,10 +47,12 @@ public class DoctorController {
 	    }
 
 	    @GetMapping("/clinic/{clinicId}")
-	    public ResponseEntity<List<Doctor>> getDoctorsByClinic(@PathVariable Long clinicId) {
-	        return ResponseEntity.ok(doctorService.getDoctorsByClinic(clinicId));
+	    public ResponseEntity<ApiResponse<List<Doctor>>> getDoctorsByClinic(@PathVariable Long clinicId) {
+	     List<Doctor>doctors=doctorService.getDoctorsByClinic(clinicId);
+	     ApiResponse<List<Doctor>>response=new ApiResponse<>("success",doctors);
+	        return ResponseEntity.ok(response);
 	    }
-
+	    
 	    @GetMapping("/department/{department}")
 	    public ResponseEntity<List<Doctor>> getDoctorsByDepartment(@PathVariable String department) {
 	        return ResponseEntity.ok(doctorService.getDoctorsByDepartment(department));
