@@ -36,6 +36,9 @@ public class Doctor {
 	private double ratings;
 	private String gender;
 	private String department;
+	@ElementCollection
+	private List<String> languages; 
+	 
 	public Long getId() {
 		return id;
 	}
@@ -115,9 +118,14 @@ public class Doctor {
 		this.department = department;
 	}
 	
+	public List<String> getLanguages() {
+		return languages;
+	}
+	public void setLanguages(List<String> languages) {
+		this.languages = languages;
+	}
 	
-	
-	
+	 
 	
 	
 
