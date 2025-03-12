@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.solwyz.doctorlab.Entity.Clinic;
 import com.solwyz.doctorlab.Service.ClinicService;
+import com.solwyz.doctorlab.pojo.response.ApiResponse;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 
@@ -39,10 +40,14 @@ public class ClinicController {
 		return ResponseEntity.ok(clinicService.updateClinic(id, clinic));
 	}
 
+	
 	@GetMapping("/all")
-	public ResponseEntity<List<Clinic>> getAllClinics() {
-		return ResponseEntity.ok(clinicService.getAllClinics());
+	public ResponseEntity<ApiResponse<List<Clinic>>> getAllClinics() {
+	    List<Clinic> clinics = clinicService.getAllClinics();
+	    ApiResponse<List<Clinic>> response = new ApiResponse<>( "success", clinics);
+	    return ResponseEntity.ok(response);
 	}
+
 
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getClinicById(@PathVariable Long id) {
