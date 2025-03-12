@@ -54,8 +54,10 @@ public class DoctorController {
 	    }
 	    
 	    @GetMapping("/department/{department}")
-	    public ResponseEntity<List<Doctor>> getDoctorsByDepartment(@PathVariable String department) {
-	        return ResponseEntity.ok(doctorService.getDoctorsByDepartment(department));
+	    public ResponseEntity<ApiResponse<List<Doctor>>> getDoctorsByDepartment(@PathVariable String department) {
+	    	List<Doctor>doctors=doctorService.getDoctorsByDepartment(department);
+	    	ApiResponse<List<Doctor>>response=new ApiResponse<>("success",doctors);
+	        return ResponseEntity.ok(response);
 	    }
 
 	    @GetMapping("/search")
