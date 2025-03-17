@@ -23,6 +23,8 @@ public class Clinic {
 	private double ratings;
 	private String address;
 	private String imageUrl;
+	
+	
 
 	public Long getId() {
 		return id;
