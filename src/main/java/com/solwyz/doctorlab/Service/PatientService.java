@@ -3,10 +3,12 @@ package com.solwyz.doctorlab.Service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.solwyz.doctorlab.Entity.Patient;
 import com.solwyz.doctorlab.Repo.PatientRepository;
 
+@Service
 public class PatientService {
 
 	@Autowired
