@@ -32,7 +32,7 @@ public class DoctorService {
 		doctor.setRatings(doctorDetails.getRatings());
 		doctor.setGender(doctorDetails.getGender());
 		doctor.setDepartment(doctorDetails.getDepartment());
-		doctor.setLanguages(doctorDetails.getLanguages());
+		doctor.setLanguage(doctorDetails.getLanguage());
 		return doctorRepository.save(doctor);
 	}
 
