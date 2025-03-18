@@ -40,9 +40,7 @@ public class Doctor {
 	private String department;
 	
 	@ElementCollection
-	@CollectionTable(name = "doctor_languages", joinColumns = {@JoinColumn(name = "doctor_id")})
-	private List<String> language = new ArrayList<>();
-
+ 	private List<String> languages;
 	 
 	public Long getId() {
 		return id;
@@ -123,13 +121,12 @@ public class Doctor {
 		this.department = department;
 	}
 	
-	public List<String> getLanguage() {
-		return language;
-	}
-	public void setLanguage(List<String> language) {
-		this.language = language;
-	}
-	
+	public List<String> getLanguages() {
+ 		return languages;
+ 	}
+ 	public void setLanguages(List<String> languages) {
+ 		this.languages = languages;
+ 	}
 	
 
 }
