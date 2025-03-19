@@ -1,14 +1,16 @@
 package com.solwyz.doctorlab.Entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-
+import javax.persistence.JoinColumn;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -36,8 +38,9 @@ public class Doctor {
 	private double ratings;
 	private String gender;
 	private String department;
+	
 	@ElementCollection
-	private List<String> languages; 
+ 	private List<String> languages;
 	 
 	public Long getId() {
 		return id;
@@ -119,14 +122,11 @@ public class Doctor {
 	}
 	
 	public List<String> getLanguages() {
-		return languages;
-	}
-	public void setLanguages(List<String> languages) {
-		this.languages = languages;
-	}
-	
-	 
-	
+ 		return languages;
+ 	}
+ 	public void setLanguages(List<String> languages) {
+ 		this.languages = languages;
+ 	}
 	
 
 }
