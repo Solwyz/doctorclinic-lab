@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.solwyz.doctorlab.Entity.Patient;
 import com.solwyz.doctorlab.Service.PatientService;
+import com.solwyz.doctorlab.pojo.response.ApiResponse;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 @CrossOrigin(origins = "*")
@@ -49,8 +50,10 @@ public class PatientController {
 	}
 
 	@GetMapping("/all")
-	public ResponseEntity<List<Patient>> getAllPatients() {
-		return ResponseEntity.ok(patientService.getAllPatients());
+	public ResponseEntity<ApiResponse<List<Patient>>> getAllPatients() {
+		List<Patient>patients=patientService.getAllPatients();
+		ApiResponse<List<Patient>>response=new ApiResponse<>("success",patients);
+		return ResponseEntity.ok(response);
 	}
 
 }
