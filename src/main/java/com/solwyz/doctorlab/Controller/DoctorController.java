@@ -66,9 +66,11 @@ public class DoctorController {
 	}
 
 	@GetMapping("/search")
-	public ResponseEntity<List<Doctor>> searchDoctors(@RequestParam(required = false) String name,
+	public ResponseEntity<ApiResponse<List<Doctor>>>searchDoctors(@RequestParam(required = false) String name,
 			@RequestParam(required = false) Double minRating, @RequestParam(required = false) Double maxRating,
 			@RequestParam(required = false) String availabilityTimes) {
-		return ResponseEntity.ok(doctorService.searchDoctors(name, minRating, maxRating, availabilityTimes));
+		List<Doctor>doctors=doctorService.searchDoctors(name, minRating, maxRating, availabilityTimes);
+		ApiResponse<List<Doctor>>response=new ApiResponse<>("success",doctors);
+		return ResponseEntity.ok(response);
 	}
 }
