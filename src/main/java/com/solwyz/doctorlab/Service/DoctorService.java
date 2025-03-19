@@ -52,4 +52,8 @@ public class DoctorService {
 		return doctorRepository.findByFilters(name, minRating, maxRating, availabilityTimes);
 	}
 
+	public Doctor getDoctorById(Long id) {
+		return doctorRepository.findById(id).orElseThrow(() -> new RuntimeException("Doctor not found"));
+	}
+
 }
