@@ -71,9 +71,11 @@ public class ClinicController {
 	}
 
 	@GetMapping("/search")
-	public ResponseEntity<List<Clinic>> searchClinics(@RequestParam(required = false) String name,
+	public ResponseEntity<ApiResponse<List<Clinic>>>searchClinics(@RequestParam(required = false) String name,
 			@RequestParam(required = false) Double minRating, @RequestParam(required = false) Double maxRating) {
-		return ResponseEntity.ok(clinicService.searchClinics(name, minRating, maxRating));
+		List<Clinic> clinics=clinicService.searchClinics(name, minRating, maxRating);
+		ApiResponse<List<Clinic>>response =new ApiResponse<>("success",clinics);
+		return ResponseEntity.ok(response);
 	}
 
 }
