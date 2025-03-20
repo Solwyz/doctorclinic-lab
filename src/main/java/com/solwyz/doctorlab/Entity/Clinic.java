@@ -1,5 +1,6 @@
 package com.solwyz.doctorlab.Entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,6 +21,7 @@ public class Clinic {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String clinicName;
+	@Column(name = "ratings", nullable = false)
 	private double ratings;
 	private String address;
 	private double kilometer;
@@ -81,6 +83,16 @@ public class Clinic {
 
 	public void setMinutes(int minutes) {
 		this.minutes = minutes;
+	}
+
+	@Override
+	public String toString() {
+		return "Clinic [id=" + id + ", clinicName=" + clinicName + ", ratings=" + ratings + ", address=" + address
+				+ ", kilometer=" + kilometer + ", minutes=" + minutes + ", imageUrl=" + imageUrl + ", getId()="
+				+ getId() + ", getClinicName()=" + getClinicName() + ", getRatings()=" + getRatings()
+				+ ", getAddress()=" + getAddress() + ", getImageUrl()=" + getImageUrl() + ", getKilometer()="
+				+ getKilometer() + ", getMinutes()=" + getMinutes() + ", getClass()=" + getClass() + ", hashCode()="
+				+ hashCode() + ", toString()=" + super.toString() + "]";
 	}
 
 
