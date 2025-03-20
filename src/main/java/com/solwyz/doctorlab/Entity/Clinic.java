@@ -22,7 +22,10 @@ public class Clinic {
 	private String clinicName;
 	private double ratings;
 	private String address;
+	private double kilometer;
+	private int minutes;
 	private String imageUrl;
+	
 	
 	
 
@@ -65,5 +68,20 @@ public class Clinic {
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
 	}
+	public double getKilometer() {
+		return kilometer;
+	}
+
+	public void setKilometer(double kilometer) {
+		this.kilometer=kilometer;
+	}
+	public int getMinutes() {
+		return minutes;
+	}
+
+	public void setMinutes(int minutes) {
+		this.minutes = minutes;
+	}
+
 
 }

@@ -25,10 +25,12 @@ public class Doctor {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
+	private String qualification;
 	private String specialization;
 	private String image;
 	private double fees;
 	private String review;
+	
 	@ManyToOne
 	private Clinic clinic;
 	private String about;
@@ -127,6 +129,11 @@ public class Doctor {
  	public void setLanguages(List<String> languages) {
  		this.languages = languages;
  	}
-	
+ 	public String getQualification() {
+		return qualification;
+	}
+	public void setQualification(String qualification) {
+		this.qualification = qualification;
+	}
 
 }
