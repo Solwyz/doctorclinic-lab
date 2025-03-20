@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.solwyz.doctorlab.Entity.Booking;
 import com.solwyz.doctorlab.Service.BookingService;
+import com.solwyz.doctorlab.pojo.response.ApiResponse;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 
@@ -45,8 +46,10 @@ public class BookingController {
 	}
 
 	@GetMapping("/status")
-	public ResponseEntity<List<Booking>> getBookingsByStatus(@RequestParam String status, @RequestParam Long userId) {
-		return ResponseEntity.ok(bookingService.getBookingsByStatus(status, userId));
+	public ResponseEntity<ApiResponse<List<Booking>>> getBookingsByStatus(@RequestParam String status, @RequestParam Long userId) {
+		List<Booking>bookings=bookingService.getBookingsByStatus(status, userId);
+		ApiResponse<List<Booking>>response=new ApiResponse<>("success",bookings);
+		return ResponseEntity.ok(response);
 	}
 
 }
