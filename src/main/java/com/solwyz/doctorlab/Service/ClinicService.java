@@ -23,6 +23,8 @@ public class ClinicService {
 		clinic.setClinicName(clinicDetails.getClinicName());
 		clinic.setRatings(clinicDetails.getRatings());
 		clinic.setAddress(clinicDetails.getAddress());
+		clinic.setKilometer(clinicDetails.getKilometer());
+		clinic.setMinutes(clinicDetails.getMinutes());
 		clinic.setImageUrl(clinicDetails.getImageUrl());
 		return clinicRepository.save(clinic);
 	}
