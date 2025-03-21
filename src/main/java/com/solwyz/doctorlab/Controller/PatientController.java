@@ -19,6 +19,7 @@ import com.solwyz.doctorlab.Service.PatientService;
 import com.solwyz.doctorlab.pojo.response.ApiResponse;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/patient")
@@ -51,9 +52,14 @@ public class PatientController {
 
 	@GetMapping("/all")
 	public ResponseEntity<ApiResponse<List<Patient>>> getAllPatients() {
-		List<Patient>patients=patientService.getAllPatients();
-		ApiResponse<List<Patient>>response=new ApiResponse<>("success",patients);
+		List<Patient> patients = patientService.getAllPatients();
+		ApiResponse<List<Patient>> response = new ApiResponse<>("success", patients);
 		return ResponseEntity.ok(response);
+	}
+
+	@GetMapping("/user/{userId}")
+	public ResponseEntity<List<Patient>> getPatientsByUserId(@PathVariable Long userId) {
+		return ResponseEntity.ok(patientService.getPatientsByUserId(userId));
 	}
 
 }

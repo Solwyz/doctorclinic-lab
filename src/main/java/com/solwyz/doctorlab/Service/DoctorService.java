@@ -56,4 +56,8 @@ public class DoctorService {
 		return doctorRepository.findById(id).orElseThrow(() -> new RuntimeException("Doctor not found"));
 	}
 
+	public List<Doctor> getAllDoctors() {
+		return doctorRepository.findAll();
+	}
+
 }

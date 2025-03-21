@@ -40,14 +40,12 @@ public class ClinicController {
 		return ResponseEntity.ok(clinicService.updateClinic(id, clinic));
 	}
 
-	
 	@GetMapping("/all")
 	public ResponseEntity<ApiResponse<List<Clinic>>> getAllClinics() {
-	    List<Clinic> clinics = clinicService.getAllClinics();
-	    ApiResponse<List<Clinic>> response = new ApiResponse<>( "success", clinics);
-	    return ResponseEntity.ok(response);
+		List<Clinic> clinics = clinicService.getAllClinics();
+		ApiResponse<List<Clinic>> response = new ApiResponse<>("success", clinics);
+		return ResponseEntity.ok(response);
 	}
-
 
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getClinicById(@PathVariable Long id) {
@@ -71,11 +69,16 @@ public class ClinicController {
 	}
 
 	@GetMapping("/search")
-	public ResponseEntity<ApiResponse<List<Clinic>>>searchClinics(@RequestParam(required = false) String name,
+	public ResponseEntity<ApiResponse<List<Clinic>>> searchClinics(@RequestParam(required = false) String name,
 			@RequestParam(required = false) Double minRating, @RequestParam(required = false) Double maxRating) {
-		List<Clinic> clinics=clinicService.searchClinics(name, minRating, maxRating);
-		ApiResponse<List<Clinic>>response =new ApiResponse<>("success",clinics);
+		List<Clinic> clinics = clinicService.searchClinics(name, minRating, maxRating);
+		ApiResponse<List<Clinic>> response = new ApiResponse<>("success", clinics);
 		return ResponseEntity.ok(response);
 	}
+
+//	@GetMapping("/all")
+//	public ResponseEntity<List<Clinic>> getAllClinics() {
+//		return ResponseEntity.ok(clinicService.getAllClinics());
+//	}
 
 }

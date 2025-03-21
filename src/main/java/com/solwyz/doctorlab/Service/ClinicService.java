@@ -49,8 +49,10 @@ public class ClinicService {
 		Clinic clinic = clinicRepository.findById(id).orElseThrow(() -> new RuntimeException("Clinic not found"));
 		return clinic.getRatings();
 	}
-	
+
 	public List<Clinic> searchClinics(String name, Double minRating, Double maxRating) {
-        return clinicRepository.findByFilters(name, minRating, maxRating);
-    }
+		return clinicRepository.findByFilters(name, minRating, maxRating);
+	}
+
+
 }
