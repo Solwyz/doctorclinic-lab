@@ -42,8 +42,9 @@ public class Doctor {
 	private String department;
 	
 	@ElementCollection
- 	private List<String> languages;
-	 
+	@CollectionTable(name = "doctor_languages", joinColumns = @JoinColumn(name = "doctor_id"))
+	private List<String> languages;
+
 	public Long getId() {
 		return id;
 	}
