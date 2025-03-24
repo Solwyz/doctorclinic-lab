@@ -21,7 +21,7 @@ public class Clinic {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String clinicName;
-	@Column(name = "ratings", nullable = false)
+	@Column(name = "ratings")
 	private double ratings;
 	private String address;
 	private double kilometer;
