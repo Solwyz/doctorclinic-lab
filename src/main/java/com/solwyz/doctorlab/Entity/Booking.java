@@ -28,10 +28,11 @@ public class Booking {
 	private String date;
 	private String status;
 	
-	//
-
+	
 	@OneToOne
 	private User user;
+	
+	
 
 	public Long getId() {
 		return id;
