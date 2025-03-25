@@ -20,6 +20,10 @@ public class Patient {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
+	
+	private String gender;
+	
+	
 	private int age;
 	private String problem;
 
@@ -65,5 +69,15 @@ public class Patient {
 	public void setUser(User user) {
 		this.user = user;
 	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+	
+	
 
 }
