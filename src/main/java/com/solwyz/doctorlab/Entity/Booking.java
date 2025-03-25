@@ -27,6 +27,8 @@ public class Booking {
 	private String slot;
 	private String date;
 	private String status;
+	
+	//
 
 	@OneToOne
 	private User user;
