@@ -38,4 +38,17 @@ public class BookingService {
 		return bookingRepository.findByStatusAndUserId(status, userId);
 	}
 
+	public Booking bookNowForClinic(Booking booking) {
+		return bookingRepository.save(booking);
+	}
+
+	public List<Booking> getBookingsByUserId(Long userId) {
+		return bookingRepository.findByUserId(userId);
+	}
+
+	public void cancelBooking(Long id) {
+		Booking booking = bookingRepository.findById(id).orElseThrow(() -> new RuntimeException("Booking not found"));
+		bookingRepository.delete(booking);
+	}
+
 }

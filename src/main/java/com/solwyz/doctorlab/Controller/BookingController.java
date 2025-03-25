@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,10 +47,27 @@ public class BookingController {
 	}
 
 	@GetMapping("/status")
-	public ResponseEntity<ApiResponse<List<Booking>>> getBookingsByStatus(@RequestParam String status, @RequestParam Long userId) {
-		List<Booking>bookings=bookingService.getBookingsByStatus(status, userId);
-		ApiResponse<List<Booking>>response=new ApiResponse<>("success",bookings);
+	public ResponseEntity<ApiResponse<List<Booking>>> getBookingsByStatus(@RequestParam String status,
+			@RequestParam Long userId) {
+		List<Booking> bookings = bookingService.getBookingsByStatus(status, userId);
+		ApiResponse<List<Booking>> response = new ApiResponse<>("success", bookings);
 		return ResponseEntity.ok(response);
 	}
+
+	@PostMapping("/book-now")
+	public ResponseEntity<?> bookNowForClinic(@RequestBody Booking booking) {
+		return ResponseEntity.ok(bookingService.bookNowForClinic(booking));
+	}
+
+	@GetMapping("/my-appointments/{userId}")
+	public ResponseEntity<List<Booking>> getMyAppointments(@PathVariable Long userId) {
+		return ResponseEntity.ok(bookingService.getBookingsByUserId(userId));
+	}
+	
+	@DeleteMapping("/cancel/{id}")
+    public ResponseEntity<?> cancelBooking(@PathVariable Long id) {
+        bookingService.cancelBooking(id);
+        return ResponseEntity.ok("Booking cancelled successfully");
+    }
 
 }

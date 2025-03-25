@@ -10,5 +10,7 @@ import com.solwyz.doctorlab.Entity.Booking;
 @Repository
 public interface BookingRepository extends JpaRepository<Booking, Long> {
 	List<Booking> findByStatusAndUserId(String status, Long userId);
+	
+	List<Booking> findByUserId(Long userId);
 
 }
