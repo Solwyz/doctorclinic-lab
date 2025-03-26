@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.solwyz.doctorlab.Entity.HelpSupport;
 import com.solwyz.doctorlab.Service.HelpSupportService;
+import com.solwyz.doctorlab.pojo.response.ApiResponse;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 
@@ -31,8 +32,10 @@ public class HelpSupportController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<HelpSupport>> getAllHelpQueries() {
-        return ResponseEntity.ok(helpSupportService.getAllQueries());
+    public ResponseEntity<ApiResponse<List<HelpSupport>>> getAllHelpQueries() {
+        List<HelpSupport> helpSupportList = helpSupportService.getAllQueries();
+        ApiResponse<List<HelpSupport>> response = new ApiResponse<>("success", helpSupportList);
+        return ResponseEntity.ok(response);
     }
 
 }
