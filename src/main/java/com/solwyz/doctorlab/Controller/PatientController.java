@@ -58,8 +58,11 @@ public class PatientController {
 	}
 
 	@GetMapping("/user/{userId}")
-	public ResponseEntity<List<Patient>> getPatientsByUserId(@PathVariable Long userId) {
-		return ResponseEntity.ok(patientService.getPatientsByUserId(userId));
+	public ResponseEntity<ApiResponse<List<Patient>>> getPatientsByUserId(@PathVariable Long userId) {
+	    List<Patient> patients = patientService.getPatientsByUserId(userId);
+	    ApiResponse<List<Patient>> response = new ApiResponse<>("true", patients);
+	    return ResponseEntity.ok(response);
 	}
+
 
 }
