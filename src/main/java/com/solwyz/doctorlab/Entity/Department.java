@@ -20,6 +20,7 @@ public class Department {
 	private Long id;
 	private String departmentName;
 
+	
 	public Long getId() {
 		return id;
 	}
