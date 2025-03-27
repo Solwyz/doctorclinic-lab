@@ -21,8 +21,8 @@ public class FeedbackService {
 		return feedbackRepository.findByDoctorId(doctorId);
 	}
 
-	public List<Feedback> getFeedbackByClinic(Long clinicId) {
-		return feedbackRepository.findByClinicId(clinicId);
-	}
+//	public List<Feedback> getFeedbackByClinic(Long clinicId) {
+//		return feedbackRepository.findByClinicId(clinicId);
+//	}
 
 }

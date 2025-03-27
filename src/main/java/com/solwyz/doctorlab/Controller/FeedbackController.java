@@ -36,10 +36,10 @@ public class FeedbackController {
         return ResponseEntity.ok(feedbackService.getFeedbackByDoctor(doctorId));
     }
 
-    @GetMapping("/clinic/{clinicId}")
-    public ResponseEntity<List<Feedback>> getFeedbackByClinic(@PathVariable Long clinicId) {
-        return ResponseEntity.ok(feedbackService.getFeedbackByClinic(clinicId));
-    }
+//    @GetMapping("/clinic/{clinicId}")
+//    public ResponseEntity<List<Feedback>> getFeedbackByClinic(@PathVariable Long clinicId) {
+//        return ResponseEntity.ok(feedbackService.getFeedbackByClinic(clinicId));
+//    }
     
 
 }

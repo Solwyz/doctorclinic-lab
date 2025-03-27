@@ -58,24 +58,30 @@ public class DoctorController {
 		return ResponseEntity.ok(response);
 	}
 
-	@GetMapping("/department/{department}")
-	public ResponseEntity<ApiResponse<List<Doctor>>> getDoctorsByDepartment(@PathVariable String department) {
-		List<Doctor> doctors = doctorService.getDoctorsByDepartment(department);
+	@GetMapping("/department")
+	public ResponseEntity<ApiResponse<List<Doctor>>> getDoctorsByDepartment(
+			@RequestParam(required = false) String department) {
+		List<Doctor> doctors;
+		if (department == null || department.isEmpty()) {
+			doctors = doctorService.getAllDoctors(); // Fetch all doctors if department is not provided
+		} else {
+			doctors = doctorService.getDoctorsByDepartment(department); // Fetch doctors by department
+		}
 		ApiResponse<List<Doctor>> response = new ApiResponse<>("success", doctors);
 		return ResponseEntity.ok(response);
 	}
 
 	@GetMapping("/search")
-	public ResponseEntity<ApiResponse<List<Doctor>>>searchDoctors(@RequestParam(required = false) String name,
+	public ResponseEntity<ApiResponse<List<Doctor>>> searchDoctors(@RequestParam(required = false) String name,
 			@RequestParam(required = false) Double minRating, @RequestParam(required = false) Double maxRating,
 			@RequestParam(required = false) String availabilityTimes) {
-		List<Doctor>doctors=doctorService.searchDoctors(name, minRating, maxRating, availabilityTimes);
-		ApiResponse<List<Doctor>>response=new ApiResponse<>("success",doctors);
+		List<Doctor> doctors = doctorService.searchDoctors(name, minRating, maxRating, availabilityTimes);
+		ApiResponse<List<Doctor>> response = new ApiResponse<>("success", doctors);
 		return ResponseEntity.ok(response);
 	}
-	
-	  @GetMapping("/all")
-	    public ResponseEntity<List<Doctor>> getAllDoctors() {
-	        return ResponseEntity.ok(doctorService.getAllDoctors());
-	    }
+
+	@GetMapping("/all")
+	public ResponseEntity<List<Doctor>> getAllDoctors() {
+		return ResponseEntity.ok(doctorService.getAllDoctors());
+	}
 }

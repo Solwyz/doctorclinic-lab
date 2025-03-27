@@ -2,6 +2,8 @@ package com.solwyz.doctorlab.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,4 +37,17 @@ public class AuthController {
 	public ResponseEntity<?> verifyOtp(@RequestParam String mobile, @RequestParam String otp) {
 		return authService.verifyOtp(mobile, otp);
 	}
+
+	@PostMapping("/signout")
+	public ResponseEntity<String> signOut() {
+
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (authentication != null) {
+
+			SecurityContextHolder.clearContext();
+		}
+
+		return ResponseEntity.ok("You have been signed out successfully.");
+	}
+
 }
