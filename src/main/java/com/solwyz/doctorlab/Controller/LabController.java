@@ -24,7 +24,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/lab")
-@Tag(name = "Lab Authentication", description = "APIs for Lab related operations")
+@Tag(name = "Lab Authentication", description = "APIs for Lababoratory related operations")
 public class LabController {
 	
 	

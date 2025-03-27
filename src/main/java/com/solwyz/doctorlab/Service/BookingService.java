@@ -6,7 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.solwyz.doctorlab.Entity.Booking;
+import com.solwyz.doctorlab.Entity.Laboratory;
+import com.solwyz.doctorlab.Entity.Test;
 import com.solwyz.doctorlab.Repo.BookingRepository;
+import com.solwyz.doctorlab.Repo.LabRepository;
+import com.solwyz.doctorlab.Repo.TestRepository;
 
 @Service
 public class BookingService {
@@ -14,6 +18,12 @@ public class BookingService {
 	@Autowired
 	private BookingRepository bookingRepository;
 
+	@Autowired
+	private TestRepository testRepository;
+	@Autowired
+	private LabRepository labRepository;
+	
+	
 	public Booking createBooking(Booking booking) {
 		return bookingRepository.save(booking);
 	}
@@ -52,4 +62,18 @@ public class BookingService {
 		bookingRepository.save(booking);
 	}
 
+
+	public Booking bookNowForTest(Long testId, Long labId) {
+	
+	    Test test = testRepository.findById(testId).orElseThrow(() -> new RuntimeException("Test not found"));
+
+	    Laboratory laboratory = labRepository.findById(labId).orElseThrow(() -> new RuntimeException("Laboratory not found"));
+
+	    Booking booking = new Booking();
+	    booking.setTest(test);
+	    booking.setLaboratory(laboratory);
+
+	    return bookingRepository.save(booking);
+	}
+	
 }

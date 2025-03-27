@@ -20,5 +20,6 @@ public class DoctorLabApplication {
 	public BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
+	
 
 }
