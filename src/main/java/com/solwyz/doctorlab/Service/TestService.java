@@ -26,7 +26,8 @@ public class TestService {
 
 	    test.setTestName(testDetails.getTestName());
 	    test.setTestDetails(testDetails.getTestDetails());
-	    test.setPrice(testDetails.getPrice());
+	    //test.setPrice(testDetails.getPrice());
+	    test.setTestCount(testDetails.getTestCount());
 
 	    return testRepository.save(test);
 	}

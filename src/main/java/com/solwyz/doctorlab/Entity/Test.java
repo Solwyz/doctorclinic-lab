@@ -5,9 +5,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @Entity
+@Table
 public class Test {
 	
 	@Id
@@ -15,22 +19,33 @@ public class Test {
 	private Long id;
 	private String testName;
 	private String testDetails;
-	private double price;
+	private int testCount;
 	
 	@ManyToOne
     private Laboratory laboratory;
 
-	 public Test() {
-	    }
-	 
-	public Test(Long id, String testName, String testDetails, double price) {
-		super();
-		this.id = id;
-		this.testName = testName;
-		this.testDetails = testDetails;
-		this.price = price;
-	}
+	@ManyToOne
+    private CheckUpCategory category;
+	
 
+	public int getTestCount() {
+		return testCount;
+	}
+	public void setTestCount(int testCount) {
+		this.testCount = testCount;
+	}
+	public Laboratory getLaboratory() {
+		return laboratory;
+	}
+	public void setLaboratory(Laboratory laboratory) {
+		this.laboratory = laboratory;
+	}
+	public CheckUpCategory getCategory() {
+		return category;
+	}
+	public void setCategory(CheckUpCategory category) {
+		this.category = category;
+	}
 	public Long getId() {
 		return id;
 	}
@@ -49,12 +64,7 @@ public class Test {
 	public void setTestDetails(String testDetails) {
 		this.testDetails = testDetails;
 	}
-	public double getPrice() {
-		return price;
-	}
-	public void setPrice(double price) {
-		this.price = price;
-	}
+
 	
 
 }

@@ -63,11 +63,21 @@ public class BookingController {
 	public ResponseEntity<List<Booking>> getMyAppointments(@PathVariable Long userId) {
 		return ResponseEntity.ok(bookingService.getBookingsByUserId(userId));
 	}
-	
+
 	@DeleteMapping("/cancel/{id}")
-    public ResponseEntity<?> cancelBooking(@PathVariable Long id) {
-        bookingService.cancelBooking(id);
-        return ResponseEntity.ok("Booking cancelled successfully");
-    }
+	public ResponseEntity<?> cancelBooking(@PathVariable Long id) {
+		bookingService.cancelBooking(id);
+		return ResponseEntity.ok("Booking cancelled successfully");
+	}
+
+	@PostMapping("/test/booknow/{testId}/{labId}")
+	public ResponseEntity<?> bookNowForTest(@PathVariable Long testId, @PathVariable Long labId) {
+		return ResponseEntity.ok(bookingService.bookNowForTest(testId, labId));
+	}
+
+//	@PostMapping("/test/booknow")
+//	public ResponseEntity<?> bookNowForTest(@RequestBody Booking booking) {
+//	    return ResponseEntity.ok(bookingService.bookNowForTest(booking));
+//	}
 
 }

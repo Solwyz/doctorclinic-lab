@@ -27,12 +27,15 @@ public class Booking {
 	private String slot;
 	private String date;
 	private String status;
-	
-	
+
 	@OneToOne
 	private User user;
-	
-	
+
+	@ManyToOne
+	private Laboratory laboratory;
+
+	@ManyToOne
+	private Test test;
 
 	public Long getId() {
 		return id;
@@ -88,6 +91,22 @@ public class Booking {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public Laboratory getLaboratory() {
+		return laboratory;
+	}
+
+	public void setLaboratory(Laboratory laboratory) {
+		this.laboratory = laboratory;
+	}
+
+	public Test getTest() {
+		return test;
+	}
+
+	public void setTest(Test test) {
+		this.test = test;
 	}
 
 }

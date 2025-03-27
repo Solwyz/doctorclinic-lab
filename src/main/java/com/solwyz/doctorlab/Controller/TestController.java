@@ -23,7 +23,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/test")
-@Tag(name = "test Authentication", description = "APIs for Clinic related operations")
+@Tag(name = "Lab Test Authentication", description = "APIs for Lab Test related operations")
 public class TestController {
 
 	@Autowired

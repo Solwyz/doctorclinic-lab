@@ -1,5 +1,6 @@
 package com.solwyz.doctorlab.Entity;
 
+
 import java.util.List;
 
 import javax.persistence.CollectionTable;
