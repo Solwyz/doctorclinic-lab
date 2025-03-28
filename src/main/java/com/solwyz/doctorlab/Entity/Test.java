@@ -81,6 +81,14 @@ public class Test {
 		this.laboratory = laboratory;
 		this.category = category;
 	}
+	@Override
+	public String toString() {
+		return "Test [id=" + id + ", testName=" + testName + ", testDetails=" + testDetails + ", testCount=" + testCount
+				+ ", laboratory=" + laboratory + ", category=" + category + ", getTestCount()=" + getTestCount()
+				+ ", getLaboratory()=" + getLaboratory() + ", getCategory()=" + getCategory() + ", getId()=" + getId()
+				+ ", getTestName()=" + getTestName() + ", getTestDetails()=" + getTestDetails() + ", getClass()="
+				+ getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
+	}
 
 	
 
