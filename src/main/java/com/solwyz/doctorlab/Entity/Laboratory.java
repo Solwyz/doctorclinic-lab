@@ -14,7 +14,6 @@ import javax.persistence.OneToMany;
 import lombok.NoArgsConstructor;
 
 @Entity
-@NoArgsConstructor
 
 public class Laboratory {
 	
@@ -88,6 +87,24 @@ public class Laboratory {
 	}
 	public void setDiscountPercentage(double discountPercentage) {
 		this.discountPercentage = discountPercentage;
+	}
+	public Laboratory(Long id, String labName, double ratings, String address, double kilometer, int minutes,
+			double price, double discountPercentage, String imageUrl, List<Test> tests) {
+		super();
+		this.id = id;
+		LabName = labName;
+		this.ratings = ratings;
+		this.address = address;
+		this.kilometer = kilometer;
+		this.minutes = minutes;
+		this.price = price;
+		this.discountPercentage = discountPercentage;
+		this.imageUrl = imageUrl;
+		this.tests = tests;
+	}
+	public Laboratory() {
+		super();
+		
 	}
 	
 	
