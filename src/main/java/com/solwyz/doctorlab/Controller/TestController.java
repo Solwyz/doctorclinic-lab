@@ -2,6 +2,8 @@ package com.solwyz.doctorlab.Controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -29,12 +31,15 @@ public class TestController {
 	@Autowired
 	private TestService testService;
 	
-	
-	@PostMapping("/create")
-	public ResponseEntity<?>createTest(@RequestBody Test  test){
-		return ResponseEntity.ok(testService.createTest(test));
-		
-	}
+	private static final Logger logger = LoggerFactory.getLogger(TestController.class);
+
+	 @PostMapping("/create")
+	    public ResponseEntity<?> createTest(@RequestBody Test test) {
+	        logger.info("Received request to create test: {}", test);
+	        Test savedTest = testService.createTest(test);
+	        logger.info("Test created successfully: {}", savedTest);
+	        return ResponseEntity.ok(savedTest);
+	    }
 	
 	@PutMapping("/update/{id}")
 	public ResponseEntity<?> updateTest(@PathVariable Long id, @RequestBody Test test) {
