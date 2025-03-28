@@ -33,10 +33,10 @@ public class CheckUpController {
 	
 	
 	@PostMapping("/create")
-    public ResponseEntity<CheckUpCategory> createCheckUpCategory(@RequestBody CheckUpCategory category) {
-        CheckUpCategory savedCategory = checkUpService.createCheckUpCategory(category);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedCategory);
-    }
+	public ResponseEntity<?> createCheckUpCategory(@RequestBody CheckUpCategory category) {
+	    return ResponseEntity.ok(checkUpService.createCheckUpCategory(category));
+	}
+
 	
 	@PutMapping("/update/{id}")
 	public ResponseEntity<?> updateCategory(@PathVariable Long id, @RequestBody CheckUpCategory category) {
