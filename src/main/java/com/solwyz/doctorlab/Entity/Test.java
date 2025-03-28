@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 @Entity
 @Table
+
 public class Test {
 	
 	@Id
@@ -28,7 +29,6 @@ public class Test {
 
 	@ManyToOne
 	@JoinColumn(name = "category_id")
-	@Schema(description = "Category of the test")
 	private CheckUpCategory category;
 
 
