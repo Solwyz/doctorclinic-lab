@@ -2,14 +2,16 @@ package com.solwyz.doctorlab.Service;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.solwyz.doctorlab.Entity.Clinic;
 import com.solwyz.doctorlab.Entity.Test;
 import com.solwyz.doctorlab.Repo.TestRepository;
 
 @Service
+@Transactional
 public class TestService {
 
 	
