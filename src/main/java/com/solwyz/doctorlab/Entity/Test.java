@@ -8,6 +8,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 
 @Entity
 @Table
@@ -24,10 +26,11 @@ public class Test {
     @JoinColumn(name = "laboratory_id") 
     private Laboratory laboratory;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id") 
-    private CheckUpCategory category;
-	
+	@ManyToOne
+	@JoinColumn(name = "category_id")
+	@Schema(description = "Category of the test")
+	private CheckUpCategory category;
+
 
 	public int getTestCount() {
 		return testCount;
