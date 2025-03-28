@@ -9,8 +9,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 
-
-
 @Entity
 @Table
 public class Test {
@@ -66,6 +64,19 @@ public class Test {
 	}
 	public void setTestDetails(String testDetails) {
 		this.testDetails = testDetails;
+	}
+	public Test() {
+		super();
+	}
+	public Test(Long id, String testName, String testDetails, int testCount, Laboratory laboratory,
+			CheckUpCategory category) {
+		super();
+		this.id = id;
+		this.testName = testName;
+		this.testDetails = testDetails;
+		this.testCount = testCount;
+		this.laboratory = laboratory;
+		this.category = category;
 	}
 
 	
