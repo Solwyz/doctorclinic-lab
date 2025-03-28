@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,7 +19,8 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-
+@NoArgsConstructor
+@AllArgsConstructor
 public class CheckUpCategory {
 	
 	
@@ -50,16 +52,16 @@ public class CheckUpCategory {
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
 	}
-	public CheckUpCategory(Long id, String title, String imageUrl, List<Test> tests) {
-		super();
-		this.id = id;
-		this.title = title;
-		this.imageUrl = imageUrl;
-		this.tests = tests;
-	}
-	public CheckUpCategory() {
-		super();
-	
-	}
+//	public CheckUpCategory(Long id, String title, String imageUrl, List<Test> tests) {
+//		super();
+//		this.id = id;
+//		this.title = title;
+//		this.imageUrl = imageUrl;
+//		this.tests = tests;
+//	}
+//	public CheckUpCategory() {
+//	    super();
+//	}
+
 
 }
