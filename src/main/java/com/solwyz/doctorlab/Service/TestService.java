@@ -53,6 +53,11 @@ public class TestService {
 	}
 
 
+	public List<Test> getTestsByCategory(Long categoryId) {
+	    return testRepository.findByCategoryId(categoryId);
+	}
+
+
 	
 
 }
