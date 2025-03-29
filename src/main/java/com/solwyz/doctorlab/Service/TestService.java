@@ -35,7 +35,7 @@ public class TestService {
 
 	    test.setTestName(testDetails.getTestName());
 	    test.setTestDetails(testDetails.getTestDetails());
-	    test.setTestCount(testDetails.getTestCount());
+	   // test.setTestCount(testDetails.getTestCount());
 
 	    return testRepository.save(test);
 	}

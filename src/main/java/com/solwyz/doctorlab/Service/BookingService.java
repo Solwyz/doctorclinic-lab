@@ -2,6 +2,8 @@ package com.solwyz.doctorlab.Service;
 
 import java.util.List;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -63,14 +65,36 @@ public class BookingService {
 	}
 
 
-	public Booking bookNowForTest(Long testId) {
+//	public Booking bookNowForTest(Long testId) {
+//	
+//	    Test test = testRepository.findById(testId).orElseThrow(() -> new RuntimeException("Test not found"));
+//	   // Laboratory laboratory = labRepository.findById(labId).orElseThrow(() -> new RuntimeException("Laboratory not found"));
+//	    Booking booking = new Booking();
+//	    booking.setTest(test);
+//	   // booking.setLaboratory(laboratory);
+//	    return bookingRepository.save(booking);
+//	}
 	
-	    Test test = testRepository.findById(testId).orElseThrow(() -> new RuntimeException("Test not found"));
-	   // Laboratory laboratory = labRepository.findById(labId).orElseThrow(() -> new RuntimeException("Laboratory not found"));
+//	public Booking bookNowForTest(Long testId) {
+//        return testRepository.findById(testId)
+//            .map(test -> {
+//                Booking booking = new Booking();
+//                booking.setTest(test);
+//                return bookingRepository.save(booking);
+//            })
+//            .orElseThrow(() -> new EntityNotFoundException("Test with ID " + testId + " not found"));
+//    }
+//	
+	public Booking bookNowForTest(Long testId) {
+	    Test test = testRepository.findById(testId)
+	            .orElseThrow(() -> new EntityNotFoundException("Test with ID " + testId + " not found"));
+
 	    Booking booking = new Booking();
 	    booking.setTest(test);
-	   // booking.setLaboratory(laboratory);
+	    //booking.setStatus("Pending"); // Set default status
+
 	    return bookingRepository.save(booking);
 	}
-	
+
+
 }
