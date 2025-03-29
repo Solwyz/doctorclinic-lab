@@ -63,16 +63,13 @@ public class BookingService {
 	}
 
 
-	public Booking bookNowForTest(Long testId, Long labId) {
+	public Booking bookNowForTest(Long testId) {
 	
 	    Test test = testRepository.findById(testId).orElseThrow(() -> new RuntimeException("Test not found"));
-
-	    Laboratory laboratory = labRepository.findById(labId).orElseThrow(() -> new RuntimeException("Laboratory not found"));
-
+	   // Laboratory laboratory = labRepository.findById(labId).orElseThrow(() -> new RuntimeException("Laboratory not found"));
 	    Booking booking = new Booking();
 	    booking.setTest(test);
-	    booking.setLaboratory(laboratory);
-
+	   // booking.setLaboratory(laboratory);
 	    return bookingRepository.save(booking);
 	}
 	

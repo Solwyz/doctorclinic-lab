@@ -55,16 +55,5 @@ public class CheckUpCategory {
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
 	}
-//	public CheckUpCategory(Long id, String title, String imageUrl, List<Test> tests) {
-//		super();
-//		this.id = id;
-//		this.title = title;
-//		this.imageUrl = imageUrl;
-//		this.tests = tests;
-//	}
-//	public CheckUpCategory() {
-//	    super();
-//	}
-
 
 }
