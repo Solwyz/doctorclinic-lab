@@ -70,10 +70,15 @@ public class BookingController {
 		return ResponseEntity.ok("Booking cancelled successfully");
 	}
 
+//	@PostMapping("/test/booknow/{testId}")
+//	public ResponseEntity<?> bookNowForTest(@PathVariable Long testId) {
+//		return ResponseEntity.ok(bookingService.bookNowForTest(testId));
+//	}
+	
 	@PostMapping("/test/booknow/{testId}")
-	public ResponseEntity<?> bookNowForTest(@PathVariable Long testId) {
-		return ResponseEntity.ok(bookingService.bookNowForTest(testId));
-	}
-
+    public ResponseEntity<Booking> bookNowForTest(@PathVariable Long testId) {
+        Booking booking = bookingService.bookNowForTest(testId);
+        return ResponseEntity.ok(booking);
+    }
 
 }

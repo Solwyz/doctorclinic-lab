@@ -66,10 +66,19 @@ public class TestController {
 		return ResponseEntity.ok("Test deleted successfully");
 	}
 	
-	@GetMapping("/sort/all")
-    public ResponseEntity<ApiResponse<List<Test>>> getTestsByCategory(@RequestParam Long categoryId) {
-        return ResponseEntity.ok(new ApiResponse<>("success", testService.getTestsByCategory(categoryId)));
-    }
-	
+	@GetMapping("sort/all")
+	public ResponseEntity<ApiResponse<List<Test>>> getTestsByCategory( @RequestParam(required = false) Long categoryId) {
+	    
+	    List<Test> tests;
+	    
+	    if (categoryId != null) {
+	        tests = testService.getTestsByCategory(categoryId);
+	    } else {
+	        tests = testService.getAllTests();
+	    }   
+	    ApiResponse<List<Test>> response = new ApiResponse<>("success", tests);
+	    return ResponseEntity.ok(response);
+	}
+
 	
 }

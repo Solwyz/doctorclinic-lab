@@ -6,6 +6,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -17,11 +19,22 @@ import io.swagger.v3.oas.annotations.media.Schema;
 public class Test {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	private String testName;
-	private String testDetails;
-	private int testCount;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String testName;
+    private String testDetails;
+    private int patientCount;
+    private double amount;
+    private double sampleCollectionCharge; 
+    private double totalAmount;
+
+    @PrePersist
+    @PreUpdate
+    private void calculateTotalAmount() {
+      
+        this.totalAmount = (this.amount + this.sampleCollectionCharge) * this.patientCount;
+    }
 	
 	@ManyToOne
     @JoinColumn(name = "laboratory_id") 
@@ -32,12 +45,7 @@ public class Test {
 	private CheckUpCategory category;
 
 
-	public int getTestCount() {
-		return testCount;
-	}
-	public void setTestCount(int testCount) {
-		this.testCount = testCount;
-	}
+	
 	public Laboratory getLaboratory() {
 		return laboratory;
 	}
@@ -68,28 +76,32 @@ public class Test {
 	public void setTestDetails(String testDetails) {
 		this.testDetails = testDetails;
 	}
-	public Test() {
-		super();
+	public double getAmount() {
+		return amount;
 	}
-	public Test(Long id, String testName, String testDetails, int testCount, Laboratory laboratory,
-			CheckUpCategory category) {
-		super();
-		this.id = id;
-		this.testName = testName;
-		this.testDetails = testDetails;
-		this.testCount = testCount;
-		this.laboratory = laboratory;
-		this.category = category;
+	public void setAmount(double amount) {
+		this.amount = amount;
 	}
-	@Override
-	public String toString() {
-		return "Test [id=" + id + ", testName=" + testName + ", testDetails=" + testDetails + ", testCount=" + testCount
-				+ ", laboratory=" + laboratory + ", category=" + category + ", getTestCount()=" + getTestCount()
-				+ ", getLaboratory()=" + getLaboratory() + ", getCategory()=" + getCategory() + ", getId()=" + getId()
-				+ ", getTestName()=" + getTestName() + ", getTestDetails()=" + getTestDetails() + ", getClass()="
-				+ getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
+	public double getSampleCollectionCharge() {
+		return sampleCollectionCharge;
 	}
-
+	public void setSampleCollectionCharge(double sampleCollectionCharge) {
+		this.sampleCollectionCharge = sampleCollectionCharge;
+	}
+	public double getTotalAmount() {
+		return totalAmount;
+	}
+	public void setTotalAmount(double totalAmount) {
+		this.totalAmount = totalAmount;
+	}
+	public int getPatientCount() {
+		return patientCount;
+	}
+	public void setPatientCount(int patientCount) {
+		this.patientCount = patientCount;
+	}
+	
+	
 	
 
 }
