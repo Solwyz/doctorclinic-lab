@@ -2,6 +2,7 @@ package com.solwyz.doctorlab.Service;
 
 import java.util.List;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
@@ -57,7 +58,17 @@ public class TestService {
 	    return testRepository.findByCategoryId(categoryId);
 	}
 
+	 @Transactional
+	    public Test calculateTotalAmount(Long testId, int patientCount) {
+	        Test test = testRepository.findById(testId)
+	                .orElseThrow(() -> new EntityNotFoundException("Test with ID " + testId + " not found"));
 
+	        test.setPatientCount(patientCount);
+
+	        test.setTotalAmount((test.getAmount() + test.getSampleCollectionCharge()) * patientCount);
+
+	        return test; 
+	    }
 	
 
 }

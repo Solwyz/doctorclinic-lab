@@ -1,6 +1,9 @@
 package com.solwyz.doctorlab.Controller;
 
 import java.util.List;
+import java.util.Map;
+
+import javax.persistence.EntityNotFoundException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.solwyz.doctorlab.Entity.Test;
+import com.solwyz.doctorlab.Repo.TestRepository;
 import com.solwyz.doctorlab.Service.TestService;
 import com.solwyz.doctorlab.pojo.response.ApiResponse;
 
@@ -31,6 +35,9 @@ public class TestController {
 
 	@Autowired
 	private TestService testService;
+	
+	@Autowired
+	private TestRepository testRepository;
 	
 	private static final Logger logger = LoggerFactory.getLogger(TestController.class);
 
@@ -80,5 +87,21 @@ public class TestController {
 	    return ResponseEntity.ok(response);
 	}
 
-	
+	@PostMapping("/calculate-total")
+	public ResponseEntity<?> calculateTotalAmount(@RequestBody Map<String, Object> request) {
+	    Long testId = Long.valueOf(request.get("testId").toString());
+	    int patientCount = Integer.parseInt(request.get("patientCount").toString());
+
+	    Test test = testRepository.findById(testId)
+	            .orElseThrow(() -> new EntityNotFoundException("Test with ID " + testId + " not found"));
+
+	   
+	    test.setPatientCount(patientCount);
+
+	    test.setTotalAmount((test.getAmount() + test.getSampleCollectionCharge()) * patientCount);
+
+	   
+	    return ResponseEntity.ok(test);
+	}
+
 }
