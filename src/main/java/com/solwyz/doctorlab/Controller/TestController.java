@@ -88,10 +88,7 @@ public class TestController {
 	}
 
 	@PostMapping("/calculate-total")
-	public ResponseEntity<?> calculateTotalAmount(@RequestBody Map<String, Object> request) {
-	    Long testId = Long.valueOf(request.get("testId").toString());
-	    int patientCount = Integer.parseInt(request.get("patientCount").toString());
-
+	public ResponseEntity<?> calculateTotalAmount(@RequestParam Long testId, @RequestParam int patientCount) {
 	    Test test = testRepository.findById(testId)
 	            .orElseThrow(() -> new EntityNotFoundException("Test with ID " + testId + " not found"));
 
@@ -101,5 +98,7 @@ public class TestController {
 	    testRepository.save(test);
 	    return ResponseEntity.ok(test);
 	}
+
+	
 
 }
