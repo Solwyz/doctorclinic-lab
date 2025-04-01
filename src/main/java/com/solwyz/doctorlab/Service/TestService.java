@@ -2,8 +2,11 @@ package com.solwyz.doctorlab.Service;
 
 import java.util.List;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,17 +21,22 @@ public class TestService {
 	@Autowired
 	private TestRepository testRepository;
 	
-	public Test createTest(Test test) {
-		return testRepository.save(test);
-	}
+	 private static final Logger logger = LoggerFactory.getLogger(TestService.class);
+	 
 
+	 public Test createTest(Test test) {
+	        logger.info("Saving test to database: {}", test);
+	        Test savedTest = testRepository.save(test);
+	        logger.info("Test saved successfully with ID: {}", savedTest.getId());
+	        return savedTest;
+	    }
 	public Test updateTest(Long id, Test testDetails) {
 	    Test test = testRepository.findById(id)
 	            .orElseThrow(() -> new RuntimeException("Test not found")); 
 
 	    test.setTestName(testDetails.getTestName());
 	    test.setTestDetails(testDetails.getTestDetails());
-	    test.setTestCount(testDetails.getTestCount());
+	   // test.setTestCount(testDetails.getTestCount());
 
 	    return testRepository.save(test);
 	}
@@ -46,6 +54,21 @@ public class TestService {
 	}
 
 
+	public List<Test> getTestsByCategory(Long categoryId) {
+	    return testRepository.findByCategoryId(categoryId);
+	}
+
+	 @Transactional
+	    public Test calculateTotalAmount(Long testId, int patientCount) {
+	        Test test = testRepository.findById(testId)
+	                .orElseThrow(() -> new EntityNotFoundException("Test with ID " + testId + " not found"));
+
+	        test.setPatientCount(patientCount);
+
+	        test.setTotalAmount((test.getAmount() + test.getSampleCollectionCharge()) * patientCount);
+
+	        return test; 
+	    }
 	
 
 }

@@ -104,10 +104,13 @@ public class Laboratory {
 	}
 	public Laboratory() {
 		super();
+	
+	}
 		
+	
 	}
 	
 	
 	
 
-}
+

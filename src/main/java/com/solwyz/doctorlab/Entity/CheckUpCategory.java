@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,6 +33,7 @@ public class CheckUpCategory {
 	private String imageUrl;
 	
 	 @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+	 @JsonIgnore
 	 private List<Test> tests; 
 	 
 	 
@@ -52,16 +55,5 @@ public class CheckUpCategory {
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
 	}
-//	public CheckUpCategory(Long id, String title, String imageUrl, List<Test> tests) {
-//		super();
-//		this.id = id;
-//		this.title = title;
-//		this.imageUrl = imageUrl;
-//		this.tests = tests;
-//	}
-//	public CheckUpCategory() {
-//	    super();
-//	}
-
 
 }
