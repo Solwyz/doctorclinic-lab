@@ -22,7 +22,7 @@ public class AuthService {
 
 	public ResponseEntity<?> checkUser(String mobile) {
 		User user = userRepository.findByMobile(mobile);
-		String otp = "123456"; // Hardcoded OTP
+		String otp = "123456"; 
 		otpStorage.put(mobile, otp);
 		sendOtpToUser(mobile, otp);
 
