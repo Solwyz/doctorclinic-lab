@@ -95,12 +95,10 @@ public class TestController {
 	    Test test = testRepository.findById(testId)
 	            .orElseThrow(() -> new EntityNotFoundException("Test with ID " + testId + " not found"));
 
-	   
 	    test.setPatientCount(patientCount);
-
 	    test.setTotalAmount((test.getAmount() + test.getSampleCollectionCharge()) * patientCount);
 
-	   
+	    testRepository.save(test);
 	    return ResponseEntity.ok(test);
 	}
 
