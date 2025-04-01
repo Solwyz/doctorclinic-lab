@@ -15,10 +15,11 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long> {
 
 	List<Doctor> findByDepartment(String department);
 
-	@Query("SELECT d FROM Doctor d WHERE (:name IS NULL OR d.name LIKE %:name%) "
-			+ "AND (:minRating IS NULL OR d.ratings >= :minRating) "
-			+ "AND (:maxRating IS NULL OR d.ratings <= :maxRating) "
-			+ "AND (:availabilityTimes IS NULL OR :availabilityTimes MEMBER OF d.availabilityTimes)")
+	@Query("SELECT d FROM Doctor d WHERE (:name IS NULL OR LOWER(d.name) LIKE LOWER(CONCAT('%', :name, '%')))"
+			+ " AND (:minRating IS NULL OR d.ratings >= :minRating)"
+			+ " AND (:maxRating IS NULL OR d.ratings <= :maxRating)"
+			+ " AND (:availabilityTimes IS NULL OR :availabilityTimes MEMBER OF d.availabilityTimes)")
 	List<Doctor> findByFilters(@Param("name") String name, @Param("minRating") Double minRating,
 			@Param("maxRating") Double maxRating, @Param("availabilityTimes") String availabilityTimes);
+
 }
