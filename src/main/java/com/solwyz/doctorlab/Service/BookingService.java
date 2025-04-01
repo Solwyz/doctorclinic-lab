@@ -68,9 +68,9 @@ public class BookingService {
 	    Test test = testRepository.findById(testId)
 	            .orElseThrow(() -> new EntityNotFoundException("Test with ID " + testId + " not found"));
 	   
-	    if (test.getPatientCount() == 0) {
-	        test.setPatientCount(1); 
-	    }
+	   // if (test.getPatientCount() == 0) {
+	   //     test.setPatientCount(1); 
+	  //  }
 
 	    test.setTotalAmount((test.getAmount() + test.getSampleCollectionCharge()) * test.getPatientCount());
 
