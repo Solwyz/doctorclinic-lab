@@ -69,11 +69,6 @@ public class BookingController {
 		bookingService.cancelBooking(id);
 		return ResponseEntity.ok("Booking cancelled successfully");
 	}
-
-//	@PostMapping("/test/booknow/{testId}")
-//	public ResponseEntity<?> bookNowForTest(@PathVariable Long testId) {
-//		return ResponseEntity.ok(bookingService.bookNowForTest(testId));
-//	}
 	
 	@PostMapping("/test/booknow/{testId}")
     public ResponseEntity<Booking> bookNowForTest(@PathVariable Long testId) {
@@ -81,4 +76,11 @@ public class BookingController {
         return ResponseEntity.ok(booking);
     }
 
+
+//	@PostMapping("/test/booknow/{testId}")
+//	public ResponseEntity<?> bookNowForTest(@PathVariable Long testId) {
+//		return ResponseEntity.ok(bookingService.bookNowForTest(testId));
+//	}
+	
+	
 }

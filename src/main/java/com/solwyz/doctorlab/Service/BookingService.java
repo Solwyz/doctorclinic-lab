@@ -63,38 +63,37 @@ public class BookingService {
 		booking.setStatus("Cancelled");
 		bookingRepository.save(booking);
 	}
-
-
-//	public Booking bookNowForTest(Long testId) {
-//	
-//	    Test test = testRepository.findById(testId).orElseThrow(() -> new RuntimeException("Test not found"));
-//	   // Laboratory laboratory = labRepository.findById(labId).orElseThrow(() -> new RuntimeException("Laboratory not found"));
-//	    Booking booking = new Booking();
-//	    booking.setTest(test);
-//	   // booking.setLaboratory(laboratory);
-//	    return bookingRepository.save(booking);
-//	}
 	
-//	public Booking bookNowForTest(Long testId) {
-//        return testRepository.findById(testId)
-//            .map(test -> {
-//                Booking booking = new Booking();
-//                booking.setTest(test);
-//                return bookingRepository.save(booking);
-//            })
-//            .orElseThrow(() -> new EntityNotFoundException("Test with ID " + testId + " not found"));
-//    }
-//	
 	public Booking bookNowForTest(Long testId) {
 	    Test test = testRepository.findById(testId)
 	            .orElseThrow(() -> new EntityNotFoundException("Test with ID " + testId + " not found"));
+	   
+	    if (test.getPatientCount() == 0) {
+	        test.setPatientCount(1); 
+	    }
+
+	    test.setTotalAmount((test.getAmount() + test.getSampleCollectionCharge()) * test.getPatientCount());
 
 	    Booking booking = new Booking();
 	    booking.setTest(test);
-	    //booking.setStatus("Pending"); // Set default status
 
 	    return bookingRepository.save(booking);
 	}
 
+	
+//	public Booking bookNowForTest(Long testId) {
+//	    Test test = testRepository.findById(testId)
+//	            .orElseThrow(() -> new EntityNotFoundException("Test with ID " + testId + " not found"));
+//
+//	    Booking booking = new Booking();
+//	    booking.setTest(test);
+//	    //booking.setStatus("Pending"); // Set default status
+//
+//	    return bookingRepository.save(booking);
+//	}
+	
+
+
+	
 
 }
