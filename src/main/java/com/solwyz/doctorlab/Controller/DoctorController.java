@@ -81,7 +81,9 @@ public class DoctorController {
 	}
 
 	@GetMapping("/all")
-	public ResponseEntity<List<Doctor>> getAllDoctors() {
-		return ResponseEntity.ok(doctorService.getAllDoctors());
+	public ResponseEntity<ApiResponse<List<Doctor>>> getAllDoctors() {
+		List<Doctor> doctors = doctorService.getAllDoctors();
+		ApiResponse<List<Doctor>> response = new ApiResponse<>("success", doctors);
+		return ResponseEntity.ok(response);
 	}
 }
