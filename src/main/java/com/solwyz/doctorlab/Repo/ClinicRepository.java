@@ -12,10 +12,12 @@ import com.solwyz.doctorlab.Entity.Clinic;
 @Repository
 public interface ClinicRepository extends JpaRepository<Clinic, Long> {
 
-	@Query("SELECT c FROM Clinic c WHERE (:name IS NULL OR c.clinicName LIKE %:name%) "
-			+ "AND (:minRating IS NULL OR c.ratings >= :minRating) "
-			+ "AND (:maxRating IS NULL OR c.ratings <= :maxRating)")
+
+	@Query("SELECT c FROM Clinic c WHERE (:name IS NULL OR LOWER(c.clinicName) LIKE LOWER(CONCAT('%', :name, '%')))"
+	        + " AND (:minRating IS NULL OR c.ratings >= :minRating)"
+	        + " AND (:maxRating IS NULL OR c.ratings <= :maxRating)")
+
 	List<Clinic> findByFilters(@Param("name") String name, @Param("minRating") Double minRating,
 			@Param("maxRating") Double maxRating);
-
 }
+	
