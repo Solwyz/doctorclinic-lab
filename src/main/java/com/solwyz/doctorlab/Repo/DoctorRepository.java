@@ -24,10 +24,7 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long> {
 
 //	@Query("SELECT d FROM Doctor d WHERE d.department.departmentName = :departmentName")
 //	List<Doctor> findByDepartmentName(@Param("departmentName") String departmentName);
-//
-//	List<Doctor> findByDepartmentId(Long departmentId);
-//	
 
-	
+
 
 }

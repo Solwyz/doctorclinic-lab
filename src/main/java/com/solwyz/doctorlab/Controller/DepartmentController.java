@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.solwyz.doctorlab.Entity.Department;
 import com.solwyz.doctorlab.Service.DepartmentService;
+import com.solwyz.doctorlab.pojo.response.ApiResponse;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 
@@ -31,10 +32,12 @@ public class DepartmentController {
     private DepartmentService departmentService;
 
     // Get all departments
-    @GetMapping("/all")
-    public ResponseEntity<List<Department>> getAllDepartments() {
-        return ResponseEntity.ok(departmentService.getAllDepartments());
-    }
+	@GetMapping("/all")
+	public ResponseEntity<ApiResponse<List<Department>>> getAllDepartments() {
+	    List<Department> departments = departmentService.getAllDepartments();
+	    return ResponseEntity.ok(new ApiResponse<>("success", departments));
+	}
+
 
     // Get department by ID
     @GetMapping("/{id}")
