@@ -22,4 +22,9 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long> {
 	List<Doctor> findByFilters(@Param("name") String name, @Param("minRating") Double minRating,
 			@Param("maxRating") Double maxRating, @Param("availabilityTimes") String availabilityTimes);
 
+	@Query("SELECT d FROM Doctor d WHERE d.department.departmentName = :departmentName")
+	List<Doctor> findByDepartmentName(@Param("departmentName") String departmentName);
+
+	
+
 }

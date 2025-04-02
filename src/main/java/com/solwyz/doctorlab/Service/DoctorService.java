@@ -44,9 +44,13 @@ public class DoctorService {
 		return doctorRepository.findByClinicId(clinicId);
 	}
 
-	public List<Doctor> getDoctorsByDepartment(String department) {
-		return doctorRepository.findByDepartment(department);
+//	public List<Doctor> getDoctorsByDepartment(String department) {
+//		return doctorRepository.findByDepartment(department);
+//	}
+	public List<Doctor> getDoctorsByDepartment(String departmentName) {
+	    return doctorRepository.findByDepartmentName(departmentName);
 	}
+
 
 	public List<Doctor> searchDoctors(String name, Double minRating, Double maxRating, String availabilityTimes) {
 		return doctorRepository.findByFilters(name, minRating, maxRating, availabilityTimes);
